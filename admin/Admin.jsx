@@ -18,7 +18,8 @@ import {
   MapPin, 
   Truck,
   Settings,
-  Layout as LayoutIcon
+  Layout as LayoutIcon,
+  Globe
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
