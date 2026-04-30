@@ -6,6 +6,7 @@ import {
   selectCartWeight, 
   clearCart 
 } from '../store/cartSlice';
+import { selectDeliverySettings } from '../store/settingsSlice';
 import { calculateDeliveryCharge, formatPrice } from '../utils/delivery';
 import { api } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
