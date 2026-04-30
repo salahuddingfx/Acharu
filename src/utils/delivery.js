@@ -4,17 +4,19 @@
  * @param {number} totalWeight - Total weight of items in kg
  * @returns {number} - Delivery charge
  */
-export const calculateDeliveryCharge = (location, totalWeight) => {
-  let baseCharge = location === 'Cox\'s Bazar' ? 70 : 120;
+export const calculateDeliveryCharge = (location, totalWeight, settings) => {
+  const { insideCity = 70, outsideCity = 120, weightCharge = 20 } = settings || {};
+  
+  let baseCharge = location === 'Cox\'s Bazar' ? insideCity : outsideCity;
   
   if (totalWeight <= 1) {
     return baseCharge;
   }
   
-  // Add 20 for every extra 0.5kg over 1kg
+  // Add weightCharge for every extra 0.5kg over 1kg
   const extraWeight = totalWeight - 1;
   const extraUnits = Math.ceil(extraWeight / 0.5);
-  const additionalCharge = extraUnits * 20;
+  const additionalCharge = extraUnits * weightCharge;
   
   return baseCharge + additionalCharge;
 };
