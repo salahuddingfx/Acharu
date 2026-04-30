@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 pb-8">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
-          <div className="space-y-6">
+          <div className="col-span-2 lg:col-span-1 space-y-6">
             <Link to="/" className="text-3xl font-display font-bold text-cream flex items-center gap-2">
               <span className="bg-maroon text-cream w-10 h-10 flex items-center justify-center rounded-lg italic">A</span>
               Acharu
@@ -53,7 +53,7 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h4 className="text-white font-bold mb-6 text-lg">Get in Touch</h4>
             <ul className="space-y-4">
               <li className="flex gap-3">
