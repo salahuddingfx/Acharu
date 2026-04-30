@@ -1,12 +1,16 @@
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+import { useSelector } from 'react-redux';
+import { selectProductsBySite } from '../store/productsSlice';
+import { selectCurrentSiteId } from '../store/settingsSlice';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, ShieldCheck, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const featuredProducts = products.slice(0, 4);
+  const currentSiteId = useSelector(selectCurrentSiteId);
+  const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
+  const featuredProducts = siteProducts.slice(0, 4);
 
   const features = [
     {
