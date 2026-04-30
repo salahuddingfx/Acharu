@@ -66,7 +66,7 @@ const Hero = () => {
       <div className="container-custom relative z-20 h-full flex flex-col justify-center">
         <div ref={contentRef} key={`content-${currentSlide}`} className="max-w-2xl text-cream">
           <span className="inline-block bg-maroon px-4 py-1 rounded-full text-sm font-bold tracking-widest uppercase mb-6">
-            Handcrafted with Love
+            {activeSlide.badge || 'Handcrafted with Love'}
           </span>
           <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight mb-6">
             {activeSlide.title}

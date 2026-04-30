@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
 import { MessageSquare, Camera, Send, Mail, MapPin, Phone } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { selectContact } from '../store/settingsSlice';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const contact = useSelector(selectContact);
 
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 pb-8">

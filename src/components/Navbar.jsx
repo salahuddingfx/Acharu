@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Search, Phone, ArrowRight } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
+import { selectContact } from '../store/settingsSlice';
 import { clsx } from 'clsx';
 
 const Navbar = () => {
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const cartCount = useSelector(selectCartCount);
+  const contact = useSelector(selectContact);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -139,7 +141,7 @@ const Navbar = () => {
               ))}
               <div className="border-t border-slate-100 pt-4 flex items-center gap-3 text-maroon font-bold">
                 <Phone size={18} />
-                <span>+880 1234-567890</span>
+                <span>{contact.phone}</span>
               </div>
             </div>
           </div>
