@@ -1,21 +1,27 @@
 import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import { products, categories } from '../data/products';
+import { categories } from '../data/products';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectProductsBySite } from '../store/productsSlice';
+import { selectCurrentSiteId } from '../store/settingsSlice';
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const currentSiteId = useSelector(selectCurrentSiteId);
+  const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
+  
   const initialCategory = searchParams.get('category') || 'All';
   const initialSearch = searchParams.get('search') || '';
   
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    let result = products;
+    let result = siteProducts;
     
     if (selectedCategory !== 'All') {
       result = result.filter(p => p.category === selectedCategory);
