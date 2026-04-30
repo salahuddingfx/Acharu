@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem } from '../store/cartSlice';
 import { selectHeroSlides } from '../store/settingsSlice';
