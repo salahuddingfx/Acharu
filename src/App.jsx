@@ -6,7 +6,6 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderTracking from './pages/OrderTracking';
-import Admin from './pages/Admin';
 import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -23,7 +22,6 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/track" element={<OrderTracking />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
