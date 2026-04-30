@@ -1,24 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialSettings = {
+const defaultSiteSettings = {
   hero: [
     {
       id: 1,
       title: "Authentic Homemade Mango Achar",
-      subtitle: "Made with hand-picked green mangoes and pure mustard oil. A taste of tradition in every bite.",
+      subtitle: "Made with hand-picked green mangoes and pure mustard oil.",
       image: "https://images.unsplash.com/photo-1589135234398-386052733907?q=80&w=1600&auto=format&fit=crop",
       productId: "1",
       price: 250,
       badge: "Handcrafted with Love"
-    },
-    {
-      id: 2,
-      title: "Spicy Naga Morich Bliss",
-      subtitle: "For those who crave the heat. Experience the legendary Naga chili in a perfectly balanced pickle.",
-      image: "https://images.unsplash.com/photo-1597131628347-c769fc631754?q=80&w=1600&auto=format&fit=crop",
-      productId: "5",
-      price: 450,
-      badge: "Spicy Perfection"
     }
   ],
   contact: {
@@ -33,34 +24,44 @@ const initialSettings = {
   }
 };
 
+const initialState = {
+  sites: {
+    site_1: { ...defaultSiteSettings, name: "Acharu Site A" },
+    site_2: { ...defaultSiteSettings, name: "Acharu Site B" }
+  },
+  currentSiteId: 'site_1'
+};
+
 const loadSettings = () => {
-  const saved = localStorage.getItem('acharu-settings');
-  return saved ? JSON.parse(saved) : initialSettings;
+  const saved = localStorage.getItem('acharu-multi-settings');
+  return saved ? JSON.parse(saved) : initialState;
 };
 
 const settingsSlice = createSlice({
   name: 'settings',
   initialState: loadSettings(),
   reducers: {
-    updateHero: (state, action) => {
-      state.hero = action.payload;
-      localStorage.setItem('acharu-settings', JSON.stringify(state));
+    setCurrentSite: (state, action) => {
+      state.currentSiteId = action.payload;
     },
-    updateContact: (state, action) => {
-      state.contact = { ...state.contact, ...action.payload };
-      localStorage.setItem('acharu-settings', JSON.stringify(state));
-    },
-    updateDelivery: (state, action) => {
-      state.delivery = { ...state.delivery, ...action.payload };
-      localStorage.setItem('acharu-settings', JSON.stringify(state));
+    updateSiteSettings: (state, action) => {
+      const { siteId, settings } = action.payload;
+      state.sites[siteId] = { ...state.sites[siteId], ...settings };
+      localStorage.setItem('acharu-multi-settings', JSON.stringify(state));
     }
   }
 });
 
-export const { updateHero, updateContact, updateDelivery } = settingsSlice.actions;
+export const { setCurrentSite, updateSiteSettings } = settingsSlice.actions;
 
-export const selectHeroSlides = (state) => state.settings.hero;
-export const selectContact = (state) => state.settings.contact;
-export const selectDeliverySettings = (state) => state.settings.delivery;
+export const selectCurrentSiteId = (state) => state.settings.currentSiteId;
+export const selectCurrentSiteSettings = (state) => 
+  state.settings.sites[state.settings.currentSiteId];
+export const selectAllSites = (state) => state.settings.sites;
+
+// Legacy selectors for compatibility (pulling from current site)
+export const selectHeroSlides = (state) => state.settings.sites[state.settings.currentSiteId].hero;
+export const selectContact = (state) => state.settings.sites[state.settings.currentSiteId].contact;
+export const selectDeliverySettings = (state) => state.settings.sites[state.settings.currentSiteId].delivery;
 
 export default settingsSlice.reducer;
