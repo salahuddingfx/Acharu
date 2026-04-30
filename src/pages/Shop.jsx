@@ -35,7 +35,7 @@ const Shop = () => {
     }
     
     setFilteredProducts(result);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, siteProducts]);
 
   // Update selection if URL param changes
   useEffect(() => {
