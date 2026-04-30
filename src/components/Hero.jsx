@@ -1,49 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addItem } from '../store/cartSlice';
+import { selectHeroSlides } from '../store/settingsSlice';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const slides = [
-  {
-    id: 1,
-    title: "Authentic Homemade Mango Achar",
-    subtitle: "Made with hand-picked green mangoes and pure mustard oil. A taste of tradition in every bite.",
-    image: "https://images.unsplash.com/photo-1589135234398-386052733907?q=80&w=1600&auto=format&fit=crop",
-    productId: "1",
-    price: 250
-  },
-  {
-    id: 2,
-    title: "Spicy Naga Morich Bliss",
-    subtitle: "For those who crave the heat. Experience the legendary Naga chili in a perfectly balanced pickle.",
-    image: "https://images.unsplash.com/photo-1597131628347-c769fc631754?q=80&w=1600&auto=format&fit=crop",
-    productId: "5",
-    price: 450
-  },
-  {
-    id: 3,
-    title: "Sweet & Sour Jujube Delight",
-    subtitle: "A chewy, tangy, and sweet treat that takes you back to your childhood. Pure nostalgia.",
-    image: "https://images.unsplash.com/photo-1596450514735-24d6237a0120?q=80&w=1600&auto=format&fit=crop",
-    productId: "3",
-    price: 180
-  }
-];
-
 const Hero = () => {
+  const slides = useSelector(selectHeroSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const contentRef = useRef(null);
   const dispatch = useDispatch();
 
   const nextSlide = () => {
+    if (slides.length === 0) return;
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
+    if (slides.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
