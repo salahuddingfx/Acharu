@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { MessageSquare, Camera, Send, Mail, MapPin, Phone } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectContact } from '../store/settingsSlice';
@@ -60,15 +61,15 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex gap-3">
                 <MapPin className="text-maroon shrink-0" size={20} />
-                <span>House 123, Road 4, Cox's Bazar, Bangladesh</span>
+                <span>{contact.address}</span>
               </li>
               <li className="flex gap-3">
                 <Phone className="text-maroon shrink-0" size={20} />
-                <span>+880 1234-567890</span>
+                <span>{contact.phone}</span>
               </li>
               <li className="flex gap-3">
                 <Mail className="text-maroon shrink-0" size={20} />
-                <span>hello@acharu.com</span>
+                <span>{contact.email}</span>
               </li>
             </ul>
           </div>
