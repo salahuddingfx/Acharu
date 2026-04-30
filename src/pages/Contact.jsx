@@ -1,27 +1,31 @@
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import { selectContact } from '../store/settingsSlice';
 
 const Contact = () => {
+  const contact = useSelector(selectContact);
+  
   const contactInfo = [
     {
       icon: <Phone size={24} />,
       title: "Call Us",
-      details: "+880 1234-567890",
+      details: contact.phone,
       description: "Mon-Fri from 9am to 6pm",
       color: "bg-blue-50 text-blue-600"
     },
     {
       icon: <Mail size={24} />,
       title: "Email Us",
-      details: "hello@acharu.com",
+      details: contact.email,
       description: "Our friendly team is here to help",
       color: "bg-maroon/5 text-maroon"
     },
     {
       icon: <MapPin size={24} />,
       title: "Visit Us",
-      details: "Cox's Bazar, Bangladesh",
-      description: "House 123, Road 4, Sector 7",
+      details: contact.address,
+      description: "Cox's Bazar, Bangladesh",
       color: "bg-green-50 text-green-600"
     }
   ];
