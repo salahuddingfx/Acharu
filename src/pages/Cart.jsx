@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   selectCartItems, 
@@ -10,12 +11,40 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils/delivery';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Truck, ShieldCheck, RefreshCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api } from '../lib/api';
+import { toast } from 'react-hot-toast';
 
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectCartItems);
   const totalPrice = useSelector(selectCartTotal);
   const cartCount = useSelector(selectCartCount);
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode) return;
+    setLoading(true);
+    try {
+      const response = await api.post('/validate-coupon', { code: couponCode });
+      setAppliedCoupon(response.data.coupon);
+      toast.success('Coupon applied successfully!');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Invalid coupon code');
+      setAppliedCoupon(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const discountAmount = appliedCoupon 
+    ? (appliedCoupon.type === 'percentage' 
+        ? (totalPrice * (appliedCoupon.value / 100)) 
+        : parseFloat(appliedCoupon.value))
+    : 0;
+
+  const finalTotal = Math.max(0, totalPrice - discountAmount);
 
   if (items.length === 0) {
     return (
@@ -161,6 +190,45 @@ const Cart = () => {
                   <span>Subtotal</span>
                   <span className="text-slate-900 font-black">{formatPrice(totalPrice)}</span>
                 </div>
+
+                {/* Coupon Section */}
+                <div className="pt-6 border-t border-slate-100">
+                   <div className="flex gap-2">
+                      <input 
+                        type="text"
+                        placeholder="Coupon code"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-grow min-w-0 bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 font-bold text-slate-800 text-sm focus:ring-2 focus:ring-maroon/20 transition-all"
+                      />
+                      <button 
+                        onClick={handleApplyCoupon}
+                        disabled={loading || !couponCode}
+                        className="shrink-0 bg-slate-900 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-maroon transition-all disabled:opacity-50"
+                      >
+                        {loading ? '...' : 'Apply'}
+                      </button>
+                   </div>
+                   {appliedCoupon && (
+                     <div className="mt-3 flex items-center justify-between text-emerald-600 bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                        <div className="flex items-center gap-2">
+                          <Ticket size={14} />
+                          <span className="text-xs font-black">{appliedCoupon.code} Applied</span>
+                        </div>
+                        <button onClick={() => setAppliedCoupon(null)} className="text-slate-400 hover:text-red-500">
+                           <X size={14} />
+                        </button>
+                     </div>
+                   )}
+                </div>
+
+                {discountAmount > 0 && (
+                  <div className="flex justify-between items-center text-emerald-600 font-bold">
+                    <span>Discount</span>
+                    <span>-{formatPrice(discountAmount)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between items-center text-slate-500 font-medium">
                   <span>Shipping</span>
                   <span className="text-emerald-500 font-black">Calculated later</span>
@@ -168,13 +236,14 @@ const Cart = () => {
                 <div className="pt-8 border-t border-slate-100 flex justify-between items-center">
                   <div>
                     <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Total Amount</span>
-                    <h4 className="text-4xl font-display font-black text-maroon mt-1 tracking-tighter">{formatPrice(totalPrice)}</h4>
+                    <h4 className="text-4xl font-display font-black text-maroon mt-1 tracking-tighter">{formatPrice(finalTotal)}</h4>
                   </div>
                 </div>
               </div>
 
               <Link 
                 to="/checkout" 
+                state={{ discountAmount, appliedCoupon, finalTotal }}
                 className="flex items-center justify-center gap-4 bg-slate-900 text-white w-full py-6 rounded-3xl font-black text-xl hover:bg-maroon transition-all shadow-2xl hover:shadow-maroon/20 group"
               >
                 Proceed to Checkout
