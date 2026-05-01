@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Eye } from 'lucide-react';
+import { ShoppingBag, Eye, Plus } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../store/cartSlice';
-import { formatPrice } from '../utils/delivery';
 import { motion } from 'framer-motion';
 
 const ProductCard = ({ product }) => {
@@ -15,67 +14,69 @@ const ProductCard = ({ product }) => {
 
   return (
     <motion.div 
-      className="card-premium group"
-      whileHover={{ y: -5 }}
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group relative bg-white rounded-[40px] shadow-premium border border-black/[0.01] overflow-hidden hover:-translate-y-4 transition-all duration-700 h-full flex flex-col"
     >
-      <div className="relative aspect-square overflow-hidden bg-slate-100">
+      {/* Image Container */}
+      <div className="relative aspect-[4/5] overflow-hidden m-4 rounded-[32px]">
         <img 
           src={product.image} 
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         
-        {/* Hover Actions */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-          <Link 
-            to={`/product/${product.id}`}
-            className="w-12 h-12 rounded-full bg-white text-maroon flex items-center justify-center hover:bg-maroon hover:text-white transition-colors shadow-lg"
-          >
-            <Eye size={20} />
-          </Link>
-          <button 
-            onClick={() => dispatch(addItem({ product }))}
-            className="w-12 h-12 rounded-full bg-white text-maroon flex items-center justify-center hover:bg-maroon hover:text-white transition-colors shadow-lg"
-          >
-            <ShoppingCart size={20} />
-          </button>
+        {/* Action Overlay */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center gap-3">
+           <Link 
+             to={`/product/${product.id}`}
+             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 delay-75 shadow-xl"
+           >
+             <Eye size={22} />
+           </Link>
+           <button 
+             onClick={handleAddToCart}
+             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 delay-150 shadow-xl"
+           >
+             <ShoppingBag size={22} />
+           </button>
         </div>
-        
-        {/* Category Badge */}
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold text-maroon uppercase tracking-wider">
-          {product.category}
-        </div>
+
+        {/* New Arrival Badge */}
+        {product.isNew && (
+          <div className="absolute top-6 left-6 px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-slate-800 shadow-sm">
+            Handcrafted
+          </div>
+        )}
       </div>
 
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-3">
-          <Link to={`/product/${product.id}`}>
-            <h3 className="font-display font-bold text-xl text-slate-800 group-hover:text-maroon transition-colors">
-              {product.name}
-            </h3>
-          </Link>
-          <div className="bg-maroon/5 px-2 py-1 rounded text-[10px] font-bold text-maroon uppercase">
-            {product.weight}kg
-          </div>
+      {/* Content */}
+      <div className="p-8 pt-2 flex flex-col flex-grow">
+        <div className="flex items-center gap-2 mb-3">
+           <span className="w-1 h-1 rounded-full bg-maroon/30" />
+           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Premium Achar</span>
         </div>
         
-        <p className="text-slate-500 text-sm mb-6 line-clamp-2 leading-relaxed">
-          {product.description}
-        </p>
+        <Link to={`/product/${product.id}`}>
+          <h3 className="text-xl font-display font-black text-slate-800 mb-3 group-hover:text-maroon transition-colors tracking-tight line-clamp-1">
+            {product.name}
+          </h3>
+        </Link>
         
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-2xl font-bold text-maroon">
-            {formatPrice(product.price)}
-          </span>
+          <div className="flex flex-col">
+             <span className="text-xs font-bold text-slate-400">Weight: {product.weight}kg</span>
+             <span className="text-2xl font-display font-black text-slate-900 mt-1">৳{product.price}</span>
+          </div>
           
           <button 
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(addItem({ product }));
-            }}
-            className="w-10 h-10 rounded-full bg-slate-900 text-cream flex items-center justify-center hover:bg-maroon transition-all duration-300 shadow-md active:scale-90"
+            onClick={handleAddToCart}
+            className="w-14 h-14 rounded-2xl bg-slate-50 text-slate-400 flex items-center justify-center hover:bg-maroon hover:text-white transition-all group-hover:shadow-glow"
+            style={{ '--theme-rgb': '128, 0, 0' }}
           >
-            <ShoppingCart size={18} />
+            <Plus size={24} />
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { products as initialProducts } from '../data/products';
 
 // Initial state with site-specific products
@@ -8,7 +8,16 @@ const initialState = {
 
 const loadProducts = () => {
   const saved = localStorage.getItem('acharu-products');
-  return saved ? JSON.parse(saved) : initialState;
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      // Handle both old object format and new array format
+      return Array.isArray(data) ? { products: data } : data;
+    } catch (e) {
+      return initialState;
+    }
+  }
+  return initialState;
 };
 
 const productsSlice = createSlice({
@@ -20,23 +29,22 @@ const productsSlice = createSlice({
         ...action.payload,
         id: Date.now().toString()
       });
-      localStorage.setItem('acharu-products', JSON.stringify(state));
+      localStorage.setItem('acharu-products', JSON.stringify(state.products));
     },
     updateProduct: (state, action) => {
       const index = state.products.findIndex(p => p.id === action.payload.id);
       if (index !== -1) {
         state.products[index] = action.payload;
-        localStorage.setItem('acharu-products', JSON.stringify(state));
+        localStorage.setItem('acharu-products', JSON.stringify(state.products));
       }
     },
     deleteProduct: (state, action) => {
       state.products = state.products.filter(p => p.id !== action.payload);
-      localStorage.setItem('acharu-products', JSON.stringify(state));
+      localStorage.setItem('acharu-products', JSON.stringify(state.products));
     },
     syncInventory: (state, action) => {
-      // Logic for syncing with a real backend would go here
       state.products = action.payload;
-      localStorage.setItem('acharu-products', JSON.stringify(state));
+      localStorage.setItem('acharu-products', JSON.stringify(state.products));
     }
   }
 });
@@ -44,7 +52,13 @@ const productsSlice = createSlice({
 export const { addProduct, updateProduct, deleteProduct, syncInventory } = productsSlice.actions;
 
 export const selectAllProducts = (state) => state.products.products;
-export const selectProductsBySite = (state, siteId) => 
-  state.products.products.filter(p => p.siteId === siteId);
+
+export const selectProductsBySite = createSelector(
+  [selectAllProducts, (state, siteId) => siteId],
+  (products, siteId) => {
+    if (!products || !siteId) return [];
+    return products.filter(p => p.siteId === siteId);
+  }
+);
 
 export default productsSlice.reducer;

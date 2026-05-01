@@ -1,152 +1,196 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, Phone, ArrowRight } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { ShoppingBag, Menu, X, Search, User, ChevronDown } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
-import { selectContact } from '../store/settingsSlice';
+import { categories } from '../data/products';
 import { clsx } from 'clsx';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const cartCount = useSelector(selectCartCount);
-  const contact = useSelector(selectContact);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const cartItemsCount = useSelector(selectCartCount);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'Track Order', path: '/track' },
-    { name: 'FAQ', path: '/faq' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Collections', href: '/shop' },
+    { name: 'Heritage', href: '/faq' },
+    { name: 'Track Order', href: '/track' },
+    { name: 'Concierge', href: '/contact' },
   ];
 
   return (
     <nav className={clsx(
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-      isScrolled ? 'glass-navbar py-4' : 'bg-transparent py-6'
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-700 flex items-center",
+      isScrolled ? "bg-white/80 backdrop-blur-2xl border-b border-black/[0.03] h-20 shadow-premium" : "bg-transparent h-28"
     )}>
-      <div className="container-custom">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-display font-bold text-maroon flex items-center gap-2">
-            <span className="bg-maroon text-cream w-8 h-8 flex items-center justify-center rounded-lg italic">A</span>
-            Acharu
-          </Link>
+      <div className="container-custom flex items-center justify-between w-full">
+        {/* Mobile Menu Toggle */}
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className={clsx(
+            "lg:hidden p-3 rounded-2xl transition-all",
+            isScrolled ? "bg-slate-100 text-slate-800" : "bg-white/10 text-white backdrop-blur-md"
+          )}
+        >
+          <Menu size={24} />
+        </button>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={clsx(
-                  'font-medium transition-colors hover:text-maroon',
-                  location.pathname === link.path ? 'text-maroon' : 'text-slate-600'
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
+        {/* Logo */}
+        <Link to="/" className="group relative flex items-center gap-4">
+          <div className={clsx(
+            "w-12 h-12 rounded-2xl flex items-center justify-center font-black italic transition-all duration-500 group-hover:rotate-12",
+            isScrolled ? "bg-maroon text-cream shadow-xl shadow-maroon/20" : "bg-white text-maroon shadow-2xl shadow-black/20"
+          )}>
+            A
           </div>
+          <span className={clsx(
+            "text-2xl font-display font-black tracking-tighter transition-colors duration-500",
+            isScrolled ? "text-slate-900" : "text-white"
+          )}>
+            Acharu<span className="text-maroon">.</span>
+          </span>
+        </Link>
 
-          {/* Actions */}
-          <div className="flex items-center gap-5">
-            <div className={clsx(
-              "relative items-center gap-2 transition-all duration-300 hidden sm:flex",
-              isSearchOpen ? "w-64" : "w-10"
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-10">
+          {/* Categories Button */}
+          <div 
+            className="relative group"
+            onMouseEnter={() => setIsCategoriesOpen(true)}
+            onMouseLeave={() => setIsCategoriesOpen(false)}
+          >
+            <button className={clsx(
+              "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon",
+              isScrolled ? "text-slate-500" : "text-white/70"
             )}>
-              <button 
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-slate-600 hover:text-maroon transition-colors shrink-0"
-              >
-                {isSearchOpen ? <X size={20} /> : <Search size={20} />}
-              </button>
-              
-              {isSearchOpen && (
-                <form 
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (searchQuery.trim()) {
-                      navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
-                      setIsSearchOpen(false);
-                      setSearchQuery('');
-                    }
-                  }}
-                  className="flex-grow animate-in fade-in slide-in-from-right-4 duration-300"
-                >
-                  <input 
-                    autoFocus
-                    type="text"
-                    placeholder="Search pickles..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-full py-1.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon"
-                  />
-                </form>
-              )}
-            </div>
+              Categories <ChevronDown size={14} className={clsx("transition-transform duration-500", isCategoriesOpen && "rotate-180")} />
+            </button>
             
-            {/* Mobile Search Icon (Just navigate) */}
-            <button 
-              className="sm:hidden text-slate-600 hover:text-maroon"
-              onClick={() => navigate('/shop')}
-            >
-              <Search size={20} />
-            </button>
-            <Link to="/cart" className="relative group">
-              <ShoppingCart size={24} className="text-slate-600 group-hover:text-maroon transition-colors" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-maroon text-cream text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                  {cartCount}
-                </span>
+            <AnimatePresence>
+              {isCategoriesOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 mt-4 w-64 bg-white rounded-[32px] shadow-premium p-6 border border-black/[0.03] backdrop-blur-xl"
+                >
+                  <div className="grid grid-cols-1 gap-2">
+                    {categories.map((cat) => (
+                      <Link
+                        key={cat}
+                        to={`/shop?category=${cat}`}
+                        className="px-4 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-maroon transition-all"
+                      >
+                        {cat}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
               )}
-            </Link>
-            <button 
-              className="md:hidden text-slate-600"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            </AnimatePresence>
           </div>
+
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.href}
+              className={clsx(
+                "text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon relative group",
+                isScrolled ? "text-slate-500" : "text-white/70"
+              )}
+            >
+              {link.name}
+              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-maroon transition-all duration-500 group-hover:w-full" />
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden bg-white absolute top-full left-0 right-0 border-t border-slate-100 shadow-lg py-5 animate-in slide-in-from-top duration-300">
-            <div className="flex flex-col gap-4 px-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={clsx(
-                    'text-lg font-medium py-2',
-                    location.pathname === link.path ? 'text-maroon' : 'text-slate-600'
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="border-t border-slate-100 pt-4 flex items-center gap-3 text-maroon font-bold">
-                <Phone size={18} />
-                <span>{contact.phone}</span>
+        {/* Icons Area */}
+        <div className="flex items-center gap-4">
+          <button className={clsx(
+            "p-4 rounded-2xl transition-all duration-500 hover:scale-110",
+            isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-white hover:bg-white/10"
+          )}>
+            <Search size={22} />
+          </button>
+          
+          <Link to="/cart" className="relative group">
+            <div className={clsx(
+              "p-4 rounded-2xl transition-all duration-500 group-hover:scale-110",
+              isScrolled ? "bg-slate-950 text-white shadow-xl shadow-slate-900/20" : "bg-white text-slate-950 shadow-2xl"
+            )}>
+              <ShoppingBag size={22} />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-6 h-6 bg-maroon text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  {cartItemsCount}
+                </span>
+              )}
+            </div>
+          </Link>
+
+          <button className={clsx(
+            "hidden sm:flex p-4 rounded-2xl transition-all duration-500 hover:scale-110",
+            isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-white hover:bg-white/10"
+          )}>
+            <User size={22} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            className="fixed inset-0 z-[60] bg-white p-10 flex flex-col"
+          >
+            <div className="flex justify-between items-center mb-20">
+              <span className="text-3xl font-display font-black tracking-tighter">Acharu<span className="text-maroon">.</span></span>
+              <button onClick={() => setIsMenuOpen(false)} className="p-4 bg-slate-100 rounded-2xl"><X size={24} /></button>
+            </div>
+            <div className="space-y-8">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-4">Discover Flavors</p>
+              <div className="flex flex-wrap gap-3 mb-12">
+                {categories.map(cat => (
+                  <Link 
+                    key={cat} 
+                    to={`/shop?category=${cat}`} 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="px-6 py-3 bg-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600"
+                  >
+                    {cat}
+                  </Link>
+                ))}
+              </div>
+              <div className="space-y-10">
+                {navLinks.map((link) => (
+                  <Link 
+                    key={link.name} 
+                    to={link.href} 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block text-5xl font-display font-black text-slate-900 hover:text-maroon transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </nav>
   );
 };

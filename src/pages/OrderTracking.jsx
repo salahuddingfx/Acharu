@@ -34,15 +34,23 @@ const OrderTracking = () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'Processing': return <Clock className="text-blue-500" />;
-      case 'Shipped': return <Truck className="text-orange-500" />;
+      case 'Order Received': return <Clock className="text-blue-500" />;
+      case 'Order Processed': return <CheckCircle2 className="text-blue-600" />;
+      case 'Packaged': return <Package className="text-maroon" />;
+      case 'Shipping': return <Truck className="text-orange-500" />;
       case 'Delivered': return <CheckCircle2 className="text-green-500" />;
       default: return <Clock className="text-slate-400" />;
     }
   };
 
-  const statusSteps = ['Processing', 'Shipped', 'Delivered'];
-  const currentStepIndex = statusSteps.indexOf(order?.status || 'Processing');
+  const statusSteps = [
+    'Order Received',
+    'Order Processed',
+    'Packaged',
+    'Shipping',
+    'Delivered'
+  ];
+  const currentStepIndex = statusSteps.indexOf(order?.status || 'Order Received');
 
   return (
     <div className="bg-cream min-h-screen pb-20 pt-10">
@@ -114,7 +122,7 @@ const OrderTracking = () => {
                           <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
                             index <= currentStepIndex ? 'bg-maroon text-cream' : 'bg-slate-100 text-slate-400'
                           }`}>
-                            {index < currentStepIndex ? <CheckCircle2 size={20} /> : index + 1}
+                            {index <= currentStepIndex ? <CheckCircle2 size={20} /> : index + 1}
                           </div>
                           <p className={`mt-3 font-bold text-sm ${index <= currentStepIndex ? 'text-slate-800' : 'text-slate-400'}`}>
                             {step}

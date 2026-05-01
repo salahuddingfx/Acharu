@@ -28,12 +28,24 @@ export const api = {
     const newOrder = {
       ...orderData,
       id: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
-      status: 'Processing',
+      status: 'Order Processed',
       createdAt: new Date().toISOString(),
     };
     orders.push(newOrder);
     localStorage.setItem('acharu-orders', JSON.stringify(orders));
     return newOrder;
+  },
+
+  updateOrderStatus: async (orderId, newStatus) => {
+    await delay(400);
+    const orders = JSON.parse(localStorage.getItem('acharu-orders') || '[]');
+    const index = orders.findIndex(o => o.id === orderId);
+    if (index !== -1) {
+      orders[index].status = newStatus;
+      localStorage.setItem('acharu-orders', JSON.stringify(orders));
+      return orders[index];
+    }
+    throw new Error('Order not found');
   },
 
   getOrders: async () => {

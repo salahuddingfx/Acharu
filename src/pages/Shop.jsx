@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import { categories } from '../data/products';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -13,15 +13,11 @@ const Shop = () => {
   const currentSiteId = useSelector(selectCurrentSiteId);
   const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
   
-  const initialCategory = searchParams.get('category') || 'All';
-  const initialSearch = searchParams.get('search') || '';
-  
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const selectedCategory = searchParams.get('category') || 'All';
+  const searchQuery = searchParams.get('search') || '';
 
-  useEffect(() => {
-    let result = siteProducts;
+  const filteredProducts = useMemo(() => {
+    let result = siteProducts || [];
     
     if (selectedCategory !== 'All') {
       result = result.filter(p => p.category === selectedCategory);
@@ -34,67 +30,70 @@ const Shop = () => {
       );
     }
     
-    setFilteredProducts(result);
+    return result;
   }, [selectedCategory, searchQuery, siteProducts]);
 
-  // Update selection if URL param changes
-  useEffect(() => {
-    setSelectedCategory(searchParams.get('category') || 'All');
-    setSearchQuery(searchParams.get('search') || '');
-  }, [searchParams]);
-
   const handleSearchChange = (value) => {
-    setSearchQuery(value);
     const newParams = new URLSearchParams(searchParams);
     if (value) {
       newParams.set('search', value);
     } else {
       newParams.delete('search');
     }
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    setSearchParams(category === 'All' ? {} : { category });
+    const newParams = new URLSearchParams(searchParams);
+    if (category === 'All') {
+      newParams.delete('category');
+    } else {
+      newParams.set('category', category);
+    }
+    setSearchParams(newParams, { replace: true });
   };
 
   return (
     <div className="bg-cream min-h-screen pb-20">
-      {/* Header */}
-      <div className="bg-maroon py-20 text-cream">
-        <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">The Acharu Shop</h1>
-          <p className="text-cream/70 max-w-2xl">
-            Explore our collection of authentic, handcrafted pickles. From spicy mango to sweet jujube, we have something for every palate.
+      {/* Premium Header */}
+      <div className="bg-maroon py-32 text-cream relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-black/20 z-0" />
+        <div className="container-custom relative z-10">
+          <div className="flex items-center gap-4 mb-6">
+             <div className="h-px w-12 bg-white/30" />
+             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cream/60">Artisanal Collection</span>
+          </div>
+          <h1 className="text-6xl md:text-8xl font-display font-black mb-8 tracking-tighter">The Acharu <span className="italic opacity-30">Pantry</span></h1>
+          <p className="text-cream/70 max-w-2xl text-xl font-medium leading-relaxed">
+            Handcrafted with patience, bottled with love. Explore our heritage of authentic Bangladeshi pickles.
           </p>
         </div>
       </div>
 
-      <div className="container-custom mt-[-40px]">
-        {/* Toolbar */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-soft-lg p-6 mb-12 flex flex-col md:flex-row gap-8 items-center justify-between border border-white/40">
-          <div className="relative w-full md:w-[400px]">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+      <div className="container-custom mt-[-80px] relative z-20">
+        {/* Modern Filter Toolbar */}
+        <div className="bg-white/90 backdrop-blur-3xl rounded-[48px] shadow-premium p-10 mb-20 flex flex-col xl:flex-row gap-12 items-center justify-between border border-white/60">
+          <div className="relative w-full xl:w-[600px]">
+            <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-300" size={24} />
             <input 
               type="text" 
-              placeholder="Search our collection..."
-              className="w-full pl-14 pr-6 py-4 bg-slate-100/50 border border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-maroon/10 focus:bg-white focus:border-maroon/20 transition-all text-sm font-medium"
+              placeholder="Seeking a specific flavor?"
+              className="w-full pl-20 pr-10 py-6 bg-slate-50 border border-transparent rounded-[32px] focus:outline-none focus:ring-4 focus:ring-maroon/5 focus:bg-white focus:border-maroon/20 transition-all text-sm font-bold"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
           
-          <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide no-scrollbar">
+          <div className="flex items-center gap-5 w-full xl:w-auto overflow-x-auto pb-6 xl:pb-0 no-scrollbar">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
                 className={clsx(
-                  "px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all shrink-0",
+                  "px-10 py-5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] transition-all shrink-0",
                   selectedCategory === cat 
-                    ? "bg-maroon text-cream shadow-lg shadow-maroon/20" 
-                    : "bg-slate-100/50 text-slate-500 hover:bg-slate-200/50"
+                    ? "bg-maroon text-cream shadow-2xl shadow-maroon/40 scale-105" 
+                    : "bg-white text-slate-400 hover:text-slate-900 border border-slate-100 hover:border-slate-300"
                 )}
               >
                 {cat}
@@ -105,23 +104,23 @@ const Shop = () => {
 
         {/* Product Grid */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 bg-white rounded-xl shadow-soft">
-            <div className="w-20 h-20 bg-cream rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search size={32} className="text-maroon/40" />
+          <div className="text-center py-40 bg-white/40 backdrop-blur-xl rounded-[64px] border border-white/60 shadow-premium">
+            <div className="w-28 h-28 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 shadow-inner">
+              <Search size={40} className="text-slate-200" />
             </div>
-            <h3 className="text-xl font-bold text-slate-800 mb-2">No pickles found</h3>
-            <p className="text-slate-500">Try adjusting your filters or search query.</p>
+            <h3 className="text-3xl font-display font-black text-slate-800 mb-4">A Quiet Pantry</h3>
+            <p className="text-slate-400 font-medium text-lg">We couldn't find any pickles matching your search.</p>
             <button 
-              onClick={() => {setSelectedCategory('All'); setSearchQuery(''); setSearchParams({});}}
-              className="mt-6 text-maroon font-bold hover:underline"
+              onClick={() => setSearchParams({}, { replace: true })}
+              className="mt-10 text-maroon font-black uppercase tracking-[0.3em] text-xs hover:scale-110 transition-transform"
             >
-              Clear all filters
+              Reset Filters
             </button>
           </div>
         )}
