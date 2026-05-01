@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSite } from '../context/SiteContext';
 import { 
   selectCartItems, 
   selectCartTotal, 
@@ -19,9 +20,13 @@ const Cart = () => {
   const items = useSelector(selectCartItems);
   const totalPrice = useSelector(selectCartTotal);
   const cartCount = useSelector(selectCartCount);
+  const { settings } = useSite();
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const freeDeliveryThreshold = parseFloat(settings?.free_delivery_threshold || 2500);
+  const isFreeDelivery = totalPrice >= freeDeliveryThreshold;
 
   const handleApplyCoupon = async () => {
     if (!couponCode) return;
@@ -231,7 +236,15 @@ const Cart = () => {
 
                 <div className="flex justify-between items-center text-slate-500 font-medium">
                   <span>Shipping</span>
-                  <span className="text-emerald-500 font-black">Calculated later</span>
+                  {isFreeDelivery ? (
+                    <span className="text-emerald-500 font-black flex items-center gap-1">
+                      <Truck size={14} /> FREE
+                    </span>
+                  ) : (
+                    <span className="text-slate-400 font-bold text-xs uppercase tracking-widest">
+                      Free over {formatPrice(freeDeliveryThreshold)}
+                    </span>
+                  )}
                 </div>
                 <div className="pt-8 border-t border-slate-100 flex justify-between items-center">
                   <div>
