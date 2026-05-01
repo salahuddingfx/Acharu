@@ -186,15 +186,15 @@ const Navbar = () => {
             <button
               onClick={() => setSearchOpen(true)}
               className={clsx(
-                "p-4 rounded-2xl transition-all duration-500 hover:scale-110",
+                "p-3 md:p-4 rounded-2xl transition-all duration-500 hover:scale-110",
                 isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-slate-900 hover:bg-black/5"
               )}
             >
-              <Search size={22} />
+              <Search size={20} />
             </button>
           )}
 
-          <Link to="/wishlist" className="relative group">
+          <Link to="/wishlist" className="hidden md:flex relative group">
             <div className={clsx(
               "p-4 rounded-2xl transition-all duration-500 group-hover:scale-110",
               isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-slate-900 hover:bg-black/5"
@@ -205,10 +205,10 @@ const Navbar = () => {
           
           <Link to="/cart" className="relative group">
             <div className={clsx(
-              "p-4 rounded-2xl transition-all duration-500 group-hover:scale-110",
+              "p-3 md:p-4 rounded-2xl transition-all duration-500 group-hover:scale-110",
               isScrolled ? "bg-slate-950 text-white shadow-xl shadow-slate-900/20" : "bg-white text-slate-950 shadow-2xl"
             )}>
-              <ShoppingBag size={22} />
+              <ShoppingBag size={20} />
               {cartItemsCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-6 h-6 bg-maroon text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-lg border-4 border-white">
                   {cartItemsCount}
