@@ -72,7 +72,7 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent z-10" />
           <div className="absolute inset-0 bg-black/40 z-5" />
           <img 
-            src={activeSlide.image} 
+            src={activeSlide.image_path || activeSlide.image} 
             alt={activeSlide.title}
             className="w-full h-full object-cover"
           />

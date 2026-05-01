@@ -26,10 +26,11 @@ const defaultSiteSettings = {
 
 const initialState = {
   sites: {
-    site_1: { ...defaultSiteSettings, name: "Acharu Site A" },
-    site_2: { ...defaultSiteSettings, name: "Acharu Site B" }
+    site_1: { ...defaultSiteSettings, name: "Acharu", categories: [], hero: [] },
+    site_2: { ...defaultSiteSettings, name: "Taja Shutki", categories: [], hero: [] }
   },
-  currentSiteId: 'site_1'
+  currentSiteId: 'site_1',
+  loading: false
 };
 
 const loadSettings = () => {
@@ -44,6 +45,14 @@ const settingsSlice = createSlice({
     setCurrentSite: (state, action) => {
       state.currentSiteId = action.payload;
     },
+    setInitData: (state, action) => {
+      const { categories, hero_slides, site } = action.payload;
+      const siteKey = site.id === 1 ? 'site_1' : 'site_2';
+      state.sites[siteKey].categories = categories;
+      state.sites[siteKey].hero = hero_slides.length > 0 ? hero_slides : defaultSiteSettings.hero;
+      state.sites[siteKey].name = site.name;
+      state.sites[siteKey].contact = site.settings || defaultSiteSettings.contact;
+    },
     updateSiteSettings: (state, action) => {
       const { siteId, settings } = action.payload;
       state.sites[siteId] = { ...state.sites[siteId], ...settings };
@@ -52,12 +61,15 @@ const settingsSlice = createSlice({
   }
 });
 
-export const { setCurrentSite, updateSiteSettings } = settingsSlice.actions;
+export const { setCurrentSite, updateSiteSettings, setInitData } = settingsSlice.actions;
 
 export const selectCurrentSiteId = (state) => state.settings.currentSiteId;
 export const selectCurrentSiteSettings = (state) => 
   state.settings.sites[state.settings.currentSiteId];
 export const selectAllSites = (state) => state.settings.sites;
+
+export const selectCategories = (state) => 
+  state.settings.sites[state.settings.currentSiteId].categories;
 
 // Legacy selectors for compatibility (pulling from current site)
 export const selectHeroSlides = (state) => state.settings.sites[state.settings.currentSiteId].hero;

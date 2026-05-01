@@ -7,22 +7,23 @@ import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { selectProductsBySite } from '../store/productsSlice';
-import { selectCurrentSiteId } from '../store/settingsSlice';
+import { selectCurrentSiteId, selectCategories } from '../store/settingsSlice';
 
 const Shop = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentSiteId = useSelector(selectCurrentSiteId);
   const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
+  const categories = useSelector(selectCategories);
   
-  const selectedCategory = searchParams.get('category') || 'All';
+  const selectedCategoryName = searchParams.get('category') || 'All';
   const searchQuery = searchParams.get('search') || '';
 
   const filteredProducts = useMemo(() => {
     let result = siteProducts || [];
     
-    if (selectedCategory !== 'All') {
-      result = result.filter(p => p.category === selectedCategory);
+    if (selectedCategoryName !== 'All') {
+      result = result.filter(p => p.category?.name === selectedCategoryName || p.category === selectedCategoryName);
     }
     
     if (searchQuery) {
@@ -132,14 +133,14 @@ const Shop = () => {
                       <div className="h-px bg-slate-100 my-2 mx-4" />
                       {categories.map((cat) => (
                         <button
-                          key={cat}
-                          onClick={() => { handleCategoryClick(cat); setIsDropdownOpen(false); }}
+                          key={cat.id}
+                          onClick={() => { handleCategoryClick(cat.name); setIsDropdownOpen(false); }}
                           className={clsx(
                             "w-full text-left px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
-                            selectedCategory === cat ? "bg-maroon text-cream shadow-xl" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
+                            selectedCategoryName === cat.name ? "bg-maroon text-cream shadow-xl" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
                           )}
                         >
-                          {cat}
+                          {cat.name}
                         </button>
                       ))}
                     </div>
