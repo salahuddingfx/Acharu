@@ -23,4 +23,4 @@
 - **Icons:** Lucide-React
 
 ---
-👨‍💻 Developed by **Salahuddin GFX**
+👨‍💻 Developed by **Salah Uddin Kader**
