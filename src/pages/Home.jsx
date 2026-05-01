@@ -129,42 +129,103 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Promo Section */}
-      <section className="py-24 bg-maroon text-cream overflow-hidden">
+      {/* Reviews Section */}
+      <section className="py-24 bg-white/50">
         <div className="container-custom">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-            <div className="flex-1 space-y-8">
-              <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">
-                Traditional Taste, <br />Modern Convenience.
+          <div className="text-center mb-16">
+            <span className="text-maroon font-bold tracking-[0.4em] uppercase text-[10px]">What Our Customers Say</span>
+            <h2 className="text-4xl md:text-5xl font-display font-black mt-4 tracking-tighter">Verified Reviews</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Karim Ullah",
+                review: "The Naga pickle is absolute fire! Authentic taste and the heat is just right. Highly recommended for spice lovers.",
+                rating: 5,
+                date: "2 days ago"
+              },
+              {
+                name: "Sadia Afrin",
+                review: "I've tried many pickles, but the Garlic Special from Acharu is on another level. It tastes exactly like my grandmother's recipe.",
+                rating: 5,
+                date: "1 week ago"
+              },
+              {
+                name: "Zahir Ahmed",
+                review: "Excellent packaging and fast delivery. The Mango Khatta is so refreshing. Definitely buying again!",
+                rating: 5,
+                date: "2 weeks ago"
+              }
+            ].map((rev, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white p-10 rounded-[40px] shadow-soft border border-slate-50 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex gap-1 mb-6 text-amber-400">
+                    {[...Array(rev.rating)].map((_, idx) => (
+                      <Star key={idx} size={16} fill="currentColor" />
+                    ))}
+                  </div>
+                  <p className="text-slate-600 font-medium italic leading-relaxed mb-8">"{rev.review}"</p>
+                </div>
+                <div className="flex justify-between items-center pt-6 border-t border-slate-50">
+                  <span className="font-black text-slate-900 text-sm">{rev.name}</span>
+                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{rev.date}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Promo Section */}
+      <section className="py-32 bg-maroon text-cream overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-black/5 -skew-x-12 translate-x-1/2" />
+        <div className="container-custom relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-20">
+            <div className="flex-1 space-y-10">
+              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cream/40 px-6 py-2 border border-cream/10 rounded-full">Artisanal Craftsmanship</span>
+              <h2 className="text-5xl md:text-7xl font-display font-black leading-[0.9] tracking-tighter">
+                Traditional Taste, <br />Modern Style.
               </h2>
-              <p className="text-cream/80 text-lg leading-relaxed">
+              <p className="text-cream/70 text-lg leading-relaxed max-w-xl">
                 We believe that good food brings people together. Our pickles are made in small batches to ensure the highest quality and authentic flavor that you won't find anywhere else.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full border border-cream/30 flex items-center justify-center">
-                    <span className="font-bold">10+</span>
-                  </div>
-                  <span className="font-medium">Unique Flavors</span>
+              <div className="flex flex-col sm:flex-row gap-10">
+                <div className="flex items-center gap-5">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center font-black text-xl">10+</div>
+                  <span className="font-bold text-sm uppercase tracking-widest opacity-60">Unique Flavors</span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full border border-cream/30 flex items-center justify-center">
-                    <span className="font-bold">5k+</span>
-                  </div>
-                  <span className="font-medium">Happy Customers</span>
+                <div className="flex items-center gap-5">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center font-black text-xl">5k+</div>
+                  <span className="font-bold text-sm uppercase tracking-widest opacity-60">Happy Hearts</span>
                 </div>
               </div>
-              <Link to="/shop" className="btn-secondary !text-cream !border-cream hover:!bg-cream hover:!text-maroon !px-10 inline-flex">
-                Explore Our Collection
+              <Link to="/shop" className="group flex items-center gap-6 bg-white text-maroon px-12 py-6 rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:scale-105 transition-all shadow-2xl shadow-maroon/50">
+                Explore Collection
+                <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
             <div className="flex-1 relative">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 rounded-full blur-3xl" />
-              <img 
-                src="https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=800&auto=format&fit=crop" 
-                alt="Achar making" 
-                className="relative z-10 rounded-2xl shadow-2xl rotate-3"
-              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-white/[0.03] rounded-full blur-3xl" />
+              <motion.div
+                initial={{ rotate: 0 }}
+                whileInView={{ rotate: 5 }}
+                transition={{ duration: 1 }}
+                className="relative z-10"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=800&auto=format&fit=crop" 
+                  alt="Achar making" 
+                  className="rounded-[40px] shadow-2xl border-4 border-white/10"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
