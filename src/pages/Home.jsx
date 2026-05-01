@@ -19,7 +19,7 @@ const Home = () => {
       const product = siteProducts.find(p => p.category_id === cat.id);
       return { 
         name: cat.name, 
-        image: product?.image || siteProducts[0]?.image || "https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop" 
+        image: cat.image_path || product?.image || siteProducts[0]?.image || "https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop" 
       };
     })
     .slice(0, 4);
