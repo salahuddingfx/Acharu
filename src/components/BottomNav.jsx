@@ -1,13 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, ShoppingBag, Heart, ShoppingCart } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { selectCartTotalItems } from '../store/cartSlice';
+import { selectCartCount } from '../store/cartSlice';
 import { selectWishlistItems } from '../store/wishlistSlice';
 import { clsx } from 'clsx';
 
 const BottomNav = () => {
   const location = useLocation();
-  const cartCount = useSelector(selectCartTotalItems);
+  const cartCount = useSelector(selectCartCount);
   const wishlistCount = useSelector(selectWishlistItems).length;
 
   const navItems = [
