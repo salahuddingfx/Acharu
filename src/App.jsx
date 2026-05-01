@@ -10,8 +10,17 @@ import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchProducts } from './store/productsSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <Router>
       <Layout>

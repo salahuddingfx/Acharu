@@ -1,24 +1,18 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
-import { products as initialProducts } from '../data/products';
+import { createSlice, createSelector, createAsyncThunk } from '@reduxjs/toolkit';
+import { getProducts } from '../api/api';
 
 // Initial state with site-specific products
 const initialState = {
   products: initialProducts.map(p => ({ ...p, siteId: 'site_1' })), // Default all to site 1
 };
 
-const loadProducts = () => {
-  const saved = localStorage.getItem('acharu-products');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      // Handle both old object format and new array format
-      return Array.isArray(data) ? { products: data } : data;
-    } catch (e) {
-      return initialState;
-    }
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async (params) => {
+    const response = await getProducts(params);
+    return response.data.data; // Laravel pagination format
   }
-  return initialState;
-};
+);
 
 const productsSlice = createSlice({
   name: 'products',
@@ -46,6 +40,11 @@ const productsSlice = createSlice({
       state.products = action.payload;
       localStorage.setItem('acharu-products', JSON.stringify(state.products));
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.products = action.payload;
+    });
   }
 });
 
