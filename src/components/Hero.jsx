@@ -55,7 +55,7 @@ const Hero = () => {
   const activeSlide = slides[currentSlide];
 
   return (
-    <section className="relative h-[650px] w-full overflow-hidden bg-slate-950">
+    <section className="relative h-[550px] w-full overflow-hidden bg-slate-950">
       {/* Cinematic Background Layer */}
       <AnimatePresence mode="wait">
         <motion.div 
@@ -67,9 +67,9 @@ const Hero = () => {
           className="absolute inset-0 z-0"
         >
           {/* Top Shadow for Navbar visibility */}
-          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-slate-950/80 to-transparent z-15" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-slate-950/90 to-transparent z-15" />
           
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent z-10" />
           <div className="absolute inset-0 bg-black/40 z-5" />
           <img 
             src={activeSlide.image} 
@@ -79,49 +79,52 @@ const Hero = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="container-custom relative z-20 h-full flex flex-col justify-center items-center text-center">
+      <div className="container-custom relative z-20 h-full flex flex-col items-center">
         {/* Center Side: Main Text */}
-        <div ref={contentRef} className="max-w-4xl">
+        <div ref={contentRef} className="flex-1 flex flex-col justify-center items-center text-center max-w-4xl">
           <motion.div 
             key={`badge-${currentSlide}`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block mb-6"
+            className="inline-block mb-4"
           >
-             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-maroon bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/5 shadow-2xl">
+             <span className="text-[10px] font-black uppercase tracking-[0.8em] text-maroon bg-white px-6 py-2 rounded-full border border-white/10 shadow-2xl">
                {activeSlide.badge || 'Artisanal Collection'}
              </span>
           </motion.div>
 
-          <h1 className="text-6xl md:text-[8rem] font-display font-black text-white leading-[0.85] mb-8 tracking-tighter uppercase">
+          <h1 className="text-5xl md:text-[6rem] font-display font-black text-white leading-[0.9] mb-6 tracking-tighter uppercase">
             {activeSlide.title}
           </h1>
 
-          <p className="text-lg md:text-xl text-cream/70 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-base md:text-lg text-white/70 leading-relaxed max-w-xl mx-auto font-medium backdrop-blur-sm bg-black/5 p-3 rounded-xl">
             {activeSlide.subtitle}
           </p>
         </div>
 
         {/* Bottom Interaction Bar */}
-        <div className="absolute bottom-12 left-0 right-0 px-12 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="w-full pb-10 flex flex-col md:flex-row items-center justify-between gap-6">
           {/* CTAs */}
           <div className="flex items-center gap-6">
             <button 
               onClick={() => dispatch(addItem({ product: { id: activeSlide.productId, name: activeSlide.title, price: activeSlide.price, image: activeSlide.image, weight: 0.5 } }))}
-              className="btn-primary !px-10 !py-5 !text-sm !rounded-2xl shadow-2xl shadow-maroon/30 hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
+              className="px-8 py-4 bg-maroon text-cream rounded-xl font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-maroon/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
             >
-              <ShoppingBag size={18} />
+              <ShoppingBag size={16} />
               Acquire Now
             </button>
 
             <Link 
               to={`/product/${activeSlide.productId}`}
-              className="group flex items-center gap-4 text-cream font-black uppercase tracking-widest text-[10px] hover:text-maroon transition-all"
+              className="group flex items-center gap-4"
             >
-              <div className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center group-hover:border-maroon group-hover:bg-maroon transition-all duration-500">
-                <ArrowUpRight size={20} className="group-hover:rotate-45 transition-transform" />
+              <div className="w-12 h-12 rounded-xl border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-maroon transition-all duration-500">
+                <ArrowUpRight size={18} className="group-hover:rotate-45 transition-transform" />
               </div>
-              <span>Explore Collection</span>
+              <div className="flex flex-col">
+                <span className="text-[8px] font-black text-white/40 uppercase tracking-widest mb-0.5">Details</span>
+                <span className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-maroon transition-colors">Explore Collection</span>
+              </div>
             </Link>
           </div>
 
@@ -134,7 +137,13 @@ const Hero = () => {
                    className="flex items-center gap-3 cursor-pointer group"
                    onClick={() => { setCurrentSlide(index); setProgress(0); }}
                  >
-                   <div className="w-10 h-1 bg-white/10 relative overflow-hidden rounded-full">
+                   <span className={clsx(
+                     "text-[10px] font-black transition-all duration-500",
+                     index === currentSlide ? "text-maroon" : "text-white/20 group-hover:text-white/60"
+                   )}>
+                     0{index + 1}
+                   </span>
+                   <div className="w-10 h-[2px] bg-white/10 relative overflow-hidden rounded-full">
                       {index === currentSlide && (
                         <motion.div 
                           className="absolute inset-0 bg-maroon"
@@ -142,22 +151,16 @@ const Hero = () => {
                         />
                       )}
                    </div>
-                   <span className={clsx(
-                     "text-[10px] font-black transition-all duration-500 uppercase tracking-widest",
-                     index === currentSlide ? "text-maroon" : "text-cream/20 group-hover:text-cream/60"
-                   )}>
-                     0{index + 1}
-                   </span>
                  </div>
                ))}
             </div>
 
             <div className="flex items-center gap-3">
-              <button onClick={prevSlide} className="w-14 h-14 rounded-2xl border border-white/10 flex items-center justify-center text-cream hover:bg-maroon hover:border-maroon transition-all duration-500">
-                <ChevronLeft size={22} />
+              <button onClick={prevSlide} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-slate-950 transition-all duration-500">
+                <ChevronLeft size={20} />
               </button>
-              <button onClick={nextSlide} className="w-14 h-14 rounded-2xl border border-white/10 flex items-center justify-center text-cream hover:bg-maroon hover:border-maroon transition-all duration-500">
-                <ChevronRight size={22} />
+              <button onClick={nextSlide} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-slate-950 transition-all duration-500">
+                <ChevronRight size={20} />
               </button>
             </div>
           </div>
