@@ -48,10 +48,28 @@ const settingsSlice = createSlice({
     setInitData: (state, action) => {
       const { categories, hero_slides, site } = action.payload;
       const siteKey = site.id === 1 ? 'site_1' : 'site_2';
+      const s = site.settings || {};
       state.sites[siteKey].categories = categories;
       state.sites[siteKey].hero = hero_slides.length > 0 ? hero_slides : defaultSiteSettings.hero;
       state.sites[siteKey].name = site.name;
-      state.sites[siteKey].contact = site.settings || defaultSiteSettings.contact;
+      // Map flat settings fields into contact sub-object
+      state.sites[siteKey].contact = {
+        phone: s.support_phone || s.phone || defaultSiteSettings.contact.phone,
+        email: s.store_email || s.email || defaultSiteSettings.contact.email,
+        address: s.address || defaultSiteSettings.contact.address,
+        whatsapp: s.whatsapp_number || '',
+      };
+      // Keep the full settings available for other uses (delivery, about, etc.)
+      state.sites[siteKey].delivery = {
+        insideCity: Number(s.delivery_inside) || 70,
+        outsideCity: Number(s.delivery_outside) || 120,
+        weightCharge: Number(s.delivery_per_kg) || 10,
+      };
+      state.sites[siteKey].about = s.about ? (typeof s.about === 'string' ? JSON.parse(s.about) : s.about) : null;
+      state.sites[siteKey].home = s.home ? (typeof s.home === 'string' ? JSON.parse(s.home) : s.home) : null;
+      state.initData = action.payload;
+      // Persist the new state immediately to local storage
+      localStorage.setItem('acharu-multi-settings', JSON.stringify(state));
     },
     updateSiteSettings: (state, action) => {
       const { siteId, settings } = action.payload;
@@ -75,5 +93,7 @@ export const selectCategories = (state) =>
 export const selectHeroSlides = (state) => state.settings.sites[state.settings.currentSiteId].hero;
 export const selectContact = (state) => state.settings.sites[state.settings.currentSiteId].contact;
 export const selectDeliverySettings = (state) => state.settings.sites[state.settings.currentSiteId].delivery;
+export const selectHomeSettings = (state) => state.settings.sites[state.settings.currentSiteId].home;
+export const selectAboutSettings = (state) => state.settings.sites[state.settings.currentSiteId].about;
 
 export default settingsSlice.reducer;
