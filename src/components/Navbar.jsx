@@ -62,7 +62,7 @@ const Navbar = () => {
         <button 
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={clsx(
-            "lg:hidden p-3 rounded-2xl transition-all",
+            "xl:hidden p-3 rounded-2xl transition-all",
             isScrolled ? "bg-slate-100 text-slate-800" : "bg-white/10 text-white backdrop-blur-md"
           )}
         >
@@ -86,7 +86,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-10">
+        <div className="hidden xl:flex items-center gap-6 2xl:gap-10">
           {navLinks.slice(0, 3).map((link) => (
             <Link
               key={link.name}
