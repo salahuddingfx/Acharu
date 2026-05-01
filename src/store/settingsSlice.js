@@ -64,7 +64,9 @@ const settingsSlice = createSlice({
         insideCity: Number(s.delivery_inside) || 70,
         outsideCity: Number(s.delivery_outside) || 120,
         weightCharge: Number(s.delivery_per_kg) || 10,
+        freeDeliveryThreshold: Number(s.free_delivery_threshold) || 2500,
       };
+      state.sites[siteKey].socialLinks = s.social_links ? (typeof s.social_links === 'string' ? JSON.parse(s.social_links) : s.social_links) : {};
       state.sites[siteKey].about = s.about ? (typeof s.about === 'string' ? JSON.parse(s.about) : s.about) : null;
       state.sites[siteKey].home = s.home ? (typeof s.home === 'string' ? JSON.parse(s.home) : s.home) : null;
       state.initData = action.payload;
@@ -95,5 +97,6 @@ export const selectContact = (state) => state.settings.sites[state.settings.curr
 export const selectDeliverySettings = (state) => state.settings.sites[state.settings.currentSiteId].delivery;
 export const selectHomeSettings = (state) => state.settings.sites[state.settings.currentSiteId].home;
 export const selectAboutSettings = (state) => state.settings.sites[state.settings.currentSiteId].about;
+export const selectSocialLinks = (state) => state.settings.sites[state.settings.currentSiteId].socialLinks;
 
 export default settingsSlice.reducer;
