@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Search, User, ChevronDown } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, ChevronDown } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
 import { categories } from '../data/products';
@@ -23,16 +23,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Collections', href: '/shop' },
-    { name: 'Heritage', href: '/faq' },
+    { name: 'Home', href: '/' },
+    { name: 'Shop', href: '/shop' },
     { name: 'Track Order', href: '/track' },
-    { name: 'Concierge', href: '/contact' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
     <nav className={clsx(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-700 flex items-center",
-      isScrolled ? "bg-white/80 backdrop-blur-2xl border-b border-black/[0.03] h-20 shadow-premium" : "bg-transparent h-28"
+      isScrolled ? "bg-white/80 backdrop-blur-2xl border-b border-black/[0.03] h-20 shadow-premium" : "bg-white/5 backdrop-blur-xl border-b border-white/5 h-28"
     )}>
       <div className="container-custom flex items-center justify-between w-full">
         {/* Mobile Menu Toggle */}
@@ -64,6 +64,20 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-10">
+          {navLinks.slice(0, 2).map((link) => (
+            <Link
+              key={link.name}
+              to={link.href}
+              className={clsx(
+                "text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon relative group",
+                isScrolled ? "text-slate-500" : "text-slate-900/60"
+              )}
+            >
+              {link.name}
+              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-maroon transition-all duration-500 group-hover:w-full" />
+            </Link>
+          ))}
+
           {/* Categories Button */}
           <div 
             className="relative group"
@@ -72,7 +86,7 @@ const Navbar = () => {
           >
             <button className={clsx(
               "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon",
-              isScrolled ? "text-slate-500" : "text-white/70"
+              isScrolled ? "text-slate-500" : "text-slate-900/60"
             )}>
               Categories <ChevronDown size={14} className={clsx("transition-transform duration-500", isCategoriesOpen && "rotate-180")} />
             </button>
@@ -101,13 +115,13 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
-          {navLinks.map((link) => (
+          {navLinks.slice(2).map((link) => (
             <Link
               key={link.name}
               to={link.href}
               className={clsx(
                 "text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon relative group",
-                isScrolled ? "text-slate-500" : "text-white/70"
+                isScrolled ? "text-slate-500" : "text-slate-900/60"
               )}
             >
               {link.name}
@@ -120,7 +134,7 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <button className={clsx(
             "p-4 rounded-2xl transition-all duration-500 hover:scale-110",
-            isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-white hover:bg-white/10"
+            isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-slate-900 hover:bg-black/5"
           )}>
             <Search size={22} />
           </button>
@@ -139,12 +153,6 @@ const Navbar = () => {
             </div>
           </Link>
 
-          <button className={clsx(
-            "hidden sm:flex p-4 rounded-2xl transition-all duration-500 hover:scale-110",
-            isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-white hover:bg-white/10"
-          )}>
-            <User size={22} />
-          </button>
         </div>
       </div>
 
@@ -162,7 +170,7 @@ const Navbar = () => {
               <button onClick={() => setIsMenuOpen(false)} className="p-4 bg-slate-100 rounded-2xl"><X size={24} /></button>
             </div>
             <div className="space-y-8">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-4">Discover Flavors</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-4">Categories</p>
               <div className="flex flex-wrap gap-3 mb-12">
                 {categories.map(cat => (
                   <Link 

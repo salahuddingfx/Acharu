@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
       className="group relative bg-white rounded-[40px] shadow-premium border border-black/[0.01] overflow-hidden hover:-translate-y-4 transition-all duration-700 h-full flex flex-col"
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden m-4 rounded-[32px]">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-t-[40px]">
         <img 
           src={product.image} 
           alt={product.name}
@@ -53,7 +53,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Content */}
-      <div className="p-8 pt-2 flex flex-col flex-grow">
+      <div className="p-10 pt-6 flex flex-col flex-grow">
         <div className="flex items-center gap-2 mb-3">
            <span className="w-1 h-1 rounded-full bg-maroon/30" />
            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Premium Achar</span>

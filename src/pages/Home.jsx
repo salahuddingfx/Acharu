@@ -4,13 +4,19 @@ import { useSelector } from 'react-redux';
 import { selectProductsBySite } from '../store/productsSlice';
 import { selectCurrentSiteId } from '../store/settingsSlice';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, ShieldCheck, Truck } from 'lucide-react';
+import { ArrowRight, Star, ShieldCheck, Truck, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { categories } from '../data/products';
 
 const Home = () => {
   const currentSiteId = useSelector(selectCurrentSiteId);
   const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
   const featuredProducts = siteProducts.slice(0, 4);
+
+  const displayCategories = categories.filter(c => c !== 'All').map(cat => {
+    const product = siteProducts.find(p => p.category === cat);
+    return { name: cat, image: product?.image || siteProducts[0]?.image };
+  }).slice(0, 4);
 
   const features = [
     {
@@ -36,6 +42,7 @@ const Home = () => {
 
       {/* Features */}
       <section className="py-20 bg-white">
+        {/* ... existing features mapping ... */}
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {features.map((feature, index) => (
@@ -52,6 +59,49 @@ const Home = () => {
                 </div>
                 <h3 className="text-xl font-display font-bold mb-3">{feature.title}</h3>
                 <p className="text-slate-500">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Categories */}
+      <section className="py-24 overflow-hidden">
+        <div className="container-custom">
+          <div className="mb-16">
+             <span className="text-maroon font-bold tracking-widest uppercase text-sm">Curated Collections</span>
+             <h2 className="text-5xl font-display font-bold mt-4 tracking-tighter">Featured Categories</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {displayCategories.map((cat, index) => (
+              <motion.div
+                key={cat.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <Link 
+                  to={`/shop?category=${cat.name}`}
+                  className="group relative block aspect-[4/5] overflow-hidden rounded-[40px] shadow-premium"
+                >
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                  
+                  <div className="absolute inset-0 p-10 flex flex-col justify-end">
+                    <p className="text-cream/60 text-[10px] font-black uppercase tracking-[0.4em] mb-2">Heritage</p>
+                    <h3 className="text-2xl font-display font-black text-white mb-6 group-hover:text-maroon transition-colors">{cat.name}</h3>
+                    <div className="flex items-center gap-4 text-white font-black uppercase tracking-widest text-[10px] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                      <span>Explore</span>
+                      <ArrowUpRight size={14} />
+                    </div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>

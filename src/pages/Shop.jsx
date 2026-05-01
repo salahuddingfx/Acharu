@@ -1,14 +1,16 @@
 import { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import { categories } from '../data/products';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import { selectProductsBySite } from '../store/productsSlice';
 import { selectCurrentSiteId } from '../store/settingsSlice';
 
 const Shop = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentSiteId = useSelector(selectCurrentSiteId);
   const siteProducts = useSelector(state => selectProductsBySite(state, currentSiteId));
@@ -72,7 +74,10 @@ const Shop = () => {
 
       <div className="container-custom mt-[-80px] relative z-20">
         {/* Modern Filter Toolbar */}
-        <div className="bg-white/90 backdrop-blur-3xl rounded-[48px] shadow-premium p-10 mb-20 flex flex-col xl:flex-row gap-12 items-center justify-between border border-white/60">
+        <div className={clsx(
+          "bg-white/90 backdrop-blur-3xl rounded-[48px] shadow-premium p-10 mb-20 flex flex-col xl:flex-row gap-12 items-center justify-between border border-white/60",
+          isDropdownOpen ? "relative z-50" : "relative z-20"
+        )}>
           <div className="relative w-full xl:w-[600px]">
             <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-300" size={24} />
             <input 
@@ -84,21 +89,64 @@ const Shop = () => {
             />
           </div>
           
-          <div className="flex items-center gap-5 w-full xl:w-auto overflow-x-auto pb-6 xl:pb-0 no-scrollbar">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryClick(cat)}
-                className={clsx(
-                  "px-10 py-5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] transition-all shrink-0",
-                  selectedCategory === cat 
-                    ? "bg-maroon text-cream shadow-2xl shadow-maroon/40 scale-105" 
-                    : "bg-white text-slate-400 hover:text-slate-900 border border-slate-100 hover:border-slate-300"
-                )}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="relative group w-full xl:w-auto">
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className={clsx(
+                "w-full xl:w-72 flex items-center justify-between px-10 py-6 rounded-[32px] text-[10px] font-black uppercase tracking-[0.3em] transition-all border",
+                selectedCategory !== 'All' 
+                  ? "bg-maroon text-cream border-maroon shadow-2xl shadow-maroon/20" 
+                  : "bg-slate-50 text-slate-500 border-transparent hover:border-slate-200"
+              )}
+            >
+              <span>{selectedCategory === 'All' ? 'Filter Categories' : selectedCategory}</span>
+              <ChevronDown size={18} className={clsx("transition-transform duration-500", isDropdownOpen && "rotate-180")} />
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <>
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsDropdownOpen(false)}
+                  />
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                    className="absolute top-full right-0 mt-4 w-full md:w-80 bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-6 border border-slate-100 z-[100] overflow-hidden"
+                  >
+                    <div className="grid grid-cols-1 gap-2">
+                      <button
+                        onClick={() => { handleCategoryClick('All'); setIsDropdownOpen(false); }}
+                        className={clsx(
+                          "w-full text-left px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
+                          selectedCategory === 'All' ? "bg-maroon text-cream" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
+                        )}
+                      >
+                        All Categories
+                      </button>
+                      <div className="h-px bg-slate-100 my-2 mx-4" />
+                      {categories.map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => { handleCategoryClick(cat); setIsDropdownOpen(false); }}
+                          className={clsx(
+                            "w-full text-left px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            selectedCategory === cat ? "bg-maroon text-cream shadow-xl" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
+                          )}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

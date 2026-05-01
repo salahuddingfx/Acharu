@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Twitter, Share2, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { Share2, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { Instagram, Twitter } from './BrandIcons';
 import { useSelector } from 'react-redux';
 import { selectContact } from '../store/settingsSlice';
 
@@ -63,10 +64,10 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Connection Card */}
-          <div className="bg-white/5 backdrop-blur-xl rounded-[40px] p-10 border border-white/10 shadow-2xl">
-            <h4 className="text-white font-black uppercase tracking-[0.3em] text-[10px] mb-8">Get in Touch</h4>
-            <ul className="space-y-8 font-medium">
+          {/* Connection */}
+          <div>
+            <h4 className="text-white font-black uppercase tracking-[0.3em] text-[10px] mb-10">Get in Touch</h4>
+            <ul className="space-y-8 font-bold tracking-tight">
               <li className="flex gap-4">
                 <MapPin className="text-maroon shrink-0" size={20} />
                 <span className="text-sm leading-relaxed">{contact.address}</span>
