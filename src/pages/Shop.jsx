@@ -34,7 +34,7 @@ const Shop = () => {
     }
     
     return result;
-  }, [selectedCategory, searchQuery, siteProducts]);
+  }, [selectedCategoryName, searchQuery, siteProducts]);
 
   const handleSearchChange = (value) => {
     const newParams = new URLSearchParams(searchParams);
