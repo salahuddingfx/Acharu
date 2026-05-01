@@ -43,10 +43,12 @@ const Hero = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(contentRef.current.children, 
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 1, stagger: 0.2, ease: "expo.out" }
-      );
+      if (contentRef.current) {
+        gsap.fromTo(contentRef.current.children, 
+          { opacity: 0, x: -50 },
+          { opacity: 1, x: 0, duration: 1, stagger: 0.2, ease: "expo.out" }
+        );
+      }
     });
     return () => ctx.revert();
   }, [currentSlide]);
