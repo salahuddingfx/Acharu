@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import { categories } from '../data/products';
 import { Search, ChevronDown } from 'lucide-react';
@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { selectProductsBySite } from '../store/productsSlice';
 import { selectCurrentSiteId, selectCategories } from '../store/settingsSlice';
+import { Helmet } from 'react-helmet-async';
+import SkeletonCard from '../components/SkeletonCard';
 
 const Shop = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -18,6 +20,23 @@ const Shop = () => {
   
   const selectedCategoryName = searchParams.get('category') || 'All';
   const searchQuery = searchParams.get('search') || '';
+  const [localSearch, setLocalSearch] = useState(searchQuery);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      if (localSearch) {
+        newParams.set('search', localSearch);
+      } else {
+        newParams.delete('search');
+      }
+      setSearchParams(newParams, { replace: true });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [localSearch]);
 
   const filteredProducts = useMemo(() => {
     let result = siteProducts || [];
@@ -27,23 +46,27 @@ const Shop = () => {
     }
     
     if (searchQuery) {
-      result = result.filter(p => 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase())
+      result = result.filter(p =>
+        (p.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.description || '').toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     
     return result;
   }, [selectedCategoryName, searchQuery, siteProducts]);
 
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const currentItems = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategoryName, searchQuery]);
+
   const handleSearchChange = (value) => {
-    const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set('search', value);
-    } else {
-      newParams.delete('search');
-    }
-    setSearchParams(newParams, { replace: true });
+    setLocalSearch(value);
   };
 
   const handleCategoryClick = (category) => {
@@ -57,7 +80,12 @@ const Shop = () => {
   };
 
   return (
-    <div className="bg-cream min-h-screen pb-20">
+    <>
+      <Helmet>
+        <title>Shop | Acharu - Authentic Homemade Products</title>
+        <meta name="description" content="Browse our collection of authentic homemade pickles and traditional delicacies." />
+      </Helmet>
+      <div className="bg-cream min-h-screen pb-20">
       {/* Premium Header */}
       <div className="bg-maroon py-32 text-cream relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-black/20 z-0" />
@@ -152,9 +180,13 @@ const Shop = () => {
         </div>
 
         {/* Product Grid */}
-        {filteredProducts.length > 0 ? (
+        {!siteProducts || siteProducts.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {filteredProducts.map((product) => (
+            {Array(8).fill(0).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+            {currentItems.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -166,15 +198,39 @@ const Shop = () => {
             <h3 className="text-3xl font-display font-black text-slate-800 mb-4">A Quiet Pantry</h3>
             <p className="text-slate-400 font-medium text-lg">We couldn't find any pickles matching your search.</p>
             <button 
-              onClick={() => setSearchParams({}, { replace: true })}
+              onClick={() => { setSearchParams({}, { replace: true }); setLocalSearch(''); }}
               className="mt-10 text-maroon font-black uppercase tracking-[0.3em] text-xs hover:scale-110 transition-transform"
             >
               Reset Filters
             </button>
           </div>
         )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-20 flex justify-center items-center gap-3">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setCurrentPage(i + 1);
+                  window.scrollTo({ top: 400, behavior: 'smooth' });
+                }}
+                className={clsx(
+                  "w-12 h-12 rounded-2xl font-black transition-all",
+                  currentPage === i + 1 
+                    ? "bg-maroon text-white shadow-glow scale-110" 
+                    : "bg-white text-slate-400 hover:text-slate-800 border border-slate-100"
+                )}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
+    </>
   );
 };
 
