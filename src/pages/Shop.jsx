@@ -95,12 +95,12 @@ const Shop = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className={clsx(
                 "w-full xl:w-72 flex items-center justify-between px-10 py-6 rounded-[32px] text-[10px] font-black uppercase tracking-[0.3em] transition-all border",
-                selectedCategory !== 'All' 
+                selectedCategoryName !== 'All' 
                   ? "bg-maroon text-cream border-maroon shadow-2xl shadow-maroon/20" 
                   : "bg-slate-50 text-slate-500 border-transparent hover:border-slate-200"
               )}
             >
-              <span>{selectedCategory === 'All' ? 'Filter Categories' : selectedCategory}</span>
+              <span>{selectedCategoryName === 'All' ? 'Filter Categories' : selectedCategoryName}</span>
               <ChevronDown size={18} className={clsx("transition-transform duration-500", isDropdownOpen && "rotate-180")} />
             </button>
 
@@ -125,7 +125,7 @@ const Shop = () => {
                         onClick={() => { handleCategoryClick('All'); setIsDropdownOpen(false); }}
                         className={clsx(
                           "w-full text-left px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
-                          selectedCategory === 'All' ? "bg-maroon text-cream" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
+                          selectedCategoryName === 'All' ? "bg-maroon text-cream" : "hover:bg-slate-50 text-slate-400 hover:text-slate-900"
                         )}
                       >
                         All Categories
