@@ -23,7 +23,7 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (params) => {
     const response = await getProducts(params);
-    return response.data.data.data; // Access products array inside pagination
+    return response.data.data || []; // Laravel pagination structure
   }
 );
 
@@ -56,6 +56,7 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      if (!action.payload) return;
       state.products = action.payload.map(p => ({
         ...p,
         image: p.images && p.images.length > 0 ? p.images[0].image_path : p.image,
