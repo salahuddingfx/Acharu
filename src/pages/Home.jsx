@@ -131,37 +131,40 @@ const Home = () => {
 
       {/* Featured Categories */}
       {displayCategories.length > 0 && (
-        <section className="py-24 overflow-hidden">
+        <section className="py-12 bg-white border-y border-slate-50">
           <div className="container-custom">
-            <div className="mb-16">
-              <span className="text-maroon font-bold tracking-widest uppercase text-sm">Curated Collections</span>
-              <h2 className="text-5xl font-display font-bold mt-4 tracking-tighter">Featured Categories</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {displayCategories.map((cat, index) => (
-                <motion.div
-                  key={cat.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1, duration: 0.8 }}
-                  viewport={{ once: true }}
-                >
-                  <Link
-                    to={`/shop?category=${cat.name}`}
-                    className="group relative block aspect-[4/5] overflow-hidden rounded-[40px] shadow-premium"
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {displayCategories.map((cat, index) => {
+                const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
+                             cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
+                             cat.name.toLowerCase().includes('premium') || cat.name.toLowerCase().includes('special') ? Award : Leaf;
+                
+                return (
+                  <motion.div
+                    key={cat.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    viewport={{ once: true }}
                   >
-                    <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-                    <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                      <p className="text-cream/60 text-[10px] font-black uppercase tracking-[0.4em] mb-2">Heritage</p>
-                      <h3 className="text-2xl font-display font-black text-white mb-6 group-hover:text-maroon transition-colors">{cat.name}</h3>
-                      <div className="flex items-center gap-4 text-white font-black uppercase tracking-widest text-[10px] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                        <span>Explore</span><ArrowUpRight size={14} />
+                    <Link
+                      to={`/shop?category=${cat.name}`}
+                      className="group flex flex-col items-center gap-3 p-5 rounded-3xl bg-cream/50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-maroon/20 transition-all duration-500"
+                    >
+                      <div className="w-14 h-14 rounded-2xl bg-maroon/5 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm">
+                        <Icon size={24} />
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                      <div className="text-center">
+                        <h3 className="text-xs font-black text-slate-800 tracking-tight">{cat.name}</h3>
+                        <div className="flex items-center justify-center gap-1 mt-1 text-[8px] font-black text-maroon uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all">
+                          <span>Browse</span>
+                          <ArrowUpRight size={10} />
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
