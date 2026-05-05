@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,29 @@ const Home = () => {
   const featuredCollection = siteProducts.slice(0, 25);
 
   const [reviews, setReviews] = useState([]);
+  const sliderRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (sliderRef.current) {
+      const { scrollLeft, clientWidth } = sliderRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2;
+      sliderRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sliderRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          sliderRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scroll('right');
+        }
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Fallback data if DB settings aren't set yet
   const whyUs = homeSettings?.why_us || [
@@ -153,14 +176,27 @@ const Home = () => {
                 <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Best Sellers</h2>
               </div>
               <div className="hidden md:flex gap-4">
-                 <div className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-300"><ChevronRight size={20} className="rotate-180" /></div>
-                 <div className="w-12 h-12 rounded-full border border-maroon flex items-center justify-center text-maroon"><ChevronRight size={20} /></div>
+                 <button 
+                  onClick={() => scroll('left')}
+                  className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-maroon hover:text-white transition-all"
+                >
+                  <ChevronRight size={20} className="rotate-180" />
+                </button>
+                 <button 
+                  onClick={() => scroll('right')}
+                  className="w-12 h-12 rounded-full border border-maroon flex items-center justify-center text-maroon hover:bg-maroon hover:text-white transition-all"
+                >
+                  <ChevronRight size={20} />
+                </button>
               </div>
             </div>
           </div>
           
           <div className="relative group">
-            <div className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth">
+            <div 
+              ref={sliderRef}
+              className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth"
+            >
               {bestSellers.map((product) => (
                 <div key={product.id} className="w-[160px] md:w-[220px] shrink-0 snap-start">
                   <ProductCard product={product} />
