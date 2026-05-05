@@ -7,10 +7,10 @@ import { selectCurrentSiteId, selectCategories, selectContact, selectHomeSetting
 import { motion } from 'framer-motion';
 import {
   ArrowRight, Star, ShieldCheck, Truck, ArrowUpRight, Leaf, Heart,
-  Clock, ChevronRight, MessageCircle, CheckCircle, Mail, Flame, Award
+  Clock, ChevronRight, CheckCircle, Flame, Award
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getReviews, submitContact } from '../api/api';
+import { getReviews } from '../api/api';
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
 
@@ -29,8 +29,6 @@ const Home = () => {
   const featuredCollection = siteProducts.slice(0, 25);
 
   const [reviews, setReviews] = useState([]);
-  const [email, setEmail] = useState('');
-  const [newsletterLoading, setNewsletterLoading] = useState(false);
 
   // Fallback data if DB settings aren't set yet
   const whyUs = homeSettings?.why_us || [
@@ -70,20 +68,6 @@ const Home = () => {
     fetchReviews();
   }, []);
 
-  const handleNewsletterSubmit = async (e) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    setNewsletterLoading(true);
-    try {
-      await submitContact({ name: 'Newsletter', email, message: 'Newsletter subscription request.', site_id: 1 });
-      toast.success('Subscribed! We\'ll keep you posted. 🎉');
-      setEmail('');
-    } catch {
-      toast.error('Something went wrong. Please try again.');
-    } finally {
-      setNewsletterLoading(false);
-    }
-  };
 
 
 
