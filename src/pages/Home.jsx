@@ -162,7 +162,7 @@ const Home = () => {
           <div className="relative group">
             <div className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth">
               {bestSellers.map((product) => (
-                <div key={product.id} className="min-w-[180px] md:min-w-[240px] snap-start">
+                <div key={product.id} className="w-[160px] md:w-[220px] shrink-0 snap-start">
                   <ProductCard product={product} />
                 </div>
               ))}
@@ -179,7 +179,7 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
             <p className="text-slate-400 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {featuredCollection.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

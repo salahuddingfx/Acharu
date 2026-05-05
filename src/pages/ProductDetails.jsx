@@ -732,9 +732,9 @@ const ProductDetails = () => {
             </div>
             
             <div className="relative group">
-              <div className="flex gap-6 overflow-x-auto pb-10 scrollbar-hide snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0">
+              <div className="flex gap-4 md:gap-6 overflow-x-auto pb-10 scrollbar-hide snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0">
                 {relatedProducts.map(p => (
-                  <div key={p.id} className="min-w-[280px] md:min-w-[320px] snap-start">
+                  <div key={p.id} className="w-[160px] md:w-[220px] shrink-0 snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
