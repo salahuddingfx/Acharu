@@ -416,9 +416,3 @@ const Shop = () => {
 };
 
 export default Shop;
-
-    </>
-  );
-};
-
-export default Shop;
