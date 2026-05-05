@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Search, ChevronDown, Heart, Phone, MessageCircle, Globe, Loader2 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
-import { selectCategories } from '../store/settingsSlice';
 import { selectWishlistItems } from '../store/wishlistSlice';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,9 +13,6 @@ import { useLanguage } from '../context/LanguageContext';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const cartItemsCount = useSelector(selectCartCount);
-  const categories = useSelector(selectCategories);
   const location = useLocation();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -83,7 +79,6 @@ const Navbar = () => {
   const translations = {
     en: {
       menu: "Menu",
-      categories: "Categories",
       home: "Home",
       shop: "Shop",
       track: "Track Order",
@@ -95,7 +90,6 @@ const Navbar = () => {
     },
     bn: {
       menu: "মেনু",
-      categories: "ক্যাটাগরি",
       home: "হোম",
       shop: "দোকান",
       track: "অর্ডার ট্র্যাক",
@@ -168,43 +162,6 @@ const Navbar = () => {
             </Link>
           ))}
           
-
-          {/* Categories Button */}
-          <div 
-            className="relative group"
-            onMouseEnter={() => setIsCategoriesOpen(true)}
-            onMouseLeave={() => setIsCategoriesOpen(false)}
-          >
-            <button className={clsx(
-              "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon",
-              isScrolled ? "text-slate-500" : "text-slate-600"
-            )}>
-               {t.categories} <ChevronDown size={14} className={clsx("transition-transform duration-500", isCategoriesOpen && "rotate-180")} />
-            </button>
-            
-            <AnimatePresence>
-              {isCategoriesOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-4 w-64 bg-white rounded-[32px] shadow-premium p-6 border border-black/[0.03] backdrop-blur-xl"
-                >
-                  <div className="grid grid-cols-1 gap-2">
-                    {categories.map((cat) => (
-                      <Link
-                        key={cat.id}
-                        to={`/shop?category=${cat.name}`}
-                        className="px-4 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-maroon transition-all"
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
         </div>
 
 
@@ -389,22 +346,6 @@ const Navbar = () => {
                         </Link>
                       );
                     })}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 px-4">ক্যাটাগরি</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {categories.map(cat => (
-                      <Link 
-                        key={cat.id} 
-                        to={`/shop?category=${cat.name}`} 
-                        onClick={() => setIsMenuOpen(false)}
-                        className="px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-700 hover:bg-maroon hover:text-white transition-all active:scale-95"
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
                   </div>
                 </div>
               </div>

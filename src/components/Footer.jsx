@@ -17,7 +17,7 @@ const Footer = () => {
   ].filter(s => s.url);
 
   return (
-    <footer className="bg-slate-950 text-slate-400 pt-24 pb-12 overflow-hidden relative">
+    <footer className="bg-slate-950 text-slate-400 pt-3 overflow-hidden relative">
       {/* Background Decor */}
       <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-maroon/5 rounded-full blur-[150px] -z-0" />
       
