@@ -154,7 +154,7 @@ const Home = () => {
                         className="group flex flex-col items-center gap-2"
                       >
                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white group-hover:rotate-6 transition-all duration-500 shadow-sm hover:shadow-xl">
-                          <Icon size={24} className="md:size-28" />
+                          <Icon size={12} className="md:size-12" />
                         </div>
                         <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter group-hover:text-maroon transition-colors">{cat.name}</span>
                       </Link>
