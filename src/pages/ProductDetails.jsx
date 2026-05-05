@@ -1,14 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../store/cartSlice';
-import { ShoppingCart, ChevronLeft, Loader2, CheckCircle2, Phone, MessageCircle, Star, Truck, MapPin, Globe, CreditCard, ShieldCheck, AlertTriangle, X, Maximize2, Minus, Plus, ShoppingBag, Image as ImageIcon, Video, Trash2, PlayCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { clsx } from 'clsx';
-import { getProductDetails, getProducts, getReviews, submitReview } from '../api/api';
-import ProductCard from '../components/ProductCard';
-import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
+import { selectCartItems, updateQuantity } from '../store/cartSlice';
 import { useLanguage } from '../context/LanguageContext';
 
 const ProductDetails = () => {
@@ -35,6 +28,15 @@ const ProductDetails = () => {
 
   const initData = useSelector((state) => state.settings?.initData);
   const settings = initData?.site?.settings || {};
+  
+  const cartItems = useSelector(selectCartItems);
+  const cartItem = cartItems.find(i => i.id === product?.id);
+
+  useEffect(() => {
+    if (cartItem) {
+      setQuantity(cartItem.quantity);
+    }
+  }, [product?.id]); // Only set initially or when product changes
 
   const productWeight = Math.max(1, Math.ceil(product?.weight || 1));
   const extraWeight = Math.max(0, productWeight - 1);
@@ -154,6 +156,15 @@ const ProductDetails = () => {
       product: { ...product, category: product.category?.name || product.category || 'Uncategorized' }, 
       quantity: quantity 
     }));
+    toast.success(`${translate(product.name, product.name_bn)} added to cart!`);
+  };
+
+  const updateProductQuantity = (newQty) => {
+    const qty = Math.max(1, newQty);
+    setQuantity(qty);
+    if (cartItem) {
+      dispatch(updateQuantity({ id: product.id, quantity: qty }));
+    }
   };
 
   const handleOrderNow = () => {
