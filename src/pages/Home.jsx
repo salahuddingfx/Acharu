@@ -25,36 +25,8 @@ const Home = () => {
   const categories = useSelector(selectCategories);
   const contact = useSelector(selectContact);
   const homeSettings = useSelector(selectHomeSettings);
-  const featuredProducts = siteProducts.slice(0, 4);
-
-  const [reviews, setReviews] = useState([]);
-  const [email, setEmail] = useState('');
-  const [newsletterLoading, setNewsletterLoading] = useState(false);
-
-  // Fallback data if DB settings aren't set yet
-  const whyUs = homeSettings?.why_us || [
-    { icon: 'Leaf', title: 'All-Natural Ingredients', desc: 'Zero preservatives, zero artificial flavors.' },
-    { icon: 'ShieldCheck', title: '100% Homemade', desc: 'Every batch is crafted in small quantities.' },
-    { icon: 'Truck', title: 'Fast Delivery', desc: 'Carefully packed and delivered to your doorstep.' },
-  ];
-
-  const processSteps = homeSettings?.process || [
-    { step: '01', title: 'Farm Sourced', desc: 'We partner directly with local farmers.', color: '#15803d' },
-    { step: '02', title: 'Hand Crafted', desc: 'Each batch is mixed and spiced by hand.', color: '#800000' },
-    { step: '03', title: 'Quality Checked', desc: 'Every jar passes a taste check.', color: '#b45309' },
-    { step: '04', title: 'At Your Door', desc: 'Vacuum-sealed for maximum freshness.', color: '#7c3aed' },
-  ];
-
-  const displayCategories = categories
-    .filter(c => c.is_featured)
-    .map(cat => {
-      const product = siteProducts.find(p => p.category_id === cat.id);
-      return {
-        name: cat.name,
-        image: cat.image_path || product?.image || siteProducts[0]?.image || 'https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop',
-      };
-    })
-    .slice(0, 4);
+  const bestSellers = siteProducts.filter(p => p.is_featured).slice(0, 8);
+  const featuredCollection = siteProducts.slice(0, 25);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -167,22 +139,54 @@ const Home = () => {
         </section>
       )}
 
-      {/* Best Sellers */}
-      <section className="py-24">
-        <div className="container-custom">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <span className="text-maroon font-bold tracking-widest uppercase text-sm">Our Favorites</span>
-              <h2 className="text-4xl font-display font-bold mt-2">Best Sellers</h2>
+      {/* Best Sellers Slider */}
+      {bestSellers.length > 0 && (
+        <section className="py-24 bg-white overflow-hidden">
+          <div className="container-custom">
+            <div className="flex justify-between items-end mb-12 px-4 md:px-0">
+              <div>
+                <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Most Wanted</span>
+                <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Best Sellers</h2>
+              </div>
+              <div className="hidden md:flex gap-4">
+                 <div className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-300"><ChevronRight size={20} className="rotate-180" /></div>
+                 <div className="w-12 h-12 rounded-full border border-maroon flex items-center justify-center text-maroon"><ChevronRight size={20} /></div>
+              </div>
             </div>
-            <Link to="/shop" className="text-maroon font-bold flex items-center gap-2 hover:gap-3 transition-all">
-              View All <ArrowRight size={20} />
-            </Link>
+          </div>
+          
+          <div className="relative group">
+            <div className="flex gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth">
+              {bestSellers.map((product) => (
+                <div key={product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Collection Grid */}
+      <section className="py-24 bg-cream/30">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Handcrafted Bliss</span>
+            <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
+            <p className="text-slate-400 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            {featuredProducts.map((product) => (
+            {featuredCollection.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+          <div className="mt-20 text-center">
+            <Link 
+              to="/shop" 
+              className="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-maroon hover:scale-105 transition-all shadow-2xl shadow-slate-900/20"
+            >
+              Discover Full Shop <ArrowRight size={18} />
+            </Link>
           </div>
         </div>
       </section>
