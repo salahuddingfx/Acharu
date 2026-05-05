@@ -33,6 +33,7 @@ const ProductCard = ({ product }) => {
     >
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-slate-50/50">
+      <Link to={`/product/${product.slug || product.id}`} className="block h-full w-full">
         <img 
           src={product.images?.find(i => i.is_primary)?.image_path || (product.images && product.images.length > 0 ? product.images[0].image_path : (product.image_path || product.image || 'https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop'))} 
           alt={product.name}
@@ -40,6 +41,7 @@ const ProductCard = ({ product }) => {
           decoding="async"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
+      </Link>
 
         {/* Hover Actions */}
         <div className="absolute inset-0 bg-maroon/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
