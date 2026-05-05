@@ -44,10 +44,10 @@ const ProductCard = ({ product }) => {
       </Link>
 
         {/* Hover Actions */}
-        <div className="absolute inset-0 bg-maroon/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+        <div className="absolute inset-0 bg-maroon/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none">
            <Link 
              to={`/product/${product.slug || product.id}`}
-             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 shadow-xl"
+             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 shadow-xl pointer-events-auto"
            >
              <Eye size={22} />
            </Link>
