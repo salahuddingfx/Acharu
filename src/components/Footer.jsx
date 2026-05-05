@@ -35,7 +35,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 max-w-sm font-medium">
-              অকৃত্রিম দেশি আচারের স্বাদ পৌঁছে দিচ্ছি আপনার দোরগোড়ায়। খাঁটি সরিষার তেল ও হাতে বাছাই করা মশলায় তৈরি।
+              Preserving the authentic heritage of Bangladeshi pickles through artisanal craftsmanship and time-honored recipes.
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -94,6 +94,8 @@ const Footer = () => {
               <p>© {currentYear} Acharu Artisanal</p>
               <div className="hidden md:block w-px h-3 bg-white/10" />
               <p>Handcrafted in Bangladesh</p>
+              <div className="hidden md:block w-px h-3 bg-white/10" />
+              <Link to="/developer" className="hover:text-white transition-colors text-maroon/80 font-bold lowercase">Developer Credits</Link>
            </div>
            
            <div className="flex items-center gap-4 text-slate-500">
