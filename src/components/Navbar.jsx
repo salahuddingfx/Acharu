@@ -103,9 +103,6 @@ const Navbar = () => {
     { name: t.shop, href: '/shop' },
   ];
 
-  // Get top 2 categories for navbar
-  const topCategories = categories?.slice(0, 2) || [];
-
   return (
     <nav className={clsx(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center px-4 md:px-8",
@@ -153,17 +150,6 @@ const Navbar = () => {
                 "absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon transition-all duration-500 group-hover:w-full",
                 location.pathname === link.href && "w-full"
               )} />
-            </Link>
-          ))}
-
-          {/* Category Links */}
-          {topCategories.map((cat) => (
-            <Link
-              key={cat.id}
-              to={`/shop?category=${cat.name}`}
-              className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-maroon transition-all duration-500"
-            >
-              {cat.name}
             </Link>
           ))}
 
