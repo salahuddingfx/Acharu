@@ -133,13 +133,12 @@ const Home = () => {
 
       {/* Featured Categories */}
       {displayCategories.length > 0 && (
-        <section className="py-16 bg-white border-y border-slate-50">
+        <section className="py-10 bg-white border-y border-slate-50">
           <div className="container-custom">
-            <div className="text-center mb-10">
-              <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Cravings Sorted</span>
-              <h2 className="text-2xl md:text-3xl font-display font-black text-slate-800 mt-2">Browse by Category</h2>
+            <div className="text-center mb-8">
+              <h2 className="text-xl font-display font-black text-slate-800">Browse by Category</h2>
             </div>
-            <div className="flex items-center justify-center gap-8 md:gap-20 flex-wrap">
+            <div className="flex items-center justify-center gap-8 md:gap-16 flex-wrap">
               {displayCategories.map((cat, index) => {
                 const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
                              cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
@@ -155,12 +154,12 @@ const Home = () => {
                   >
                     <Link
                       to={`/shop?category=${cat.name}`}
-                      className="group flex flex-col items-center gap-4 text-center"
+                      className="group flex flex-col items-center gap-2 text-center"
                     >
-                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-[2rem] bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-xl group-hover:shadow-maroon/20 group-hover:-translate-y-2">
-                        <Icon size={28} className="md:size-32" />
+                      <div className="w-12 h-12 rounded-2xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-maroon/20 group-hover:-translate-y-1">
+                        <Icon size={20} />
                       </div>
-                      <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
                     </Link>
                   </motion.div>
                 );
