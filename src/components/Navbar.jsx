@@ -4,6 +4,7 @@ import { ShoppingBag, Menu, X, Search, ChevronDown, Heart, Phone, MessageCircle,
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
 import { selectWishlistItems } from '../store/wishlistSlice';
+import { selectCategories } from '../store/settingsSlice';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '../api/api';
@@ -20,6 +21,9 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const searchInputRef = useRef(null);
+
+  const cartItemsCount = useSelector(selectCartCount);
+  const categories = useSelector(selectCategories);
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -59,20 +63,11 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Shop', href: '/shop' },
-    { name: 'Reviews', href: '/reviews' },
-    { name: 'About', href: '/about' },
-    { name: 'Track', href: '/track' },
-    { name: 'Contact', href: '/contact' },
-  ];
 
   const { language, toggleLanguage, t: translate } = useLanguage();
 
@@ -103,48 +98,78 @@ const Navbar = () => {
 
   const t = translations[language];
 
+  const mainLinks = [
+    { name: t.home, href: '/' },
+    { name: t.shop, href: '/shop' },
+  ];
+
+  // Get top 2 categories for navbar
+  const topCategories = categories?.slice(0, 2) || [];
+
   return (
     <nav className={clsx(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center px-4",
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center px-4 md:px-8",
       isScrolled 
-        ? "bg-white/95 backdrop-blur-xl border-b border-slate-100 h-20 shadow-lg" 
-        : "bg-white/80 backdrop-blur-md border-b border-black/[0.03] h-24"
+        ? "bg-white/95 backdrop-blur-xl border-b border-slate-100 h-14 md:h-16 shadow-lg" 
+        : "bg-white/80 backdrop-blur-md border-b border-black/[0.03] h-16 md:h-20"
     )}>
       <div className="container-custom flex items-center justify-between w-full">
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={clsx(
-              "xl:hidden p-3 rounded-2xl transition-all",
-              isScrolled ? "bg-slate-100 text-slate-800" : "bg-slate-100 text-slate-800"
-            )}
+            className="xl:hidden p-2 rounded-xl bg-slate-100 text-slate-800 transition-all active:scale-90"
           >
-            <Menu size={24} />
+            <Menu size={20} />
           </button>
 
           {/* Logo */}
-          <Link to="/" className="group relative flex items-center gap-3 md:gap-4">
+          <Link to="/" className="group relative flex items-center gap-2 md:gap-3">
             <div className={clsx(
-              "w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center font-black italic transition-all duration-500 group-hover:rotate-12",
-              isScrolled ? "bg-maroon text-cream shadow-xl shadow-maroon/20" : "bg-maroon text-cream shadow-lg shadow-maroon/20"
+              "w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center font-black italic transition-all duration-500 group-hover:rotate-12",
+              "bg-maroon text-cream shadow-lg shadow-maroon/20"
             )}>
               A
             </div>
-            <span className={clsx(
-              "text-xl md:text-2xl font-display font-black tracking-tighter transition-colors duration-500",
-              isScrolled ? "text-slate-900" : "text-slate-900"
-            )}>
+            <span className="text-lg md:text-xl font-display font-black tracking-tighter text-slate-900">
               Acharu<span className="text-maroon">.</span>
             </span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden xl:flex items-center gap-6 2xl:gap-10">
+        <div className="hidden xl:flex items-center gap-5 2xl:gap-8">
+          {mainLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.href}
+              className={clsx(
+                "text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 hover:text-maroon relative group",
+                location.pathname === link.href ? "text-maroon" : "text-slate-600"
+              )}
+            >
+              {link.name}
+              <span className={clsx(
+                "absolute -bottom-1 left-0 w-0 h-0.5 bg-maroon transition-all duration-500 group-hover:w-full",
+                location.pathname === link.href && "w-full"
+              )} />
+            </Link>
+          ))}
+
+          {/* Category Links */}
+          {topCategories.map((cat) => (
+            <Link
+              key={cat.id}
+              to={`/shop?category=${cat.name}`}
+              className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-maroon transition-all duration-500"
+            >
+              {cat.name}
+            </Link>
+          ))}
+
+          <div className="w-px h-4 bg-slate-100 mx-2" />
+
           {[
-            { name: t.home, href: '/' },
-            { name: t.shop, href: '/shop' },
             { name: t.track, href: '/track' },
             { name: t.about, href: '/about' },
             { name: t.contact, href: '/contact' },
@@ -152,16 +177,11 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.href}
-              className={clsx(
-                "text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 hover:text-maroon relative group",
-                isScrolled ? "text-slate-500" : "text-slate-600"
-              )}
+              className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-maroon transition-all duration-500"
             >
               {link.name}
-              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-maroon transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
-          
         </div>
 
 
