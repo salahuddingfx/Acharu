@@ -28,6 +28,10 @@ const Home = () => {
   const bestSellers = siteProducts.filter(p => p.is_featured).slice(0, 8);
   const featuredCollection = siteProducts.slice(0, 25);
 
+  const [reviews, setReviews] = useState([]);
+  const [email, setEmail] = useState('');
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+
   // Fallback data if DB settings aren't set yet
   const whyUs = homeSettings?.why_us || [
     { icon: 'Leaf', title: 'All-Natural Ingredients', desc: 'Zero preservatives, zero artificial flavors.' },
@@ -181,9 +185,9 @@ const Home = () => {
           </div>
           
           <div className="relative group">
-            <div className="flex gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth">
+            <div className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth">
               {bestSellers.map((product) => (
-                <div key={product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
+                <div key={product.id} className="min-w-[180px] md:min-w-[240px] snap-start">
                   <ProductCard product={product} />
                 </div>
               ))}
