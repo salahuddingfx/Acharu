@@ -35,8 +35,12 @@ const cartSlice = createSlice({
     updateQuantity: (state, action) => {
       const { id, quantity } = action.payload;
       const item = state.items.find(item => item.id === id);
-      if (item && quantity > 0) {
-        item.quantity = quantity;
+      if (item) {
+        if (quantity > 0) {
+          item.quantity = quantity;
+        } else {
+          state.items = state.items.filter(i => i.id !== id);
+        }
         localStorage.setItem('acharu-cart-redux', JSON.stringify(state.items));
       }
     },
