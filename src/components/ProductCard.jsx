@@ -55,7 +55,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Product Info */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-2.5 flex flex-col flex-grow">
         <div className="flex-grow mb-3">
           <Link 
             to={`/product/${product.slug || product.id}`}
@@ -71,27 +71,27 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
 
-        <div className="flex items-end justify-between gap-4 mt-auto">
+        <div className="flex items-center justify-between gap-1 mt-auto pt-2 border-t border-slate-50">
           <div className="flex flex-col">
             {product.original_price && product.original_price > product.price && (
-              <span className="text-[10px] font-bold text-slate-900 line-through opacity-70">৳{product.original_price}</span>
+              <span className="text-[9px] font-bold text-slate-400 line-through">৳{product.original_price}</span>
             )}
-            <span className="text-xl font-black text-maroon tracking-tighter leading-none">৳{product.price}</span>
+            <span className="text-base font-black text-maroon leading-none">৳{product.price}</span>
           </div>
 
-          <div className="flex gap-1.5">
+          <div className="flex gap-1 shrink-0">
             <button 
               onClick={handleAddToCart}
-              className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-slate-100 text-slate-700 hover:bg-maroon hover:text-white"
+              className="w-7 h-7 rounded-lg flex items-center justify-center transition-all bg-slate-100 text-slate-700 hover:bg-maroon hover:text-white"
               title="Add to Cart"
             >
-              <ShoppingCart size={14} />
+              <ShoppingCart size={12} />
             </button>
             <button 
               onClick={handleOrderNow}
-              className="px-3 h-8 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md bg-maroon text-white hover:bg-maroon/90 hover:-translate-y-0.5 shadow-maroon/20"
+              className="px-2 h-7 rounded-lg flex items-center justify-center gap-1 transition-all shadow-md bg-maroon text-white hover:bg-maroon/90 shadow-maroon/20"
             >
-              <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">Order Now</span>
+              <span className="text-[8px] font-black uppercase tracking-wider whitespace-nowrap">Order Now</span>
             </button>
           </div>
         </div>
