@@ -348,19 +348,23 @@ const ProductDetails = () => {
               </div>
 
 
-              <div className="h-px bg-slate-100 mb-8" />
+              {/* Total Price Display */}
+              <div className="mb-8 p-6 bg-maroon/5 rounded-2xl border border-maroon/10 flex items-center justify-between">
+                <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Total Price</span>
+                <span className="text-3xl font-black text-maroon">৳ {(product.price * quantity).toFixed(0)}</span>
+              </div>
 
               {/* Action Buttons Grid */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <div className="flex items-center bg-slate-100 rounded-2xl p-1 shrink-0 border border-slate-200">
                   <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-maroon"
+                    onClick={() => updateProductQuantity(quantity - 1)}
+                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-maroon transition-colors"
                   ><Minus size={20} /></button>
                   <span className="w-12 text-center font-black text-slate-900 text-lg">{quantity}</span>
                   <button 
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-maroon"
+                    onClick={() => updateProductQuantity(quantity + 1)}
+                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-maroon transition-colors"
                   ><Plus size={20} /></button>
                 </div>
                 
@@ -376,33 +380,11 @@ const ProductDetails = () => {
                   onClick={handleOrderNow}
                   className="flex-[1.5] flex items-center justify-center gap-3 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-xl bg-maroon text-white hover:bg-maroon/90 hover:scale-[1.02] active:scale-95 shadow-maroon/20"
                 >
-                  <ShoppingCart size={18} />
+                  <ShoppingBag size={18} />
                   Order Now
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <a 
-                  href={`tel:${settings.support_phone || '01330336084'}`}
-                  className="col-span-2 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-100 font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-4 hover:border-slate-300 transition-all group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-maroon group-hover:text-white transition-colors">
-                    <Phone size={18} />
-                  </div>
-                  <span className="text-slate-500 font-medium">Click to Call :</span>
-                  <span className="font-black tracking-wider">{settings.support_phone || '01330336084'}</span>
-                </a>
-                
-                <a 
-                  href={`https://wa.me/88${settings.whatsapp_number || '01330336084'}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="col-span-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-green-500/20 hover:shadow-xl hover:scale-[1.01] active:scale-95 transition-all"
-                >
-                  <MessageCircle size={22} />
-                  Order via WhatsApp
-                </a>
-              </div>
             </div>
           </motion.div>
         </div>
