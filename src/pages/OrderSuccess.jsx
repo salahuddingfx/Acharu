@@ -41,6 +41,7 @@ const OrderSuccess = () => {
     };
   }, [navigate]);
 
+  return (
     <>
       <Helmet>
         <title>Order Confirmed | Acharu</title>
