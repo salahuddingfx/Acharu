@@ -25,7 +25,7 @@ const Home = () => {
   const categories = useSelector(selectCategories);
   const contact = useSelector(selectContact);
   const homeSettings = useSelector(selectHomeSettings);
-  const bestSellers = siteProducts.filter(p => p.is_featured).slice(0, 8);
+  const bestSellers = siteProducts.slice(0, 10);
   const featuredCollection = siteProducts.slice(0, 25);
 
   const [reviews, setReviews] = useState([]);
