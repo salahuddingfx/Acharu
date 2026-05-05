@@ -28,6 +28,31 @@ const Home = () => {
   const bestSellers = siteProducts.filter(p => p.is_featured).slice(0, 8);
   const featuredCollection = siteProducts.slice(0, 25);
 
+  // Fallback data if DB settings aren't set yet
+  const whyUs = homeSettings?.why_us || [
+    { icon: 'Leaf', title: 'All-Natural Ingredients', desc: 'Zero preservatives, zero artificial flavors.' },
+    { icon: 'ShieldCheck', title: '100% Homemade', desc: 'Every batch is crafted in small quantities.' },
+    { icon: 'Truck', title: 'Fast Delivery', desc: 'Carefully packed and delivered to your doorstep.' },
+  ];
+
+  const processSteps = homeSettings?.process || [
+    { step: '01', title: 'Farm Sourced', desc: 'We partner directly with local farmers.', color: '#15803d' },
+    { step: '02', title: 'Hand Crafted', desc: 'Each batch is mixed and spiced by hand.', color: '#800000' },
+    { step: '03', title: 'Quality Checked', desc: 'Every jar passes a taste check.', color: '#b45309' },
+    { step: '04', title: 'At Your Door', desc: 'Vacuum-sealed for maximum freshness.', color: '#7c3aed' },
+  ];
+
+  const displayCategories = categories
+    .filter(c => c.is_featured)
+    .map(cat => {
+      const product = siteProducts.find(p => p.category_id === cat.id);
+      return {
+        name: cat.name,
+        image: cat.image_path || product?.image || siteProducts[0]?.image || 'https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop',
+      };
+    })
+    .slice(0, 4);
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
