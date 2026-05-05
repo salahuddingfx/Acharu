@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Eye } from 'lucide-react';
+import { ShoppingBag, Eye, ShoppingCart } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../store/cartSlice';
 import { motion } from 'framer-motion';
@@ -42,19 +42,13 @@ const ProductCard = ({ product }) => {
         />
 
         {/* Hover Actions */}
-        <div className="absolute inset-0 bg-maroon/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-3">
+        <div className="absolute inset-0 bg-maroon/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
            <Link 
              to={`/product/${product.slug || product.id}`}
-             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 delay-75 shadow-xl"
+             className="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center hover:bg-maroon hover:text-white transition-all scale-75 group-hover:scale-100 duration-500 shadow-xl"
            >
              <Eye size={22} />
            </Link>
-           <button 
-             onClick={handleAddToCart}
-             className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-all scale-75 group-hover:scale-100 duration-500 delay-150 shadow-xl text-slate-900 hover:bg-maroon hover:text-white"
-           >
-             <ShoppingBag size={22} />
-           </button>
         </div>
       </div>
 
@@ -70,26 +64,32 @@ const ProductCard = ({ product }) => {
           >
             {translate(product.name, product.name_bn)}
           </Link>
+          <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5 font-medium">
+            {translate(product.description, product.description_bn)}
+          </p>
         </div>
 
         <div className="flex items-end justify-between gap-4 mt-auto">
           <div className="flex flex-col">
-            <span className="text-xl font-black text-maroon tracking-tighter">৳{product.price}</span>
+            {product.original_price && product.original_price > product.price && (
+              <span className="text-[10px] font-bold text-slate-900 line-through opacity-70">৳{product.original_price}</span>
+            )}
+            <span className="text-xl font-black text-maroon tracking-tighter leading-none">৳{product.price}</span>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             <button 
               onClick={handleAddToCart}
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-sm bg-slate-100 text-slate-900 hover:bg-slate-200"
+              className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-slate-100 text-slate-700 hover:bg-maroon hover:text-white"
               title="Add to Cart"
             >
-              <ShoppingBag size={18} />
+              <ShoppingCart size={14} />
             </button>
             <button 
               onClick={handleOrderNow}
-              className="px-4 h-10 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md bg-maroon text-white hover:bg-maroon/90 hover:-translate-y-0.5 shadow-maroon/20"
+              className="px-3 h-8 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md bg-maroon text-white hover:bg-maroon/90 hover:-translate-y-0.5 shadow-maroon/20"
             >
-              <span className="text-[10px] font-black uppercase tracking-widest">Order</span>
+              <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">Order Now</span>
             </button>
           </div>
         </div>

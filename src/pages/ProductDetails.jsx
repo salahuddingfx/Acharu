@@ -323,6 +323,9 @@ const ProductDetails = () => {
               )}>{translate(product.name, product.name_bn)}</h1>
               
               <div className="flex items-center gap-4 mb-8">
+                {product.original_price && product.original_price > product.price && (
+                  <span className="text-2xl font-bold text-slate-900 line-through opacity-50">৳ {product.original_price}</span>
+                )}
                 <span className="text-4xl font-black text-maroon">৳ {product.price}</span>
               </div>
 
@@ -354,7 +357,7 @@ const ProductDetails = () => {
                   onClick={handleAddToCart}
                   className="flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 shadow-xl bg-white text-slate-900 border-2 border-slate-900 hover:bg-slate-50 hover:scale-[1.02] active:scale-95 shadow-slate-100"
                 >
-                  <ShoppingBag size={18} />
+                  <ShoppingCart size={18} />
                   Add to Cart
                 </button>
 
