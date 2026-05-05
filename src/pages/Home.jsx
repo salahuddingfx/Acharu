@@ -46,13 +46,7 @@ const Home = () => {
 
   const displayCategories = categories
     .filter(c => c.is_featured)
-    .map(cat => {
-      const product = siteProducts.find(p => p.category_id === cat.id);
-      return {
-        name: cat.name,
-        image: cat.image_path || product?.image || siteProducts[0]?.image || 'https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=400&auto=format&fit=crop',
-      };
-    })
+    .map(cat => ({ name: cat.name }))
     .slice(0, 4);
 
   useEffect(() => {
@@ -114,39 +108,36 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Categories */}
+      {/* Featured Categories - Ultra Compact */}
       {displayCategories.length > 0 && (
-        <section className="py-8 bg-white border-y border-slate-50">
+        <section className="py-6 bg-white border-y border-slate-50">
           <div className="container-custom">
-            <div className="flex flex-col items-center gap-6">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Shop by Category</span>
-              <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-                {displayCategories.map((cat, index) => {
-                  const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
-                               cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
-                               cat.name.toLowerCase().includes('premium') || cat.name.toLowerCase().includes('special') ? Award : Leaf;
-                  
-                  return (
-                    <motion.div
-                      key={cat.name}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.05 }}
-                      viewport={{ once: true }}
+            <div className="flex items-center justify-center gap-4 md:gap-12 flex-wrap">
+              {displayCategories.map((cat, index) => {
+                const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
+                             cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
+                             cat.name.toLowerCase().includes('premium') || cat.name.toLowerCase().includes('special') ? Award : Leaf;
+                
+                return (
+                  <motion.div
+                    key={cat.name}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                  >
+                    <Link
+                      to={`/shop?category=${cat.name}`}
+                      className="group flex items-center gap-3"
                     >
-                      <Link
-                        to={`/shop?category=${cat.name}`}
-                        className="group flex flex-col items-center gap-2"
-                      >
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white group-hover:rotate-6 transition-all duration-500 shadow-sm hover:shadow-xl">
-                          <Icon size={12} className="md:size-12" />
-                        </div>
-                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter group-hover:text-maroon transition-colors">{cat.name}</span>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </div>
+                      <div className="w-10 h-10 rounded-xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-300 shadow-sm">
+                        <Icon size={16} />
+                      </div>
+                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>

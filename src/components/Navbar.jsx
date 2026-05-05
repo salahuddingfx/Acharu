@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Search, ChevronDown, Heart, Phone, MessageCircle, Globe, Loader2 } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, ChevronDown, Phone, MessageCircle, Globe, Loader2 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCartCount } from '../store/cartSlice';
-import { selectWishlistItems } from '../store/wishlistSlice';
 import { selectCategories } from '../store/settingsSlice';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -251,14 +250,6 @@ const Navbar = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/wishlist" className="hidden md:flex relative group">
-            <div className={clsx(
-              "p-4 rounded-2xl transition-all duration-500 group-hover:scale-110",
-              isScrolled ? "text-slate-800 hover:bg-slate-100" : "text-slate-800 hover:bg-slate-100"
-            )}>
-              <Heart size={22} className={useSelector(selectWishlistItems).length > 0 ? "fill-maroon text-maroon" : ""} />
-            </div>
-          </Link>
           
           <Link to="/cart" className="relative group">
             <div className={clsx(
@@ -316,7 +307,6 @@ const Navbar = () => {
                       { name: t.home, href: '/' },
                       { name: t.shop, href: '/shop' },
                       { name: t.track, href: '/track' },
-                      { name: t.wishlist, href: '/wishlist' },
                       { name: t.about, href: '/about' },
                       { name: t.contact, href: '/contact' },
                     ].map((link) => {
