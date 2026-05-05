@@ -131,11 +131,15 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Categories - Ultra Compact */}
+      {/* Featured Categories */}
       {displayCategories.length > 0 && (
-        <section className="py-6 bg-white border-y border-slate-50">
+        <section className="py-16 bg-white border-y border-slate-50">
           <div className="container-custom">
-            <div className="flex items-center justify-center gap-4 md:gap-12 flex-wrap">
+            <div className="text-center mb-10">
+              <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Cravings Sorted</span>
+              <h2 className="text-2xl md:text-3xl font-display font-black text-slate-800 mt-2">Browse by Category</h2>
+            </div>
+            <div className="flex items-center justify-center gap-8 md:gap-20 flex-wrap">
               {displayCategories.map((cat, index) => {
                 const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
                              cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
@@ -144,19 +148,19 @@ const Home = () => {
                 return (
                   <motion.div
                     key={cat.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     viewport={{ once: true }}
                   >
                     <Link
                       to={`/shop?category=${cat.name}`}
-                      className="group flex items-center gap-3"
+                      className="group flex flex-col items-center gap-4 text-center"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-300 shadow-sm">
-                        <Icon size={16} />
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-[2rem] bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-xl group-hover:shadow-maroon/20 group-hover:-translate-y-2">
+                        <Icon size={28} className="md:size-32" />
                       </div>
-                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
+                      <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
                     </Link>
                   </motion.div>
                 );
