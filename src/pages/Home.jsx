@@ -131,40 +131,37 @@ const Home = () => {
 
       {/* Featured Categories */}
       {displayCategories.length > 0 && (
-        <section className="py-12 bg-white border-y border-slate-50">
+        <section className="py-8 bg-white border-y border-slate-50">
           <div className="container-custom">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {displayCategories.map((cat, index) => {
-                const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
-                             cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
-                             cat.name.toLowerCase().includes('premium') || cat.name.toLowerCase().includes('special') ? Award : Leaf;
-                
-                return (
-                  <motion.div
-                    key={cat.name}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    viewport={{ once: true }}
-                  >
-                    <Link
-                      to={`/shop?category=${cat.name}`}
-                      className="group flex flex-col items-center gap-3 p-5 rounded-3xl bg-cream/50 border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-maroon/20 transition-all duration-500"
+            <div className="flex flex-col items-center gap-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Shop by Category</span>
+              <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+                {displayCategories.map((cat, index) => {
+                  const Icon = cat.name.toLowerCase().includes('spicy') || cat.name.toLowerCase().includes('chili') ? Flame : 
+                               cat.name.toLowerCase().includes('sweet') || cat.name.toLowerCase().includes('mango') ? Heart : 
+                               cat.name.toLowerCase().includes('premium') || cat.name.toLowerCase().includes('special') ? Award : Leaf;
+                  
+                  return (
+                    <motion.div
+                      key={cat.name}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.05 }}
+                      viewport={{ once: true }}
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-maroon/5 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm">
-                        <Icon size={24} />
-                      </div>
-                      <div className="text-center">
-                        <h3 className="text-xs font-black text-slate-800 tracking-tight">{cat.name}</h3>
-                        <div className="flex items-center justify-center gap-1 mt-1 text-[8px] font-black text-maroon uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all">
-                          <span>Browse</span>
-                          <ArrowUpRight size={10} />
+                      <Link
+                        to={`/shop?category=${cat.name}`}
+                        className="group flex flex-col items-center gap-2"
+                      >
+                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white group-hover:rotate-6 transition-all duration-500 shadow-sm hover:shadow-xl">
+                          <Icon size={24} className="md:size-28" />
                         </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
+                        <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter group-hover:text-maroon transition-colors">{cat.name}</span>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
