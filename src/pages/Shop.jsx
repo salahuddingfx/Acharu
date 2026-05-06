@@ -110,13 +110,10 @@ const Shop = () => {
       <div className="bg-[#FAF9F6] min-h-screen pt-10 pb-20">
         <div className="container-custom">
           {/* Header Area - Minimal */}
-          <div className="mb-10">
-            <h1 className="text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight mb-2 uppercase italic">
+          <div className="mb-6">
+            <h1 className="text-3xl md:text-4xl font-display font-black text-slate-900 tracking-tight uppercase italic">
               Shop <span className="text-maroon">Collection</span>
             </h1>
-            <p className="text-slate-400 font-medium tracking-wide text-sm">
-              Explore our premium range of {filteredProducts.length} authentic delicacies.
-            </p>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-8">
