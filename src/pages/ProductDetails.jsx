@@ -457,16 +457,35 @@ const ProductDetails = () => {
                 {translate(product.description, product.description_bn)}
               </p>
               
-              <div className="flex items-center gap-4 mb-8">
-                {product.original_price && product.original_price > product.price && !selectedVariation && (
-                  <span className="text-2xl font-bold text-rose-600 line-through">৳ {product.original_price}</span>
-                )}
+              {/* Price Block - shows selling + original (strikethrough) */}
+              <div className="flex items-baseline gap-3 mb-8 flex-wrap">
+                {/* Selling price - always visible, switches with variation */}
                 <span className="text-4xl font-black text-emerald-600">
-                  ৳ {selectedVariation ? selectedVariation.price : product.price}
+                  ৳ {selectedVariation ? Number(selectedVariation.price).toFixed(0) : Number(product.price).toFixed(0)}
                 </span>
-                {selectedVariation?.original_price > selectedVariation?.price && (
-                  <span className="text-2xl font-bold text-rose-600 line-through">৳ {selectedVariation.original_price}</span>
+                {/* Original/MRP - strikethrough */}
+                {selectedVariation ? (
+                  selectedVariation.original_price && Number(selectedVariation.original_price) > Number(selectedVariation.price) && (
+                    <span className="text-xl font-bold text-rose-400 line-through">৳ {Number(selectedVariation.original_price).toFixed(0)}</span>
+                  )
+                ) : (
+                  product.original_price && Number(product.original_price) > Number(product.price) && (
+                    <span className="text-xl font-bold text-rose-400 line-through">৳ {Number(product.original_price).toFixed(0)}</span>
+                  )
                 )}
+                {/* Discount badge */}
+                {(() => {
+                  const origP = selectedVariation ? selectedVariation.original_price : product.original_price;
+                  const sellP = selectedVariation ? selectedVariation.price : product.price;
+                  const disc = origP && Number(origP) > Number(sellP)
+                    ? Math.round(((Number(origP) - Number(sellP)) / Number(origP)) * 100)
+                    : 0;
+                  return disc > 0 ? (
+                    <span className="px-2.5 py-1 bg-rose-50 text-rose-600 text-[10px] font-black rounded-lg border border-rose-100">
+                      -{disc}% OFF
+                    </span>
+                  ) : null;
+                })()}
               </div>
 
               <div className="flex flex-wrap items-center gap-y-4 gap-x-8 mb-6 py-6 border-y border-slate-50">
@@ -483,21 +502,27 @@ const ProductDetails = () => {
                   <div className="flex flex-wrap gap-3">
                     {product.variations.map((v, idx) => {
                       const isSelected = selectedVariation?.id === v.id || (!selectedVariation && idx === 0);
+                      const hasDiscount = v.original_price && Number(v.original_price) > Number(v.price);
                       return (
                         <button
                           key={v.id || idx}
                           onClick={() => setSelectedVariation(v)}
                           className={clsx(
-                            "flex flex-col items-center px-5 py-3 rounded-2xl border-2 transition-all active:scale-95 min-w-[72px]",
+                            "flex flex-col items-center px-5 py-3 rounded-2xl border-2 transition-all active:scale-95 min-w-[76px]",
                             isSelected
                               ? "bg-maroon text-white border-maroon shadow-lg shadow-maroon/20"
                               : "bg-white text-slate-700 border-slate-100 hover:border-maroon/40 hover:shadow-md"
                           )}
                         >
                           <span className="text-[11px] font-black tracking-wide">{v.weight}</span>
-                          <span className={clsx("text-[10px] font-bold mt-0.5", isSelected ? "text-white/80" : "text-maroon")}>
-                            ৳{v.price}
+                          <span className={clsx("text-[11px] font-black mt-0.5", isSelected ? "text-white" : "text-maroon")}>
+                            ৳{Number(v.price).toFixed(0)}
                           </span>
+                          {hasDiscount && (
+                            <span className={clsx("text-[8px] font-bold line-through leading-none", isSelected ? "text-white/50" : "text-slate-400")}>
+                              ৳{Number(v.original_price).toFixed(0)}
+                            </span>
+                          )}
                         </button>
                       );
                     })}
