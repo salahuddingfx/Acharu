@@ -41,7 +41,7 @@ const ProductDetails = () => {
   const cartItems = useSelector(selectCartItems);
   
   // Find cart item considering variation
-  const currentCartItemId = selectedVariation ? `${product?.id}-${selectedVariation.id}` : product?.id;
+  const currentCartItemId = selectedVariation ? `${product?.id}-${selectedVariation.id || 'base'}` : product?.id;
   const cartItem = cartItems.find(i => (i.cartItemId || i.id) === currentCartItemId);
 
   useEffect(() => {
