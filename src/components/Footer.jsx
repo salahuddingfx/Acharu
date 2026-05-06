@@ -17,12 +17,12 @@ const Footer = () => {
   ].filter(s => s.url);
 
   return (
-    <footer className="bg-slate-950 text-slate-400 pt-12 pb-8 overflow-hidden relative border-t border-white/5">
+    <footer className="bg-slate-950 text-slate-400 pt-8 pb-4 overflow-hidden relative border-t border-white/5">
       {/* Background Decor */}
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-maroon/5 rounded-full blur-[120px] -z-0" />
       
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
           
           {/* Brand Identity */}
           <div className="space-y-6">
@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
 
         {/* Final Credits */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="pt-4 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[10px] font-black uppercase tracking-widest text-slate-500">
               <p>© {currentYear} Acharu Artisanal</p>
               <div className="hidden md:block w-px h-3 bg-white/10" />
