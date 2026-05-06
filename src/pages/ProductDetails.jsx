@@ -205,7 +205,7 @@ const ProductDetails = () => {
   };
 
   const updateProductQuantity = (newQty) => {
-    const targetId = cartItem ? (cartItem.cartItemId || cartItem.id) : (selectedVariation ? `${product.id}-${selectedVariation.id}` : product.id);
+    const targetId = cartItem ? (cartItem.cartItemId || cartItem.id) : (selectedVariation ? `${product.id}-${selectedVariation.id || 'base'}` : product.id);
 
     if (newQty < 1) {
       if (cartItem) {
@@ -490,11 +490,11 @@ const ProductDetails = () => {
               </div>
 
               {/* Variation Selection (Weight + Price) */}
-              {product.variations?.length > 0 && (
+              {availableVariations.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 px-2">Available Pack Sizes</h3>
                   <div className="flex flex-wrap gap-3">
-                    {product.variations.map((v, idx) => {
+                    {availableVariations.map((v, idx) => {
                       const isSelected = selectedVariation?.id === v.id || (!selectedVariation && idx === 0);
                       const hasDiscount = v.original_price && Number(v.original_price) > Number(v.price);
                       return (
