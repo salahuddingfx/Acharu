@@ -6,62 +6,152 @@ const Terms = () => {
   const sections = [
     {
       id: 1,
-      title: "Order Placement",
-      icon: UserCheck,
+      title: "Binding Agreement",
+      icon: Scale,
       notes: [
-        "Orders can be placed 24/7 through our official website.",
-        "Ensure all contact and delivery information is accurate to avoid delays.",
-        "A confirmation call or message may be sent for large orders."
+        "By accessing this site, you enter into a legally binding contract with Acharu. If you disagree, you must cease use immediately.",
+        "We reserve the absolute right to modify, suspend, or terminate any part of this service without prior notice.",
+        "Your continued presence on this platform constitutes an irrevocable acceptance of all current and future terms."
       ]
     },
     {
       id: 2,
-      title: "Payment Policy",
-      icon: CreditCard,
+      title: "Account Integrity",
+      icon: UserCheck,
       notes: [
-        "We support Cash on Delivery (COD) across Bangladesh.",
-        "Online payments via SSLCommerz (bKash, Nagad, Visa/Mastercard) are available.",
-        "Prices are inclusive of applicable taxes unless stated otherwise."
+        "You are solely responsible for all activities occurring under your account, including unauthorized access by third parties.",
+        "Any suspicion of account compromise must be reported to our security team within 1 hour.",
+        "Creating multiple accounts to exploit promotional offers will result in a permanent ban and order cancellation."
       ]
     },
     {
       id: 3,
-      title: "Delivery & Shipping",
-      icon: Truck,
+      title: "Pricing & Technical Errors",
+      icon: ShieldCheck,
       notes: [
-        "Delivery within Dhaka: 48-72 hours.",
-        "Outside Dhaka: 3-5 business days.",
-        "Delivery charges are calculated based on location and weight."
+        "In the event of a system glitch or pricing error, we reserve the right to cancel any order, even after payment confirmation.",
+        "Refunds for such cancellations will be processed, but no further compensation or 'price matching' will be provided.",
+        "All promotional codes must be applied at checkout; retroactive application is technically impossible and will not be entertained."
       ]
     },
     {
       id: 4,
-      title: "Quality Assurance",
+      title: "Product Disclaimer (Handcrafted)",
       icon: ShieldCheck,
       notes: [
-        "All products are handcrafted with natural ingredients.",
-        "We follow strict hygiene and safety standards during production.",
-        "Shelf life is mentioned on the packaging for each item."
+        "Our products are handcrafted in small batches. Variations in color, texture, and spice levels are a hallmark of authenticity.",
+        "Images shown are for representation; the actual product may differ slightly due to the seasonal nature of ingredients.",
+        "We do not guarantee that the product will meet your specific 'memory' of a taste or a family recipe."
       ]
     },
     {
       id: 5,
-      title: "Return & Refund",
-      icon: RefreshCw,
+      title: "Payment & Billing Finality",
+      icon: CreditCard,
       notes: [
-        "Report damaged or incorrect items within 24 hours of delivery.",
-        "Refunds are processed within 7-10 working days for valid claims.",
-        "Product must be in its original packaging for returns."
+        "Once a transaction is initiated, it is considered final. Digital payments are processed through secure third-party gateways.",
+        "Acharu does not store your card details. Any payment failure must be resolved with your respective bank.",
+        "For Cash on Delivery (COD), the full amount must be paid to the courier before the package seal is broken."
       ]
     },
     {
       id: 6,
-      title: "Governance",
+      title: "Shipping & Courier Limitations",
+      icon: Truck,
+      notes: [
+        "Delivery timelines (48-72h Dhaka, 3-5 days outside) are estimates. We do not guarantee 'fixed time' deliveries.",
+        "Our liability ends once the package is handed to the courier. We are not responsible for delays caused by roadblocks or strikes.",
+        "Unsuccessful delivery attempts due to customer unavailability will result in additional re-shipping charges."
+      ]
+    },
+    {
+      id: 7,
+      title: "Mandatory Unboxing Video",
+      icon: RefreshCw,
+      notes: [
+        "To claim any damage or missing item, a CLEAR, UNEDITED UNBOXING VIDEO is mandatory from start to finish.",
+        "The video must show the shipping label and the intact seal before opening the package.",
+        "Claims without a valid unboxing video will be REJECTED instantly, regardless of the severity of the issue."
+      ]
+    },
+    {
+      id: 8,
+      title: "Strict Return/Seal Policy",
+      icon: ShieldCheck,
+      notes: [
+        "Food products are non-returnable once the outer safety seal or inner jar seal is broken or tampered with.",
+        "Returns for 'Change of Mind' or 'I don't need it anymore' are strictly prohibited for all perishable items.",
+        "Approved returns must be dispatched back to our warehouse within 24 hours of approval at the customer's expense."
+      ]
+    },
+    {
+      id: 9,
+      title: "Taste Subjectivity Clause",
+      icon: ShieldCheck,
+      notes: [
+        "Taste is 100% subjective. We do NOT provide refunds or exchanges if you simply 'did not like' the flavor.",
+        "Our recipes are standardized; we cannot customize individual jars for specific spice or salt tolerances.",
+        "By purchasing, you acknowledge that you are trying a new flavor at your own risk of personal preference."
+      ]
+    },
+    {
+      id: 10,
+      title: "Health & Allergy Warning",
+      icon: ShieldCheck,
+      notes: [
+        "Customers must read the full ingredient list. We use mustard oil, nuts, and spices that may be allergens.",
+        "Acharu is not liable for any allergic reactions, medical costs, or discomfort resulting from product consumption.",
+        "Consult a physician before consuming our products if you have specific dietary restrictions or sensitivities."
+      ]
+    },
+    {
+      id: 11,
+      title: "Zero Tolerance: Harassment",
+      icon: UserCheck,
+      notes: [
+        "Any abusive language, threats, or harassment toward our support or delivery staff will result in immediate termination of service.",
+        "We reserve the right to report abusive customers to relevant authorities and blacklist them from future purchases.",
+        "Communication with our team is recorded for quality control and legal safety."
+      ]
+    },
+    {
+      id: 12,
+      title: "Anti-Fraud & Legal Action",
       icon: Scale,
       notes: [
-        "All terms are governed by the laws of Bangladesh.",
-        "We reserve the right to update policies without prior notice.",
-        "By using this site, you agree to comply with all stated conditions."
+        "Any attempt to stage damage or provide false evidence for a refund is considered fraud under the laws of Bangladesh.",
+        "We monitor IP addresses and user behavior. Fraudulent claims will be met with strict legal action and public blacklisting.",
+        "Acharu reserves the right to recover legal costs from customers found guilty of making fraudulent claims."
+      ]
+    },
+    {
+      id: 13,
+      title: "Order Refusal Rights",
+      icon: ShieldCheck,
+      notes: [
+        "We reserve the right to refuse any order without providing a reason, especially if a history of high RTO is detected.",
+        "Bulk orders suspected of unauthorized resale will be cancelled and the account flagged.",
+        "Orders from suspicious or high-risk locations may be subjected to mandatory 100% advance payment."
+      ]
+    },
+    {
+      id: 14,
+      title: "Intellectual Property Rights",
+      icon: Scale,
+      notes: [
+        "All text, design, graphics, and product names are the exclusive property of Acharu and protected by copyright laws.",
+        "Unauthorized use of our branding for your own commercial gain will result in a lawsuit for damages.",
+        "User-submitted reviews become the property of Acharu for marketing purposes unless requested otherwise."
+      ]
+    },
+    {
+      id: 15,
+      title: "Governing Law & Disputes",
+      icon: Scale,
+      notes: [
+        "All transactions and disputes are governed solely by the laws of the People's Republic of Bangladesh.",
+        "Any legal proceedings must be initiated in the courts of Dhaka, Bangladesh.",
+        "Arbitration will be the first step for any dispute resolution before moving to a court of law."
       ]
     }
   ];
