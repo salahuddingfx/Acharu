@@ -121,7 +121,7 @@ const OrderSuccess = () => {
                     className="flex-1 flex items-center justify-center gap-2 px-6 md:px-8 py-4 md:py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-maroon transition-all hover:shadow-xl active:scale-95"
                   >
                     <Truck size={18} />
-                    Live Tracking
+                    Where is my Product?
                   </Link>
                   <a 
                     href={`https://wa.me/${(settings.whatsapp_number || settings.phone || '8801851075537').replace(/[^0-9]/g, '')}?text=Hi, I want to track my order #${orderId}. Current status is: ${orderStatus}.`}
