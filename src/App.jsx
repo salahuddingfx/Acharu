@@ -153,6 +153,14 @@ function App() {
     return () => clearTimeout(timer);
   }, [dispatch]);
 
+  // Background sync every 30 seconds to stay aligned with Admin Panel
+  usePolling(() => {
+    dispatch(fetchProducts());
+    getInitData().then(res => {
+      dispatch(setInitData(res.data));
+    }).catch(console.error);
+  }, 30000);
+
   return (
     <Router>
       <Toaster richColors position="top-right" />
