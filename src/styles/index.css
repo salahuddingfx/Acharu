@@ -64,6 +64,14 @@
   .shadow-glow {
     box-shadow: 0 0 20px 0 rgba(128, 0, 0, 0.2);
   }
+
+  .glass-premium {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-soft-lg;
+  }
+
+  .shadow-premium-lg {
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.1), 0 5px 20px -5px rgba(0, 0, 0, 0.05);
+  }
 }
 
 /* Custom Scrollbar */
