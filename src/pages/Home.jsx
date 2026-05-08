@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { useSelector } from 'react-redux';
 import { selectProductsBySite, selectProductsLoading } from '../store/productsSlice';
 import SkeletonCard from '../components/SkeletonCard';
 import { selectCurrentSiteId, selectCategories, selectContact, selectHomeSettings, selectFeaturedProducts } from '../store/settingsSlice';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { clsx } from 'clsx';
 import {
   ArrowRight, Star, ShieldCheck, Truck, ArrowUpRight, Leaf, Heart,
   Clock, ChevronRight, CheckCircle, Flame, Award
@@ -31,6 +32,8 @@ const Home = () => {
   const featuredCollection = useSelector(selectFeaturedProducts);
 
   const [reviews, setReviews] = useState([]);
+  const [reviewIdx, setReviewIdx] = useState(0);
+  const [slideDir, setSlideDir] = useState(1);
   const sliderRef = useRef(null);
 
   const scroll = (direction) => {
@@ -77,15 +80,28 @@ const Home = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await getReviews({ site_id: 1, limit: 3 });
+        const res = await getReviews({ site_id: 1, limit: 5 });
         const data = Array.isArray(res) ? res : (res?.data || []);
-        setReviews(data.slice(0, 3));
+        setReviews(data);
       } catch (err) {
         console.error('Failed to load reviews', err);
       }
     };
     fetchReviews();
   }, []);
+
+  // Auto-slide reviews every 3s
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    const timer = setInterval(() => {
+      setSlideDir(1);
+      setReviewIdx(prev => (prev + 1) % reviews.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [reviews.length]);
+
+  // Reset index when reviews change
+  useEffect(() => { setReviewIdx(0); }, [reviews.length]);
 
 
 
@@ -211,10 +227,17 @@ const Home = () => {
                   </div>
                 ))
               ) : (
-                bestSellers.map((product) => (
-                  <div key={product.id} className="w-[160px] md:w-[220px] shrink-0 snap-start">
+                bestSellers.map((product, i) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
+                    className="w-[160px] md:w-[220px] shrink-0 snap-start"
+                  >
                     <ProductCard product={product} />
-                  </div>
+                  </motion.div>
                 ))
               )}
             </div>
@@ -252,8 +275,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Real Reviews */}
-      <section className="py-12 bg-cream">
+      {/* Real Reviews — Auto-sliding Carousel */}
+      <section className="py-12 bg-cream overflow-hidden">
         <div className="container-custom">
           <div className="flex justify-between items-end mb-10 flex-wrap gap-4">
             <div>
@@ -265,21 +288,49 @@ const Home = () => {
             </Link>
           </div>
           {reviews.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {reviews.map((rev, i) => (
-                <motion.div key={rev.id || i} className="bg-white p-8 rounded-[40px] shadow-soft border border-slate-50 flex flex-col justify-between">
-                  <div>
+            <div className="relative">
+              <div className="overflow-hidden rounded-[40px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={reviewIdx}
+                    initial={{ opacity: 0, x: 60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -60 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="bg-white p-10 md:p-14 rounded-[40px] shadow-soft border border-slate-50"
+                  >
                     <div className="flex gap-1 mb-6 text-amber-400">
-                      {[...Array(rev.rating || 5)].map((_, idx) => <Star key={idx} size={16} fill="currentColor" />)}
+                      {[...Array(reviews[reviewIdx]?.rating || 5)].map((_, idx) => <Star key={idx} size={20} fill="currentColor" />)}
                     </div>
-                    <p className="text-slate-600 font-medium italic leading-relaxed mb-6">"{rev.comment || rev.review}"</p>
-                  </div>
-                  <div className="flex justify-between items-center pt-6 border-t border-slate-50">
-                    <span className="font-black text-slate-900 text-sm">{rev.customer_name || rev.name}</span>
-                    {rev.product && <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{rev.product.name}</span>}
-                  </div>
-                </motion.div>
-              ))}
+                    <p className="text-slate-600 font-medium italic leading-relaxed md:text-xl mb-8 max-w-3xl">
+                      "{reviews[reviewIdx]?.comment || reviews[reviewIdx]?.review}"
+                    </p>
+                    <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
+                      <div className="w-10 h-10 rounded-full bg-maroon/10 flex items-center justify-center text-maroon font-black text-sm">
+                        {(reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name || '?')[0]}
+                      </div>
+                      <span className="font-black text-slate-900">{reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name}</span>
+                      {reviews[reviewIdx]?.product && (
+                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest ml-auto">{reviews[reviewIdx]?.product?.name}</span>
+                      )}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              {reviews.length > 1 && (
+                <div className="flex items-center justify-center gap-3 mt-8">
+                  {reviews.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setSlideDir(i > reviewIdx ? 1 : -1); setReviewIdx(i); }}
+                      className={clsx(
+                        "w-2.5 h-2.5 rounded-full transition-all duration-500",
+                        i === reviewIdx ? "bg-maroon w-8" : "bg-slate-300 hover:bg-slate-400"
+                      )}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-16 bg-white rounded-3xl border border-slate-100">
