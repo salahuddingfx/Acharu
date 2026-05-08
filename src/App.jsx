@@ -210,7 +210,9 @@ function App() {
     <Router>
       <Toaster richColors position="top-right" />
       <Layout>
-        <AnimatedRoutes />
+        <ErrorBoundary>
+          <AnimatedRoutes />
+        </ErrorBoundary>
         <PushNotificationPrompt siteId={1} />
       </Layout>
     </Router>
