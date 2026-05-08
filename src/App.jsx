@@ -22,6 +22,7 @@ const Developer = lazy(() => import('./pages/Developer'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 import Layout from './components/Layout';
+import PageSkeleton from './components/PageSkeleton';
 import { fetchProducts } from './store/productsSlice';
 import { setInitData } from './store/settingsSlice';
 import { getInitData } from './api/api';
@@ -42,24 +43,7 @@ const PageTransition = ({ children }) => (
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#fffcf5]">
-        <div className="relative">
-          <motion.div 
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.1, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-[#800000] rounded-full blur-xl"
-          />
-          <motion.div 
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-20 h-20 bg-white rounded-full p-2 shadow-2xl border-4 border-[#800000]/10 flex items-center justify-center overflow-hidden"
-          >
-            <img src="/Acharu.png" alt="Loading..." className="w-full h-full object-contain rounded-full" />
-          </motion.div>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<PageSkeleton />}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><Home /></PageTransition>} />
