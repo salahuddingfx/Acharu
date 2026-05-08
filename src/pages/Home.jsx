@@ -311,36 +311,52 @@ const Home = () => {
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="bg-white p-10 md:p-14 rounded-[40px] shadow-soft border border-slate-50"
                   >
-                    <div className="flex gap-1 mb-6 text-amber-400">
-                      {[...Array(reviews[reviewIdx]?.rating || 5)].map((_, idx) => <Star key={idx} size={20} fill="currentColor" />)}
-                    </div>
-                    <p className="text-slate-600 font-medium italic leading-relaxed md:text-xl mb-8 max-w-3xl">
-                      "{reviews[reviewIdx]?.comment || reviews[reviewIdx]?.review}"
-                    </p>
-                    <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
-                      <div className="w-10 h-10 rounded-full bg-maroon/10 flex items-center justify-center text-maroon font-black text-sm">
-                        {(reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name || '?')[0]}
+                    <div ref={reviewContentRef} className="flex flex-col">
+                      <div className="flex gap-1 mb-6 text-amber-400">
+                        {[...Array(reviews[reviewIdx]?.rating || 5)].map((_, idx) => <Star key={idx} size={20} fill="currentColor" />)}
                       </div>
-                      <span className="font-black text-slate-900">{reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name}</span>
-                      {reviews[reviewIdx]?.product && (
-                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest ml-auto">{reviews[reviewIdx]?.product?.name}</span>
-                      )}
+                      <p className="text-slate-600 font-medium italic leading-relaxed md:text-xl mb-8 max-w-3xl">
+                        "{reviews[reviewIdx]?.comment || reviews[reviewIdx]?.review}"
+                      </p>
+                      <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
+                        <div className="w-10 h-10 rounded-full bg-maroon/10 flex items-center justify-center text-maroon font-black text-sm">
+                          {(reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name || '?')[0]}
+                        </div>
+                        <span className="font-black text-slate-900">{reviews[reviewIdx]?.customer_name || reviews[reviewIdx]?.name}</span>
+                        {reviews[reviewIdx]?.product && (
+                          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest ml-auto">{reviews[reviewIdx]?.product?.name}</span>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
               {reviews.length > 1 && (
-                <div className="flex items-center justify-center gap-3 mt-8">
-                  {reviews.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setSlideDir(i > reviewIdx ? 1 : -1); setReviewIdx(i); }}
-                      className={clsx(
-                        "w-2.5 h-2.5 rounded-full transition-all duration-500",
-                        i === reviewIdx ? "bg-maroon w-8" : "bg-slate-300 hover:bg-slate-400"
-                      )}
-                    />
-                  ))}
+                <div className="flex items-center justify-center gap-6 mt-8">
+                  <button
+                    onClick={() => { setSlideDir(-1); setReviewIdx(prev => (prev - 1 + reviews.length) % reviews.length); }}
+                    className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-maroon hover:text-white hover:border-maroon transition-all"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <div className="flex items-center gap-3">
+                    {reviews.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setSlideDir(i > reviewIdx ? 1 : -1); setReviewIdx(i); }}
+                        className={clsx(
+                          "w-2.5 h-2.5 rounded-full transition-all duration-500",
+                          i === reviewIdx ? "bg-maroon w-8" : "bg-slate-300 hover:bg-slate-400"
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => { setSlideDir(1); setReviewIdx(prev => (prev + 1) % reviews.length); }}
+                    className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-maroon hover:text-white hover:border-maroon transition-all"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
                 </div>
               )}
             </div>
