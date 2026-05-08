@@ -181,13 +181,15 @@ const Home = () => {
               <div className="hidden md:flex gap-4">
                  <button 
                   onClick={() => scroll('left')}
-                  className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-maroon hover:text-white transition-all"
+                  className="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-slate-600 hover:bg-maroon hover:text-white transition-all"
+                  aria-label="Previous Slide"
                 >
                   <ChevronRight size={20} className="rotate-180" />
                 </button>
                  <button 
                   onClick={() => scroll('right')}
                   className="w-12 h-12 rounded-full border border-maroon flex items-center justify-center text-maroon hover:bg-maroon hover:text-white transition-all"
+                  aria-label="Next Slide"
                 >
                   <ChevronRight size={20} />
                 </button>
