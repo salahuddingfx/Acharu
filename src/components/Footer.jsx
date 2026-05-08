@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowUpRight, Heart } from 'lucide-react';
 import { TikTok, Facebook, Instagram, Youtube } from './BrandIcons';
 import { useSelector } from 'react-redux';
 import { selectContact, selectSocialLinks } from '../store/settingsSlice';
