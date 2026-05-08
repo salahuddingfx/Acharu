@@ -122,7 +122,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h3 className="font-black text-slate-800 mb-2">{item.title}</h3>
-                    <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </motion.div>
               );
@@ -159,7 +159,7 @@ const Home = () => {
                       <div className="w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-cream border border-slate-100 flex items-center justify-center text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-maroon/20 group-hover:-translate-y-1">
                         <Icon size={32} />
                       </div>
-                      <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
+                      <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest group-hover:text-maroon transition-colors">{cat.name}</span>
                     </Link>
                   </motion.div>
                 );
@@ -216,7 +216,7 @@ const Home = () => {
           <div className="text-center mb-10">
             <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Handcrafted Bliss</span>
             <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
-            <p className="text-slate-400 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
+            <p className="text-slate-500 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {featuredCollection.map((product) => (

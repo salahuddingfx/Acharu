@@ -116,6 +116,7 @@ const Navbar = () => {
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="xl:hidden p-2 rounded-xl bg-slate-100 text-slate-800 transition-all active:scale-90"
+            aria-label="Open Menu"
           >
             <Menu size={20} />
           </button>
@@ -163,7 +164,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.href}
-              className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-maroon transition-all duration-500"
+              className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-maroon transition-all duration-500"
             >
               {link.name}
             </Link>
@@ -227,6 +228,7 @@ const Navbar = () => {
                 <button 
                   onClick={() => setIsMenuOpen(false)} 
                   className="p-3 bg-slate-100 rounded-full text-slate-400 active:scale-90 transition-transform"
+                  aria-label="Close Menu"
                 >
                   <X size={20} />
                 </button>
