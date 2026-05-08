@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -8,7 +9,46 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
+  timeout: 15000,
 });
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response) {
+      toast.error('Network error — please check your connection');
+      return Promise.reject(error);
+    }
+
+    const { status, data } = error.response;
+
+    switch (status) {
+      case 401:
+        toast.error('Session expired — please login again');
+        break;
+      case 403:
+        toast.error('You don\'t have permission to do that');
+        break;
+      case 404:
+        toast.error('Resource not found');
+        break;
+      case 422:
+        if (data?.message) toast.error(data.message);
+        else toast.error('Please check your input and try again');
+        break;
+      case 429:
+        toast.error('Too many requests — please slow down');
+        break;
+      case 500:
+        toast.error('Server error — please try again later');
+        break;
+      default:
+        toast.error(data?.message || 'Something went wrong');
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 // Initialization
 export const getInitData = async () => {

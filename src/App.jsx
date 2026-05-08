@@ -22,6 +22,7 @@ const Developer = lazy(() => import('./pages/Developer'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
 import PageSkeleton from './components/PageSkeleton';
 import { fetchProducts } from './store/productsSlice';
 import { setInitData } from './store/settingsSlice';
