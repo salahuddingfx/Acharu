@@ -2,7 +2,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import WhatsAppFloat from './WhatsAppFloat';
 import BottomNav from './BottomNav';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'sonner';
