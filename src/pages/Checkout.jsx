@@ -107,6 +107,7 @@ const Checkout = () => {
         customer_phone: formData.phone,
         customer_email: formData.email || null,
         customer_address: formData.address,
+        customer_notes: formData.notes || null,
         location: formData.location === "Cox's Bazar" ? 'Cox' : 'Outside',
         items: items.map(item => ({
           product_id: item.id,
@@ -270,8 +271,20 @@ const Checkout = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    rows="3"
+                    rows="2"
                     placeholder="House, Road, Area..."
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all mb-4"
+                  ></textarea>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Order Notes (Optional)</label>
+                  <textarea 
+                    name="notes"
+                    value={formData.notes}
+                    onChange={handleChange}
+                    rows="2"
+                    placeholder="Special instructions for delivery..."
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-maroon/20 focus:border-maroon transition-all"
                   ></textarea>
                 </div>
