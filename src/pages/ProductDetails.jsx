@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 import { getProductDetails, getProducts, getReviews, submitReview } from '../api/api';
 import ProductCard from '../components/ProductCard';
+import Swal from 'sweetalert2';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
@@ -214,7 +215,14 @@ const ProductDetails = () => {
       quantity: quantity,
       selectedVariation: selectedVariation
     }));
-    toast.success(`${translate(product.name, product.name_bn)} added to cart!`);
+    Swal.fire({
+      icon: 'success',
+      title: 'Added to Cart',
+      text: `${translate(product.name, product.name_bn)} added to cart!`,
+      confirmButtonColor: '#800000',
+      timer: 2000,
+      timerProgressBar: true
+    });
   };
 
   const updateProductQuantity = (newQty) => {
@@ -223,7 +231,14 @@ const ProductDetails = () => {
     if (newQty < 1) {
       if (cartItem) {
         dispatch(removeItem(targetId));
-        toast.warning(`${translate(product.name, product.name_bn)} ${selectedVariation ? `(${selectedVariation.weight})` : ''} removed from cart`);
+        Swal.fire({
+          icon: 'warning',
+          title: 'Removed from Cart',
+          text: `${translate(product.name, product.name_bn)} ${selectedVariation ? `(${selectedVariation.weight})` : ''} removed from cart`,
+          confirmButtonColor: '#800000',
+          timer: 2000,
+          timerProgressBar: true
+        });
       }
       setQuantity(1);
       return;
@@ -295,7 +310,14 @@ const ProductDetails = () => {
 
       await submitReview(formData);
       
-      toast.success('Review submitted! Waiting for approval.');
+      Swal.fire({
+        icon: 'success',
+        title: 'Review Submitted!',
+        text: 'Thank you! Your review has been submitted and is waiting for approval.',
+        confirmButtonColor: '#800000',
+        timer: 3000,
+        timerProgressBar: true
+      });
 
       setRating(0);
       setReviewName('');
