@@ -369,7 +369,7 @@ const OrderTracking = () => {
                            </div>
                            {parseFloat(selectedOrder.discount_amount) > 0 && (
                              <div className="flex justify-between text-sm font-black text-emerald-600 uppercase tracking-widest">
-                               <span>Discount Applied</span>
+                               <span>Discount {selectedOrder.coupon_code ? `(${selectedOrder.coupon_code})` : 'Applied'}</span>
                                <span>-{formatPrice(selectedOrder.discount_amount)}</span>
                              </div>
                            )}
