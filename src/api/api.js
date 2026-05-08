@@ -16,6 +16,11 @@ export const getInitData = async () => {
   return response.data;
 };
 
+export const getVersion = async () => {
+  const response = await apiClient.get('/version');
+  return response.data;
+};
+
 // Products
 export const getProducts = async (params = {}) => {
   const response = await apiClient.get('/products', { params });

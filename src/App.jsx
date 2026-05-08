@@ -25,7 +25,7 @@ import Layout from './components/Layout';
 import PageSkeleton from './components/PageSkeleton';
 import { fetchProducts } from './store/productsSlice';
 import { setInitData } from './store/settingsSlice';
-import { getInitData } from './api/api';
+import { getInitData, getVersion } from './api/api';
 import { selectCartItems } from './store/cartSlice';
 import { usePolling } from './hooks/usePolling';
 import PushNotificationPrompt from './components/PushNotificationPrompt';
