@@ -94,8 +94,8 @@ export const submitReview = async (reviewData) => {
   return response.data;
 };
 
-export const validateCoupon = async (code, items = []) => {
-  const response = await apiClient.post('/validate-coupon', { code, items });
+export const validateCoupon = async (code, items = [], customerPhone = '') => {
+  const response = await apiClient.post('/validate-coupon', { code, items, customer_phone: customerPhone });
   return response.data;
 };
 
