@@ -216,7 +216,7 @@ const Home = () => {
           <div className="text-center mb-10">
             <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Handcrafted Bliss</span>
             <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
-            <p className="text-slate-500 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
+            <p className="text-slate-600 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {featuredCollection.map((product) => (
