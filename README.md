@@ -26,7 +26,14 @@ Acharu is a boutique storefront dedicated to bringing the finest homemade pickle
 - **📱 Responsive Design**: Perfectly tailored for mobile foodies.
 
 ## 🛰️ Integration
-Acharu is powered by the **[Nexus Core Backend](https://github.com/salahuddingfx/Multi-Vendor-Backend)** and managed via the **[Nexus Admin Dashboard](https://github.com/salahuddingfx/Multi-Vendor-Admin)**.
+Acharu is powered by the **[Nexus Core Backend](https://github.com/salahuddingfx/Multi_Vedor_Backend)** and managed via the **[Nexus Admin Dashboard](https://github.com/salahuddingfx/Multi_Vendor_Admin-Panel)**.
+
+---
+
+## 📜 License
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
+
+---
 
 ## 🚀 Setup
 ```bash
@@ -37,6 +44,8 @@ npm run dev
 
 ---
 <p align="center">
+  <img src="https://img.shields.io/badge/License-Apache_2.0-maroon?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Brand-Acharu-800000?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Status-Production_Ready-emerald?style=for-the-badge" />
 </p>
+
