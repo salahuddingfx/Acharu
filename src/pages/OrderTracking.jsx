@@ -326,8 +326,8 @@ const OrderTracking = () => {
                         {selectedOrder.items?.map((item, idx) => (
                           <div key={idx} className="space-y-4">
                             <div className="flex justify-between items-center group">
-                              <div className="flex items-center gap-6">
-                                <div className="w-16 h-16 bg-white rounded-2xl overflow-hidden border border-slate-100 group-hover:scale-105 transition-transform">
+                              <div className="flex items-center gap-4 md:gap-6">
+                                <div className="w-16 h-16 bg-white rounded-2xl overflow-hidden shrink-0 border border-slate-100 group-hover:scale-105 transition-transform">
                                   {item.product?.images && item.product.images.length > 0 ? (
                                     <img src={item.product.images[0].image_path} alt={item.name} className="w-full h-full object-cover" />
                                   ) : (
