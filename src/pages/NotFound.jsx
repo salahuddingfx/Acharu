@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { Home, ShoppingBag, SearchX } from 'lucide-react';
 
 const NotFound = () => {
   return (
@@ -16,7 +16,7 @@ const NotFound = () => {
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           className="w-28 h-28 bg-maroon/5 rounded-full flex items-center justify-center mx-auto mb-8"
         >
-          <span className="text-6xl">🥭</span>
+          <SearchX size={56} className="text-maroon" />
         </motion.div>
 
         <h1 className="text-8xl font-display font-black text-maroon mb-4">404</h1>
