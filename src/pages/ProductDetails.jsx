@@ -680,27 +680,26 @@ const ProductDetails = () => {
 
         {/* Tabs */}
         <div className="mt-16 bg-white rounded-3xl shadow-soft-lg border border-slate-100 overflow-hidden">
-          <div className="flex border-b border-slate-100 overflow-x-auto scrollbar-hide px-4 pt-4">
+          <div className="grid grid-cols-3 border-b border-slate-100 px-2 sm:px-4 pt-4">
             <button 
               onClick={() => setActiveTab('description')}
-              className={`px-8 py-5 font-bold text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'description' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
+              className={`py-5 font-bold text-xs sm:text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'description' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
             >
-              {translate('Product Details', 'প্রোডাক্টের বিবরণ')}
+              {translate('Details', 'বিবরণ')}
             </button>
             <button 
               onClick={() => setActiveTab('delivery')}
-              className={`px-8 py-5 font-bold text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'delivery' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
+              className={`py-5 font-bold text-xs sm:text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'delivery' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
             >
-              {translate('Delivery & Return', 'ডেলিভারি ও রিটার্ন')}
+              {translate('Delivery', 'ডেলিভারি')}
             </button>
             <button 
               onClick={() => setActiveTab('reviews')}
-              className={`px-8 py-5 font-bold text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'reviews' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
+              className={`py-5 font-bold text-xs sm:text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'reviews' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
             >
-              {translate('Reviews', 'রিভিউ')} ({productReviews.length})
+              {translate('Reviews', 'রিভিউ')}
             </button>
-          </div>
-          <div className="p-8 md:p-12 text-slate-600 leading-relaxed min-h-[300px]">
+          </div>          <div className="p-8 md:p-12 text-slate-600 leading-relaxed min-h-[300px]">
             {activeTab === 'description' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="whitespace-pre-line text-[16px]">
                 {translate(product.description, product.description_bn) || "No description available for this product."}
