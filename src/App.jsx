@@ -59,10 +59,42 @@ const AnimatedRoutes = () => {
   );
 };
 
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from './store/cartSlice';
 
 function App() {
   const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+
+  useEffect(() => {
+    // Abandoned Cart Nudge Logic
+    if (cartItems.length > 0) {
+      const lastNudge = localStorage.getItem('acharu-cart-nudge');
+      const now = Date.now();
+      
+      // Only nudge once every 24 hours to avoid annoyance
+      if (!lastNudge || (now - parseInt(lastNudge)) > 24 * 60 * 60 * 1000) {
+        setTimeout(() => {
+          toast.info("Your cart missed you! 🍯", {
+            description: "Items are still waiting in your cart. Grab them before they're gone!",
+            action: {
+              label: 'View Cart',
+              onClick: () => window.location.href = '/cart'
+            },
+            duration: 8000,
+            style: {
+              background: '#800000',
+              color: 'white',
+              borderRadius: '20px',
+              border: 'none'
+            }
+          });
+          localStorage.setItem('acharu-cart-nudge', now.toString());
+        }, 3000); // 3 second delay after load
+      }
+    }
+  }, [cartItems.length]);
 
   useEffect(() => {
     dispatch(fetchProducts());
