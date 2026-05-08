@@ -153,13 +153,30 @@ function App() {
     return () => clearTimeout(timer);
   }, [dispatch]);
 
-  // Background sync every 30 seconds to stay aligned with Admin Panel
+  // Background sync — fallback every 30s (BroadcastChannel handles instant updates)
   usePolling(() => {
     dispatch(fetchProducts());
     getInitData().then(res => {
       dispatch(setInitData(res.data));
     }).catch(console.error);
-  }, 1000);
+  }, 30000);
+
+  // Listen for instant data-changed events from admin panel (BroadcastChannel)
+  useEffect(() => {
+    let channel;
+    try {
+      channel = new BroadcastChannel('multivendor-storefront');
+      channel.onmessage = (event) => {
+        if (event.data?.type === 'data-changed') {
+          dispatch(fetchProducts());
+          getInitData().then(res => dispatch(setInitData(res.data))).catch(console.error);
+        }
+      };
+    } catch (e) {}
+    return () => {
+      try { if (channel) channel.close(); } catch (e) {}
+    };
+  }, [dispatch]);
 
   return (
     <Router>
