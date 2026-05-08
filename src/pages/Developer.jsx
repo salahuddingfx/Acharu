@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Globe, Mail, Code2, Zap, Palette, Rocket, User, Server, Database, Layout, Cpu } from 'lucide-react';
+import { Globe, Mail, Code2, Zap, Palette, Rocket, Server, Database, Layout } from 'lucide-react';
 import { Instagram } from '../components/BrandIcons';
 
 const GithubIcon = ({ size = 18 }) => (

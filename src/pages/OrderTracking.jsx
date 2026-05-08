@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { trackOrder } from '../api/api';
 import { formatPrice } from '../utils/delivery';
-import { Search, Package, MapPin, Truck, CheckCircle2, Clock, Calendar, ShieldCheck, CreditCard, ArrowRight, User, Wifi, Cpu } from 'lucide-react';
+import { Search, Package, MapPin, Truck, CheckCircle2, Clock, Calendar, ShieldCheck, CreditCard, ArrowRight, User, Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Star, StarHalf, Send, ImageIcon, Video, Trash2, Loader2, PlayCircle } from 'lucide-react';
+import { Star, StarHalf, Send, ImageIcon, Video, Trash2, Loader2 } from 'lucide-react';
 import { submitReview } from '../api/api';
 import Swal from 'sweetalert2';
 import clsx from 'clsx';
