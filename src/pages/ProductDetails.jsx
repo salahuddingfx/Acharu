@@ -289,7 +289,12 @@ const ProductDetails = () => {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!rating || !reviewName) {
-      toast.warning('Please provide both a rating and your name.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Information',
+        text: 'Please provide both a rating and your name.',
+        confirmButtonColor: '#800000'
+      });
       return;
     }
     
@@ -324,7 +329,12 @@ const ProductDetails = () => {
       setReviewComment('');
       setReviewMedia([]);
     } catch (err) {
-      toast.error('Failed to submit review. Please try again.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Failed to submit review. Please try again.',
+        confirmButtonColor: '#800000'
+      });
       console.error(err);
     } finally {
       setSubmittingReview(false);
