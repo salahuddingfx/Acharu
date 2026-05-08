@@ -38,12 +38,10 @@ const defaultAbout = {
 };
 
 const About = () => {
-  const [loading, setLoading] = useState(false);
-
   const initData = useSelector((state) => state.settings?.initData);
   const rawAbout = initData?.site?.settings?.about;
   const about = rawAbout
-    ? (typeof rawAbout === 'string' ? JSON.parse(rawAbout) : rawAbout)
+    ? (typeof rawAbout === 'string' ? (() => { try { return JSON.parse(rawAbout); } catch { return defaultAbout; } })() : rawAbout)
     : defaultAbout;
 
   const timelineRef = useRef(null);
@@ -87,13 +85,7 @@ const About = () => {
       });
     });
     return () => ctx.revert();
-  }, [loading]);
-
-  if (loading) return (
-    <div className="min-h-[60vh] flex items-center justify-center bg-cream">
-      <Loader2 size={40} className="animate-spin text-maroon" />
-    </div>
-  );
+  }, []);
 
   return (
     <div className="bg-cream min-h-screen overflow-x-hidden">

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: JSON.parse(localStorage.getItem('acharu-wishlist')) || [],
+  items: (() => { try { return JSON.parse(localStorage.getItem('acharu-wishlist')) || []; } catch { return []; } })(),
 };
 
 const wishlistSlice = createSlice({
