@@ -27,6 +27,7 @@ import { fetchProducts } from './store/productsSlice';
 import { setInitData } from './store/settingsSlice';
 import { getInitData } from './api/api';
 import { selectCartItems } from './store/cartSlice';
+import { usePolling } from './hooks/usePolling';
 import PushNotificationPrompt from './components/PushNotificationPrompt';
 
 const PageTransition = ({ children }) => (
