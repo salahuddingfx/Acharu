@@ -215,14 +215,7 @@ const ProductDetails = () => {
       quantity: quantity,
       selectedVariation: selectedVariation
     }));
-    Swal.fire({
-      icon: 'success',
-      title: 'Added to Cart',
-      text: `${translate(product.name, product.name_bn)} added to cart!`,
-      confirmButtonColor: '#800000',
-      timer: 2000,
-      timerProgressBar: true
-    });
+    toast.success(`${translate(product.name, product.name_bn)} added to cart!`);
   };
 
   const updateProductQuantity = (newQty) => {
@@ -231,14 +224,7 @@ const ProductDetails = () => {
     if (newQty < 1) {
       if (cartItem) {
         dispatch(removeItem(targetId));
-        Swal.fire({
-          icon: 'warning',
-          title: 'Removed from Cart',
-          text: `${translate(product.name, product.name_bn)} ${selectedVariation ? `(${selectedVariation.weight})` : ''} removed from cart`,
-          confirmButtonColor: '#800000',
-          timer: 2000,
-          timerProgressBar: true
-        });
+        toast.warning(`${translate(product.name, product.name_bn)} ${selectedVariation ? `(${selectedVariation.weight})` : ''} removed from cart`);
       }
       setQuantity(1);
       return;

@@ -203,7 +203,7 @@ const OrderSuccess = () => {
                     <button 
                       onClick={() => {
                         navigator.clipboard.writeText('ACHARU10');
-                        alert('Code copied!');
+                        toast.success('Code copied!');
                       }}
                       className="text-[10px] font-black uppercase tracking-widest bg-white text-maroon px-5 py-3 rounded-xl shadow-lg active:scale-95 transition-transform"
                     >
