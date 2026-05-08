@@ -9,11 +9,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 import {
   ArrowRight, Star, ShieldCheck, Truck, ArrowUpRight, Leaf, Heart,
-  Clock, ChevronRight, CheckCircle, Flame, Award
+  Clock, ChevronRight, ChevronLeft, CheckCircle, Flame, Award
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getReviews } from '../api/api';
 import { toast } from 'sonner';
+import { gsap } from 'gsap';
 import { Helmet } from 'react-helmet-async';
 
 // Helper to map icon names to components
@@ -35,6 +36,7 @@ const Home = () => {
   const [reviewIdx, setReviewIdx] = useState(0);
   const [slideDir, setSlideDir] = useState(1);
   const sliderRef = useRef(null);
+  const reviewContentRef = useRef(null);
 
   const scroll = (direction) => {
     if (sliderRef.current) {
@@ -102,6 +104,16 @@ const Home = () => {
 
   // Reset index when reviews change
   useEffect(() => { setReviewIdx(0); }, [reviews.length]);
+
+  // GSAP entrance on review content change
+  useEffect(() => {
+    if (reviewContentRef.current) {
+      gsap.fromTo(reviewContentRef.current.children,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: "power2.out" }
+      );
+    }
+  }, [reviewIdx]);
 
 
 
