@@ -1028,7 +1028,6 @@ const ProductDetails = () => {
           </button>
         </div>
       </div>
-      </div>
     </>
   );
 };
