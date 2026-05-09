@@ -71,7 +71,7 @@ const PrivacyPolicy = () => {
       content: [
         "We retain your personal data only as long as necessary to fulfill the purposes for which it was collected.",
         "Order history is kept for financial auditing and warranty purposes for a minimum of 2 years.",
-        "Marketing data is deleted promptly upon your request to unsubscribe from our communications."
+        "Marketing data is deleted promptly upon your request.",
       ]
     },
     {
@@ -89,9 +89,9 @@ const PrivacyPolicy = () => {
       title: "Marketing Communications",
       icon: Bell,
       content: [
-        "By creating an account, you opt-in to receive seasonal offers and order updates via email/SMS.",
-        "You can opt-out of marketing messages at any time using the 'Unsubscribe' link in our emails.",
-        "Essential service communications (order receipts/tracking) cannot be opted out of for security reasons."
+        "Communication Policy: We may contact you regarding your order status or critical security updates.",
+        "Response Protocol: Inquiries sent via our contact forms will be addressed through the provided email or phone.",
+        "Service Notices: Mandatory system alerts will be sent regardless of general contact preferences."
       ]
     },
     {
