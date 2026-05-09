@@ -497,6 +497,13 @@ const ProductDetails = () => {
               </p>
               
               {/* Price Block - shows selling + original (strikethrough) */}
+              <div className="flex flex-wrap items-center gap-4 mb-8">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-5xl font-black text-emerald-600 tracking-tight">
+                    ৳ {selectedVariation ? Number(selectedVariation.price).toFixed(0) : Number(product.price).toFixed(0)}
+                  </span>
+                  {(selectedVariation ? selectedVariation.original_price : product.original_price) && 
+                    Number(selectedVariation ? selectedVariation.original_price : product.original_price) > Number(selectedVariation ? selectedVariation.price : product.price) && (
                     <span className="text-2xl font-bold text-slate-300 line-through decoration-rose-500/30">
                       ৳ {Number(selectedVariation ? selectedVariation.original_price : product.original_price).toFixed(0)}
                     </span>
@@ -533,7 +540,7 @@ const ProductDetails = () => {
                     <span className="text-[11px] font-black uppercase tracking-widest">{product.sales_count}+ Sold Recently</span>
                   </div>
                 )}
-              </div></div>
+              </div>
 
               {/* Variation Selection (Weight + Price) */}
               {product.variations?.length > 0 && (
