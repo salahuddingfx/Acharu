@@ -503,11 +503,10 @@ const ProductDetails = () => {
                     ৳ {selectedVariation ? Number(selectedVariation.price).toFixed(0) : Number(product.price).toFixed(0)}
                   </span>
                   {(selectedVariation ? selectedVariation.original_price : product.original_price) && 
-                    Number(selectedVariation ? selectedVariation.original_price : product.original_price) > Number(selectedVariation ? selectedVariation.price : product.price) && (
                     <span className="text-2xl font-bold text-slate-300 line-through decoration-rose-500/30">
                       ৳ {Number(selectedVariation ? selectedVariation.original_price : product.original_price).toFixed(0)}
                     </span>
-                  )}
+                  ))}
                 </div>
                 
                 {/* Savings Badge */}
@@ -707,22 +706,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-        {/* Mobile Sticky Action Bar */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-xl border-t border-slate-100 lg:hidden flex gap-3 shadow-2xl">
-          <button 
-            onClick={handleAddToCart}
-            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl bg-white border-2 border-slate-900 text-slate-900 font-black uppercase text-[10px] tracking-widest active:scale-95 transition-all"
-          >
-            <ShoppingCart size={18} />
-            Cart
-          </button>
-          <button 
-            onClick={handleOrderNow}
-            className="flex-[2] flex items-center justify-center gap-2 py-4 rounded-2xl bg-maroon text-white font-black uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-maroon/20 active:scale-95 transition-all"
-          >
-            <ShoppingBag size={18} />
-            Order Now
-          </button>
+          </div>
         </div>
 
         {/* Tabs */}
