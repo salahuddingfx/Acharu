@@ -424,7 +424,6 @@ const ProductDetails = () => {
           <ChevronLeft size={14} className="rotate-180 opacity-50" />
           <span className="text-slate-800 font-bold truncate max-w-[150px] md:max-w-none">{translate(product.name, product.name_bn)}</span>
         </div>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">
           {/* Left Column: Image Gallery */}
