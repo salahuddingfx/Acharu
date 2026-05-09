@@ -58,6 +58,8 @@ const settingsSlice = createSlice({
         email: s.store_email || s.email || defaultSiteSettings.contact.email,
         address: s.address || defaultSiteSettings.contact.address,
         whatsapp: s.whatsapp_number || '',
+        website: s.website || '',
+        logoUrl: s.logo_url || '',
       };
       // Keep the full settings available for other uses (delivery, about, etc.)
       state.sites[siteKey].delivery = {
