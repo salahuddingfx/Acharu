@@ -356,7 +356,7 @@ const ProductDetails = () => {
   return (
     <>
       <Helmet>
-        <title>{translate(product.name, product.name_bn)} | {settings.store_name || 'Acharu'}</title>
+        <title>{product ? `${translate(product.name, product.name_bn)} | ${settings.store_name || 'Acharu'}` : 'Loading...'} </title>
         <meta name="description" content={translate(product.description, product.description_bn)?.substring(0, 160)} />
         
         {/* Open Graph / Facebook */}
