@@ -14,9 +14,11 @@ import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Truck, ShieldCheck, Refre
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '../api/api';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const initData = useSelector((state) => state.settings?.initData);
   const items = useSelector(selectCartItems);
   const totalPrice = useSelector(selectCartTotal);
   const cartCount = useSelector(selectCartCount);
@@ -68,8 +70,13 @@ const Cart = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center bg-[#faf9f6] px-4">
-        <motion.div 
+      <>
+        <Helmet>
+          <title>{`Shopping Cart | ${initData?.site?.name || 'Acharu'}`}</title>
+          <meta name="description" content="View your shopping cart and complete your order of premium pickles." />
+        </Helmet>
+        <div className="min-h-[80vh] flex flex-col items-center justify-center bg-[#faf9f6] px-4">
+          <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
@@ -90,12 +97,18 @@ const Cart = () => {
           </Link>
         </motion.div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-[#faf9f6] min-h-screen pb-32 pt-20">
-      <div className="container-custom">
+    <>
+      <Helmet>
+        <title>{`Shopping Cart | ${initData?.site?.name || 'Acharu'}`}</title>
+        <meta name="description" content="View your shopping cart and complete your order of premium pickles." />
+      </Helmet>
+      <div className="bg-[#faf9f6] min-h-screen pb-32 pt-20">
+        <div className="container-custom">
         <header className="mb-16">
           <h1 className="text-5xl font-display font-black text-slate-900 tracking-tight mb-4">Shopping Cart</h1>
           <div className="flex items-center gap-4 text-slate-500 font-medium">
@@ -302,7 +315,8 @@ const Cart = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

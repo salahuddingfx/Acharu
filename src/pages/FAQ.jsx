@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, HelpCircle, MessageSquare } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 const FAQ = () => {
+  const initData = useSelector((state) => state.settings?.initData);
   const [activeIndex, setActiveIndex] = useState(null);
 
   const faqs = [
@@ -73,8 +76,15 @@ const FAQ = () => {
   };
 
   return (
-    <div className="bg-cream min-h-screen pt-32 pb-20 px-6">
-      <div className="container-custom max-w-3xl mx-auto">
+    <>
+      <Helmet>
+        <title>{`FAQ | ${initData?.site?.name || 'Acharu'}`}</title>
+        <meta name="description" content="Frequently Asked Questions about Acharu pickles, payments, delivery, returns and refunds." />
+        <meta property="og:title" content={`Frequently Asked Questions | ${initData?.site?.name || 'Acharu'}`} />
+        <meta property="og:description" content="Frequently Asked Questions about Acharu pickles, payments, delivery, returns and refunds." />
+      </Helmet>
+      <div className="bg-cream min-h-screen pt-32 pb-20 px-6">
+        <div className="container-custom max-w-3xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -152,7 +162,8 @@ const FAQ = () => {
           <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-maroon/20 rounded-full blur-[80px] group-hover:bg-maroon/30 transition-all duration-700" />
         </motion.div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

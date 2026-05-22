@@ -1,15 +1,19 @@
 import React from 'react';
 import { ShieldCheck, Truck, CreditCard, RefreshCw, Scale, UserCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
+import { useSelector } from 'react-redux';
 
 const Terms = () => {
+  const initData = useSelector((state) => state.settings?.initData);
+  const siteName = initData?.site?.name || 'Acharu';
   const sections = [
     {
       id: 1,
       title: "Binding Agreement",
       icon: Scale,
       notes: [
-        "By accessing this site, you enter into a legally binding contract with Acharu. If you disagree, you must cease use immediately.",
+        `By accessing this site, you enter into a legally binding contract with ${siteName}. If you disagree, you must cease use immediately.`,
         "We reserve the absolute right to modify, suspend, or terminate any part of this service without prior notice.",
         "Your continued presence on this platform constitutes an irrevocable acceptance of all current and future terms."
       ]
@@ -50,7 +54,7 @@ const Terms = () => {
       icon: CreditCard,
       notes: [
         "Once a transaction is initiated, it is considered final. Digital payments are processed through secure third-party gateways.",
-        "Acharu does not store your card details. Any payment failure must be resolved with your respective bank.",
+        `${siteName} does not store your card details. Any payment failure must be resolved with your respective bank.`,
         "For Cash on Delivery (COD), the full amount must be paid to the courier before the package seal is broken."
       ]
     },
@@ -100,7 +104,7 @@ const Terms = () => {
       icon: ShieldCheck,
       notes: [
         "Customers must read the full ingredient list. We use mustard oil, nuts, and spices that may be allergens.",
-        "Acharu is not liable for any allergic reactions, medical costs, or discomfort resulting from product consumption.",
+        `${siteName} is not liable for any allergic reactions, medical costs, or discomfort resulting from product consumption.`,
         "Consult a physician before consuming our products if you have specific dietary restrictions or sensitivities."
       ]
     },
@@ -121,7 +125,7 @@ const Terms = () => {
       notes: [
         "Any attempt to stage damage or provide false evidence for a refund is considered fraud under the laws of Bangladesh.",
         "We monitor IP addresses and user behavior. Fraudulent claims will be met with strict legal action and public blacklisting.",
-        "Acharu reserves the right to recover legal costs from customers found guilty of making fraudulent claims."
+        `${siteName} reserves the right to recover legal costs from customers found guilty of making fraudulent claims.`
       ]
     },
     {
@@ -139,9 +143,9 @@ const Terms = () => {
       title: "Intellectual Property Rights",
       icon: Scale,
       notes: [
-        "All text, design, graphics, and product names are the exclusive property of Acharu and protected by copyright laws.",
+        `All text, design, graphics, and product names are the exclusive property of ${siteName} and protected by copyright laws.`,
         "Unauthorized use of our branding for your own commercial gain will result in a lawsuit for damages.",
-        "User-submitted reviews become the property of Acharu for marketing purposes unless requested otherwise."
+        `User-submitted reviews become the property of ${siteName} for marketing purposes unless requested otherwise.`
       ]
     },
     {
@@ -157,7 +161,15 @@ const Terms = () => {
   ];
 
   return (
-    <div className="bg-cream min-h-screen pt-32 pb-20 px-6">
+    <>
+      <Helmet>
+        <title>{`Terms & Conditions | ${siteName}`}</title>
+        <meta name="description" content={`Terms of service and legal agreement guidelines for using the ${siteName} platform.`} />
+        <meta property="og:title" content={`Terms & Conditions | ${siteName}`} />
+        <meta property="og:description" content={`Terms of service and legal agreement guidelines for using the ${siteName} platform.`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="bg-cream min-h-screen pt-32 pb-20 px-6">
       <div className="container-custom max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -220,6 +232,7 @@ const Terms = () => {
         </motion.div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -14,6 +14,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle2, MapPin, Phone, Mail, User, CreditCard, Truck, Ticket, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import { Helmet } from 'react-helmet-async';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -144,8 +145,13 @@ const Checkout = () => {
 
   if (orderSuccess) {
     return (
-      <div className="container-custom py-40 text-center bg-cream min-h-screen">
-        <motion.div 
+      <>
+        <Helmet>
+          <title>{`Order Confirmed | ${initData?.site?.name || 'Acharu'}`}</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div className="container-custom py-40 text-center bg-cream min-h-screen">
+          <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="max-w-md mx-auto bg-white p-12 rounded-3xl shadow-soft-lg border border-slate-100"
@@ -177,12 +183,19 @@ const Checkout = () => {
           </div>
         </motion.div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-cream min-h-screen pb-20 pt-10">
-      <div className="container-custom">
+    <>
+      <Helmet>
+        <title>{`Checkout | ${initData?.site?.name || 'Acharu'}`}</title>
+        <meta name="description" content="Securely checkout your order of premium, mouth-watering homemade pickles." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="bg-cream min-h-screen pb-20 pt-10">
+        <div className="container-custom">
         <h1 className="text-4xl font-display font-bold mb-12">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -526,7 +539,8 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

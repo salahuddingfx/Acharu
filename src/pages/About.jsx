@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Loader2, Star, Award, Leaf, Heart, Users, TrendingUp, ShieldCheck, Package } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Helmet } from 'react-helmet-async';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,7 +40,8 @@ const defaultAbout = {
 
 const About = () => {
   const initData = useSelector((state) => state.settings?.initData);
-  const rawAbout = initData?.site?.settings?.about;
+  const settings = initData?.site?.settings || {};
+  const rawAbout = settings.about;
   const about = rawAbout
     ? (typeof rawAbout === 'string' ? (() => { try { return JSON.parse(rawAbout); } catch { return defaultAbout; } })() : rawAbout)
     : defaultAbout;
@@ -88,7 +90,15 @@ const About = () => {
   }, []);
 
   return (
-    <div className="bg-cream min-h-screen overflow-x-hidden">
+    <>
+      <Helmet>
+        <title>{`About Us | ${initData?.site?.name || 'Acharu'}`}</title>
+        <meta name="description" content={about.hero_subtitle || 'Crafted with Passion, Rooted in Heritage.'} />
+        <meta property="og:title" content={`About Us | ${initData?.site?.name || 'Acharu'}`} />
+        <meta property="og:description" content={about.hero_subtitle || 'Crafted with Passion, Rooted in Heritage.'} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="bg-cream min-h-screen overflow-x-hidden">
 
       {/* HERO */}
       <section className="relative bg-slate-950 text-white py-20 overflow-hidden">
@@ -215,7 +225,8 @@ const About = () => {
           </a>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
