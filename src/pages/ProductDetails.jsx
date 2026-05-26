@@ -94,7 +94,7 @@ const ProductDetails = () => {
 
         const normalizedProduct = {
           ...prod,
-          category: prod.category?.name || 'Uncategorized',
+          category: prod.category || { name: 'Uncategorized', slug: '' },
           categorySlug: prod.category?.slug || '',
           image: images[0],
           allImages: images,
@@ -416,7 +416,7 @@ const ProductDetails = () => {
               {product.category.parent && (
                 <>
                   <Link 
-                    to={`/shop?category=${product.category.parent.slug}`} 
+                    to={`/shop?category=${product.category.parent.name}`} 
                     className="hover:text-maroon transition-colors"
                   >
                     {translate(product.category.parent.name, product.category.parent.name_bn)}
@@ -425,7 +425,7 @@ const ProductDetails = () => {
                 </>
               )}
               <Link 
-                to={`/shop?category=${product.category.slug || product.category.name}`} 
+                to={`/shop?category=${product.category.name}`} 
                 className="hover:text-maroon transition-colors truncate max-w-[100px] md:max-w-none"
               >
                 {translate(product.category.name, product.category.name_bn) || product.category}
