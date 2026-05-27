@@ -91,8 +91,8 @@ const Footer = () => {
         </div>
 
         {/* Final Credits */}
-        <div className="pt-4 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[10px] font-black uppercase tracking-widest text-slate-300">
+        <div className="pt-4 border-t border-white/5 flex flex-col items-center gap-4">
+           <div className="flex flex-col items-center gap-3 md:flex-row md:gap-8 text-[10px] font-black uppercase tracking-widest text-slate-300">
               <p>© {currentYear} Acharu Artisanal</p>
               <div className="hidden md:block w-px h-3 bg-white/10" />
               <p>Handcrafted in Bangladesh</p>
@@ -105,10 +105,10 @@ const Footer = () => {
                 <div className="w-5 h-5 rounded-md overflow-hidden border border-white/20 shrink-0">
                   <img src="https://github.com/salahuddingfx.png" alt="Dev" className="w-full h-full object-cover" />
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-200 group-hover:text-white transition-colors flex items-center gap-2">
+                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-200 group-hover:text-white transition-colors flex items-center gap-2 whitespace-nowrap">
                    Architect: <span className="text-maroon">Salah Uddin Kader</span>
                    <ArrowUpRight size={10} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </span>
+                 </span>
               </Link>
            </div>
            

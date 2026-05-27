@@ -110,15 +110,15 @@ const Cart = () => {
       <div className="bg-[#faf9f6] min-h-screen pb-32 pt-20">
         <div className="container-custom">
         <header className="mb-16">
-          <h1 className="text-5xl font-display font-black text-slate-900 tracking-tight mb-4">Shopping Cart</h1>
-          <div className="flex items-center gap-4 text-slate-500 font-medium">
-            <span>{cartCount} items in your bag</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-            <span>Free delivery over ৳2000</span>
-          </div>
+          <h1 className="text-3xl sm:text-5xl font-display font-black text-slate-900 tracking-tight mb-3">Shopping Cart</h1>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-500 font-medium text-sm">
+              <span>{cartCount} items in your bag</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+              <span>Free delivery over ৳2000</span>
+            </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Items List */}
           <div className="lg:col-span-8 space-y-8">
             <AnimatePresence mode="popLayout">
@@ -224,10 +224,10 @@ const Cart = () => {
 
           {/* Summary Sidebar */}
           <div className="lg:col-span-4 lg:sticky lg:top-32">
-            <div className="bg-white p-10 rounded-[40px] shadow-[0_30px_70px_rgba(0,0,0,0.06)] border border-slate-100 relative overflow-hidden">
+            <div className="bg-white p-6 sm:p-10 rounded-[32px] sm:rounded-[40px] shadow-[0_30px_70px_rgba(0,0,0,0.06)] border border-slate-100 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-maroon/5 rounded-full -mr-16 -mt-16 blur-3xl" />
               
-              <h3 className="font-display font-black text-3xl mb-10 text-slate-900 tracking-tight">Order Summary</h3>
+              <h3 className="font-display font-black text-2xl sm:text-3xl mb-6 sm:mb-10 text-slate-900 tracking-tight">Order Summary</h3>
               
               <div className="space-y-6 mb-10">
                 <div className="flex justify-between items-center text-slate-500 font-medium">
@@ -285,10 +285,10 @@ const Cart = () => {
                     </span>
                   )}
                 </div>
-                <div className="pt-8 border-t border-slate-100 flex justify-between items-center">
+                <div className="pt-6 border-t border-slate-100 flex justify-between items-center">
                   <div>
-                    <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Total Amount</span>
-                    <h4 className="text-4xl font-display font-black text-maroon mt-1 tracking-tighter">{formatPrice(finalTotal)}</h4>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Amount</span>
+                     <h4 className="text-2xl sm:text-4xl font-display font-black text-maroon mt-1 tracking-tighter">{formatPrice(finalTotal)}</h4>
                   </div>
                 </div>
               </div>
@@ -296,7 +296,7 @@ const Cart = () => {
               <Link 
                 to="/checkout" 
                 state={{ discountAmount, appliedCoupon, finalTotal }}
-                className="flex items-center justify-center gap-4 bg-slate-900 text-white w-full py-6 rounded-3xl font-black text-xl hover:bg-maroon transition-all shadow-2xl hover:shadow-maroon/20 group"
+                className="flex items-center justify-center gap-3 sm:gap-4 bg-slate-900 text-white w-full py-4 sm:py-6 rounded-3xl font-black text-base sm:text-xl hover:bg-maroon transition-all shadow-2xl hover:shadow-maroon/20 group"
               >
                 Proceed to Checkout
                 <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />

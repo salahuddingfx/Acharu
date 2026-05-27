@@ -106,7 +106,7 @@ const Navbar = () => {
 
   return (
     <nav className={clsx(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center px-4 md:px-8",
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center px-3 md:px-8",
       isScrolled 
         ? "bg-white/95 backdrop-blur-xl border-b border-slate-100 h-14 md:h-16 shadow-lg" 
         : "bg-white/80 backdrop-blur-md border-b border-black/[0.03] h-16 md:h-20"
@@ -134,7 +134,7 @@ const Navbar = () => {
                 <img src="/Acharu.png" alt="Acharu Logo" className="w-full h-full object-cover" />
               )}
             </div>
-            <span className="text-2xl md:text-3xl font-display font-bold tracking-tighter text-slate-900 group-hover:text-maroon transition-colors">
+            <span className="text-lg sm:text-2xl md:text-3xl font-display font-bold tracking-tighter text-slate-900 group-hover:text-maroon transition-colors">
               Acharu<span className="text-maroon">.</span>
             </span>
           </Link>

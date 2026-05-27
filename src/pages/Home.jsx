@@ -132,7 +132,7 @@ const Home = () => {
         <div className="container-custom">
           <div className="text-center mb-10">
             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-maroon mb-3">Why Acharu</p>
-            <h2 className="text-4xl md:text-5xl font-display font-black text-slate-800">The Acharu Difference</h2>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-slate-800">The Acharu Difference</h2>
             <div className="w-20 h-1 bg-maroon mx-auto rounded-full mt-5" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -206,7 +206,7 @@ const Home = () => {
             <div className="flex justify-between items-end mb-12 px-4 md:px-0">
               <div>
                 <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Most Wanted</span>
-                <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Best Sellers</h2>
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Best Sellers</h2>
               </div>
               <div className="hidden md:flex gap-4">
                  <button 
@@ -262,7 +262,7 @@ const Home = () => {
         <div className="container-custom">
           <div className="text-center mb-10">
             <span className="text-maroon font-black uppercase tracking-[0.4em] text-[10px]">Handcrafted Bliss</span>
-            <h2 className="text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black mt-3 text-slate-900 tracking-tight">Featured Collection</h2>
             <p className="text-slate-600 mt-4 max-w-lg mx-auto font-medium">Explore our full range of traditional homemade delicacies, prepared with love and heritage.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
@@ -293,7 +293,7 @@ const Home = () => {
           <div className="flex justify-between items-end mb-10 flex-wrap gap-4">
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-maroon mb-3">Customer Stories</p>
-              <h2 className="text-4xl md:text-5xl font-display font-black text-slate-800">What They're Saying</h2>
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-slate-800">What They're Saying</h2>
             </div>
             <Link to="/reviews" className="text-maroon font-bold flex items-center gap-2 hover:gap-3 transition-all">
               All Reviews <ArrowRight size={20} />
@@ -309,7 +309,7 @@ const Home = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -slideDir * 60 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="bg-white p-10 md:p-14 rounded-[40px] shadow-soft border border-slate-50"
+                    className="bg-white p-6 sm:p-10 md:p-14 rounded-[40px] shadow-soft border border-slate-50"
                   >
                     <div ref={reviewContentRef} className="flex flex-col">
                       <div className="flex gap-1 mb-6 text-amber-400">

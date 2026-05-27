@@ -115,7 +115,7 @@ const Hero = () => {
              </span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-[6rem] font-display font-black text-white leading-[0.9] mb-6 tracking-tighter uppercase">
+          <h1 className="text-3xl sm:text-5xl md:text-[6rem] font-display font-black text-white leading-[0.9] mb-4 sm:mb-6 tracking-tighter uppercase">
             {activeSlide.title}
           </h1>
 
@@ -125,9 +125,9 @@ const Hero = () => {
         </div>
 
         {/* Bottom Interaction Bar */}
-        <div className="w-full pb-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="w-full pb-6 md:pb-10 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
           {/* CTAs */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-6 flex-wrap justify-center md:justify-start">
             {activeSlide.product_id && (
               <>
                 <button 
@@ -167,7 +167,7 @@ const Hero = () => {
           </div>
 
           {/* Progress & Navigation */}
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-4 md:gap-10">
             <div className="hidden lg:flex items-center gap-4">
                {slides.map((_, index) => (
                  <div 
