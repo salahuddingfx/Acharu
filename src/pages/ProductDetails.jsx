@@ -513,15 +513,18 @@ const ProductDetails = () => {
                   <span className="text-5xl font-black text-emerald-600 tracking-tight">
                     ৳ {selectedVariation ? Number(selectedVariation.price).toFixed(0) : Number(product.price).toFixed(0)}
                   </span>
-                  {(selectedVariation ? selectedVariation.original_price : product.original_price) && 
+                  {Number(selectedVariation ? selectedVariation.original_price : product.original_price) > 0 &&
+                   Number(selectedVariation ? selectedVariation.price : product.price) > 0 &&
+                   Number(selectedVariation ? selectedVariation.original_price : product.original_price) > Number(selectedVariation ? selectedVariation.price : product.price) && (
                     <span className="text-2xl font-bold text-slate-300 line-through decoration-rose-500/30">
                       ৳ {Number(selectedVariation ? selectedVariation.original_price : product.original_price).toFixed(0)}
                     </span>
-                  }
+                  )}
                 </div>
                 
                 {/* Savings Badge */}
-                {(selectedVariation ? selectedVariation.original_price : product.original_price) && 
+                {Number(selectedVariation ? selectedVariation.original_price : product.original_price) > 0 &&
+                  Number(selectedVariation ? selectedVariation.price : product.price) > 0 &&
                   Number(selectedVariation ? selectedVariation.original_price : product.original_price) > Number(selectedVariation ? selectedVariation.price : product.price) && (
                   <motion.div 
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -561,7 +564,7 @@ const ProductDetails = () => {
                   <div className="flex flex-wrap gap-3">
                     {product.variations.map((v, idx) => {
                       const isSelected = selectedVariation?.id === v.id || (!selectedVariation && idx === 0);
-                      const hasDiscount = v.original_price && Number(v.original_price) > Number(v.price);
+                      const hasDiscount = Number(v.original_price) > 0 && Number(v.price) > 0 && Number(v.original_price) > Number(v.price);
                       return (
                         <button
                           key={v.id || idx}
