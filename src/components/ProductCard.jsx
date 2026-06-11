@@ -165,7 +165,7 @@ const ProductCard = ({ product }) => {
                 {Number(product.price).toFixed(0)}
               </span>
             </div>
-            {product.original_price && product.original_price > product.price && (
+            {Number(product.original_price) > 0 && Number(product.price) > 0 && Number(product.original_price) > Number(product.price) && (
               <span className="text-[8px] font-bold text-rose-600 line-through">৳{Number(product.original_price).toFixed(0)}</span>
             )}
           </div>
