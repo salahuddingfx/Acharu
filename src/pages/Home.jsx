@@ -287,7 +287,8 @@ const Home = () => {
               ref={sliderRef}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory scroll-smooth"
+              onScroll={handleScroll}
+              className="flex gap-4 md:gap-6 overflow-x-auto pb-12 px-4 md:px-[calc((100vw-1200px)/2)] no-scrollbar snap-x snap-mandatory"
             >
               {loading ? (
                 [...Array(5)].map((_, i) => (
@@ -296,7 +297,7 @@ const Home = () => {
                   </div>
                 ))
               ) : (
-                [...bestSellers, ...bestSellers].map((product, i) => (
+                [...bestSellers, ...bestSellers, ...bestSellers, ...bestSellers].map((product, i) => (
                   <motion.div
                     key={`${product.id}-${i}`}
                     initial={{ opacity: 0, x: 40 }}
