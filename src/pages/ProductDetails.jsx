@@ -190,7 +190,7 @@ const ProductDetails = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, productsLoading]);
 
   // Auto-slide logic for product images
   const [isHovered, setIsHovered] = useState(false);
