@@ -70,18 +70,32 @@ const ProductDetails = () => {
         
         let prod = null;
         try {
-          const response = await getProductDetails(id);
-          prod = response.data?.data || response.data;
+          // If the id looks numeric, try to resolve slug from Redux store first
+          const numericId = parseInt(id, 10);
+          let fetchId = id;
+          if (!isNaN(numericId) && allProducts?.length > 0) {
+            const storeProduct = allProducts.find(p => p.id === numericId || p.id === id);
+            if (storeProduct?.slug) {
+              fetchId = storeProduct.slug; // Use slug for API call
+            } else if (storeProduct) {
+              // Have the product in store but no slug — use it directly
+              prod = storeProduct;
+            }
+          }
+
+          if (!prod) {
+            const response = await getProductDetails(fetchId);
+            prod = response.data?.data || response.data;
+          }
         } catch (apiErr) {
-          // If API fails (e.g. numeric id passed instead of slug),
-          // try to find the product in the Redux store by id
+          // Last resort: try to find in Redux store by id
           const numericId = parseInt(id, 10);
           if (!isNaN(numericId) && allProducts?.length > 0) {
             const found = allProducts.find(p => p.id === numericId || p.id === id);
             if (found) {
               prod = found;
             } else {
-              throw apiErr; // Re-throw if not found in store either
+              throw apiErr;
             }
           } else {
             throw apiErr;
