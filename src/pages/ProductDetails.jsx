@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, removeItem, selectCartItems, updateQuantity } from '../store/cartSlice';
 import { ShoppingCart, ChevronLeft, Loader2, CheckCircle2, Phone, MessageCircle, Star, Truck, MapPin, Globe, CreditCard, ShieldCheck, AlertTriangle, X, Maximize2, Minus, Plus, ShoppingBag, Image as ImageIcon, Video, Trash2, PlayCircle } from 'lucide-react';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
-import { selectAllProducts } from '../store/productsSlice';
+import { selectAllProducts, selectProductsLoading } from '../store/productsSlice';
 
 const ProductDetails = () => {
   const { language, t: translate } = useLanguage();
@@ -40,6 +40,7 @@ const ProductDetails = () => {
   const siteId = initData?.site?.id || 1;
   const settings = initData?.site?.settings || {};
   const allProducts = useSelector((state) => state.products.products);
+  const productsLoading = useSelector(selectProductsLoading);
   
   const cartItems = useSelector(selectCartItems);
   
@@ -68,13 +69,26 @@ const ProductDetails = () => {
         setLoading(true);
         window.scrollTo(0, 0);
         
+        const numericId = parseInt(id, 10);
+        const isNumericId = !isNaN(numericId);
+
+        // If id is numeric and products are still loading, wait up to 5s for them
+        if (isNumericId && productsLoading) {
+          await new Promise(resolve => {
+            const maxWait = setTimeout(resolve, 5000);
+            const check = setInterval(() => {
+              // Store will update via Redux; we rely on re-render, so just resolve after short delay
+            }, 100);
+            setTimeout(() => { clearInterval(check); clearTimeout(maxWait); resolve(); }, 5000);
+          });
+        }
+
         let prod = null;
         try {
           // If the id looks numeric, try to resolve slug from Redux store first
-          const numericId = parseInt(id, 10);
           let fetchId = id;
-          if (!isNaN(numericId) && allProducts?.length > 0) {
-            const storeProduct = allProducts.find(p => p.id === numericId || p.id === id);
+          if (isNumericId && allProducts?.length > 0) {
+            const storeProduct = allProducts.find(p => p.id === numericId || p.id === id || String(p.id) === String(id));
             if (storeProduct?.slug) {
               fetchId = storeProduct.slug; // Use slug for API call
             } else if (storeProduct) {
@@ -89,9 +103,8 @@ const ProductDetails = () => {
           }
         } catch (apiErr) {
           // Last resort: try to find in Redux store by id
-          const numericId = parseInt(id, 10);
-          if (!isNaN(numericId) && allProducts?.length > 0) {
-            const found = allProducts.find(p => p.id === numericId || p.id === id);
+          if (isNumericId && allProducts?.length > 0) {
+            const found = allProducts.find(p => p.id === numericId || p.id === id || String(p.id) === String(id));
             if (found) {
               prod = found;
             } else {
