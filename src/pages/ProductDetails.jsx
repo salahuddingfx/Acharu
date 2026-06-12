@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { useLanguage } from '../context/LanguageContext';
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
+import { selectAllProducts } from '../store/productsSlice';
 
 const ProductDetails = () => {
   const { language, t: translate } = useLanguage();
@@ -38,6 +39,7 @@ const ProductDetails = () => {
   const initData = useSelector((state) => state.settings?.initData);
   const siteId = initData?.site?.id || 1;
   const settings = initData?.site?.settings || {};
+  const allProducts = useSelector((state) => state.products.products);
   
   const cartItems = useSelector(selectCartItems);
   
@@ -66,9 +68,25 @@ const ProductDetails = () => {
         setLoading(true);
         window.scrollTo(0, 0);
         
-        const response = await getProductDetails(id);
-        const prod = response.data?.data || response.data;  // handle both wrapped and unwrapped responses
-        
+        let prod = null;
+        try {
+          const response = await getProductDetails(id);
+          prod = response.data?.data || response.data;
+        } catch (apiErr) {
+          // If API fails (e.g. numeric id passed instead of slug),
+          // try to find the product in the Redux store by id
+          const numericId = parseInt(id, 10);
+          if (!isNaN(numericId) && allProducts?.length > 0) {
+            const found = allProducts.find(p => p.id === numericId || p.id === id);
+            if (found) {
+              prod = found;
+            } else {
+              throw apiErr; // Re-throw if not found in store either
+            }
+          } else {
+            throw apiErr;
+          }
+        }
         const images = prod.images && prod.images.length > 0 
           ? prod.images.map(img => img.image_path)
           : ['https://images.unsplash.com/photo-1514516348920-f319999a5e8f?q=80&w=200&auto=format&fit=crop'];
