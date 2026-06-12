@@ -40,6 +40,7 @@ const defaultAbout = {
 
 const About = () => {
   const initData = useSelector((state) => state.settings?.initData);
+  const loading = !initData;
   const settings = initData?.site?.settings || {};
   const rawAbout = settings.about;
   const about = rawAbout
@@ -87,7 +88,7 @@ const About = () => {
       });
     });
     return () => ctx.revert();
-  }, []);
+  }, [loading]);
 
   return (
     <>
