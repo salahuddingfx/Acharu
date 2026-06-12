@@ -10,6 +10,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 import Swal from 'sweetalert2';
 
+const BACKEND_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/api\/.*$/, '') || 'https://eadmin.viretadev.com';
+
+// Rewrite localhost image URLs to production backend
+const rewriteImageUrl = (url) => {
+  if (!url) return url;
+  let u = url.replace(/https?:\/\/(localhost|127\.0\.0\.1):8000/g, BACKEND_URL);
+  // Ensure /storage/ paths use /public/storage/ on production
+  if (u.includes(BACKEND_URL) && u.includes('/storage/') && !u.includes('/public/storage/')) {
+    u = u.replace('/storage/', '/public/storage/');
+  }
+  return u;
+};
+
 const Hero = () => {
   const currentSiteId = useSelector(selectCurrentSiteId);
   const slides = useSelector(selectHeroSlides);
@@ -74,8 +87,14 @@ const Hero = () => {
 
   if (!slides.length) return null;
   const activeSlide = slides[currentSlide];
-  const slideImage = activeSlide.image_path || activeSlide.image;
+  const slideImage = rewriteImageUrl(activeSlide.image_path || activeSlide.image);
   const slideProductId = activeSlide.product_id || activeSlide.productId;
+
+  // Resolve product slug at render time — use slug if available, else fallback to numeric id
+  const resolvedProduct = siteProducts.find(p => p.id == slideProductId);
+  const productLink = resolvedProduct?.slug
+    ? `/product/${resolvedProduct.slug}`
+    : `/product/${slideProductId}`;
 
   return (
     <section className="relative h-[550px] w-full overflow-hidden bg-slate-950">
@@ -157,7 +176,7 @@ const Hero = () => {
                 </button>
  
                 <Link 
-                  to={`/product/${siteProducts.find(p => p.id == slideProductId)?.slug || slideProductId}`}
+                  to={productLink}
                   className="group flex items-center gap-4"
                 >
                   <div className="w-12 h-12 rounded-xl border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-maroon transition-all duration-500">
