@@ -90,6 +90,12 @@ const About = () => {
     return () => ctx.revert();
   }, [loading]);
 
+  if (loading) return (
+    <div className="min-h-[60vh] flex items-center justify-center bg-cream">
+      <Loader2 size={40} className="animate-spin text-maroon" />
+    </div>
+  );
+
   return (
     <>
       <Helmet>
