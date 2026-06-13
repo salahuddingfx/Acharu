@@ -67,14 +67,16 @@ const ProductDetails = () => {
   useEffect(() => {
     if (sliderRef.current && relatedProducts.length > 0) {
       const slider = sliderRef.current;
+      setIsManual(false);
       const timer = setTimeout(() => {
         const originalWidth = slider.scrollWidth / 4;
+        isProgrammaticRef.current = true;
         slider.scrollLeft = originalWidth;
         targetScrollLeftRef.current = originalWidth;
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [relatedProducts.length]);
+  }, [relatedProducts, id]);
 
   useEffect(() => {
     let animationFrame;
