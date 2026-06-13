@@ -44,6 +44,17 @@ const ProductDetails = () => {
   const productsLoading = useSelector(selectProductsLoading);
   
   const cartItems = useSelector(selectCartItems);
+  const wishlistItems = useSelector(selectWishlistItems);
+  const isInWishlist = wishlistItems.some(item => item.id === product?.id);
+
+  const handleToggleWishlist = () => {
+    dispatch(toggleWishlist(product));
+    if (isInWishlist) {
+      toast.success(`${translate(product.name, product.name_bn)} removed from wishlist!`);
+    } else {
+      toast.success(`${translate(product.name, product.name_bn)} added to wishlist!`);
+    }
+  };
   
   // Find cart item considering variation
   const currentCartItemId = selectedVariation ? `${product?.id}-${selectedVariation.id || 'base'}` : product?.id;
