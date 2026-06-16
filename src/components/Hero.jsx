@@ -17,7 +17,7 @@ const rewriteImageUrl = (url) => {
   if (!url) return url;
   let u = url.replace(/https?:\/\/(localhost|127\.0\.0\.1):8000/g, BACKEND_URL);
   // Ensure /storage/ paths use /public/storage/ on production
-  if (u.includes(BACKEND_URL) && u.includes('/storage/') && !u.includes('/public/storage/')) {
+  if (u.includes('eadmin.viretadev.com') && u.includes('/storage/') && !u.includes('/public/storage/')) {
     u = u.replace('/storage/', '/public/storage/');
   }
   return u;
