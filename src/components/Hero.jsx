@@ -123,12 +123,12 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block mb-4"
           >
-             <span className="text-[10px] font-black uppercase tracking-[0.8em] text-maroon bg-white px-6 py-2 rounded-full border border-white/10 shadow-2xl">
-               {activeSlide.badge || 'Artisanal Collection'}
-             </span>
+             <span className="text-xs font-semibold text-maroon bg-white/90 px-5 py-1.5 rounded-full border border-white/20 shadow-lg">
+                {activeSlide.badge || 'Artisanal Collection'}
+              </span>
           </motion.div>
  
-          <h1 className="text-3xl sm:text-5xl md:text-[6rem] font-display font-black text-white leading-[0.9] mb-4 sm:mb-6 tracking-tighter uppercase">
+          <h1 className="text-3xl sm:text-5xl md:text-[6rem] font-display font-bold text-white leading-[1.1] mb-4 sm:mb-6">
             {activeSlide.title}
           </h1>
  
