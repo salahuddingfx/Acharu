@@ -479,8 +479,13 @@ const ProductDetails = () => {
         else formData.append('videos[]', m.file);
       });
 
-      await submitReview(formData);
+      const res = await submitReview(formData);
       
+      // Optimistically add the review to the list with a pending flag
+      if (res?.data) {
+        setProductReviews(prev => [{ ...res.data, isPending: true }, ...(prev || [])]);
+      }
+
       Swal.fire({
         icon: 'success',
         title: 'Review Submitted!',
@@ -923,7 +928,7 @@ const ProductDetails = () => {
               onClick={() => setActiveTab('reviews')}
               className={`py-5 font-bold text-xs sm:text-base whitespace-nowrap transition-all rounded-t-2xl ${activeTab === 'reviews' ? 'bg-maroon/5 text-maroon border-b-2 border-maroon' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'}`}
             >
-              {translate('Reviews', 'রিভিউ')}
+              {translate('Reviews', 'রিভিউ')} ({productReviews.length})
             </button>
           </div>          <div className="p-8 md:p-12 text-slate-600 leading-relaxed min-h-[300px]">
             {activeTab === 'description' && (
@@ -960,7 +965,14 @@ const ProductDetails = () => {
                       {productReviews.map(rev => (
                         <div key={rev.id} className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                           <div className="flex justify-between items-start mb-2">
-                            <span className="font-bold text-slate-800">{rev.customer_name}</span>
+                            <span className="font-bold text-slate-800">
+                              {rev.customer_name}
+                              {rev.isPending && (
+                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-700 border border-yellow-200 align-middle">
+                                  Pending Approval
+                                </span>
+                              )}
+                            </span>
                             <div className="flex gap-0.5">
                               {[1, 2, 3, 4, 5].map((star) => {
                                 const isFull = rev.rating >= star;
