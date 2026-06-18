@@ -1067,7 +1067,7 @@ const ProductDetails = () => {
                           {/* Admin Reply */}
                           {rev.admin_reply && (
                             <div className="mt-4 pl-4 border-l-2 border-maroon/30 bg-maroon/5 p-4 rounded-xl">
-                              <p className="text-xs font-bold text-maroon mb-1">Admin Response</p>
+                              <p className="text-xs font-bold text-maroon mb-1">{settings.store_name || 'Acharu'} Response</p>
                               <p className="text-sm text-slate-600">{rev.admin_reply}</p>
                             </div>
                           )}
